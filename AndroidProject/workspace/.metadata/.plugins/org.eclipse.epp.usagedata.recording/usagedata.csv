@@ -1,0 +1,16 @@
+what,kind,bundleId,bundleVersion,description,time
+stopped,bundle,org.eclipse.m2e.editor.xml,1.0.200.20111228-1245,"org.eclipse.m2e.editor.xml",1351016305286
+stopped,bundle,org.eclipse.m2e.jdt,1.0.200.20111228-1245,"org.eclipse.m2e.jdt",1351016305305
+stopped,bundle,org.eclipse.m2e.launching,1.0.200.20111228-1245,"org.eclipse.m2e.launching",1351016305305
+stopped,bundle,org.eclipse.m2e.usagedata,1.0.200.20111228-1245,"org.eclipse.m2e.usagedata",1351016305305
+stopped,bundle,com.soyatec.eemf,3.7.1.20110624,"com.soyatec.eemf",1351016305311
+stopped,bundle,com.soyatec.additional,3.7.1.20110624,"com.soyatec.additional",1351016305335
+stopped,bundle,com.soyatec.core,3.7.1.20110624,"com.soyatec.core",1351016305352
+stopped,bundle,org.eclipse.jst.j2ee.xdoclet.runtime,1.1.300.v201004280700,"org.eclipse.jst.j2ee.xdoclet.runtime",1351016305363
+stopped,bundle,org.eclipse.jst.j2ee.ejb.annotations.xdoclet,1.2.200.v201103302125,"org.eclipse.jst.j2ee.ejb.annotations.xdoclet",1351016305375
+stopped,bundle,com.android.ide.eclipse.ndk,20.0.3.v201208082019-427395,"com.android.ide.eclipse.ndk",1351016305375
+stopped,bundle,overlay.com.android.ide.eclipse.adt.overlay,20.0.3.v201208082019-427395,"overlay.com.android.ide.eclipse.adt.overlay",1351016305390
+stopped,bundle,com.android.ide.eclipse.adt,20.0.3.v201208082019-427395,"com.android.ide.eclipse.adt",1351016305390
+stopped,bundle,org.eclipse.cdt,8.0.2.201202111925,"org.eclipse.cdt",1351016305400
+stopped,bundle,org.eclipse.cdt.doc.user,5.1.1.201202111925,"org.eclipse.cdt.doc.user",1351016305414
+stopped,bundle,org.eclipse.emf.cheatsheets,2.5.0.v20120130-0943,"org.eclipse.emf.cheatsheets",1351016305423

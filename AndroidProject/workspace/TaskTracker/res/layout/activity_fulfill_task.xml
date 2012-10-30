@@ -1,61 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TaskManager Main Screen UI -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <Button
-        android:id="@+id/button_fulfill_photo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_fulfill_photo"
-        android:onClick="takePhoto" />
-    
-    <Button
-        android:id="@+id/button_fulfill_audio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_fulfill_audio"
-        android:onClick="recordAudio" />
-    
-    <Button
-        android:id="@+id/button_fulfill_photoMem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_fulfill_photoMem"
-        android:onClick="findPhoto" />
-    
-    <Button
-        android:id="@+id/button_fulfill_audioMem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_fulfill_audioMem"
-        android:onClick="findAudio" />
-    
-    <Button
-        android:id="@+id/button_fulfill_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_fulfill_cancel"
-        android:onClick="cancelFulfill" />
-    
-    <Button
-        android:id="@+id/button_fulfill_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_fulfill_save"
-        android:onClick="saveFulfill" />
+   	<TextView
+   	    android:id="@+id/text_fulfill_name"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_fulfill_name"
+   	    android:textStyle="bold" />
+   	
+   	<TextView
+   	    android:id="@+id/text_fulfill_taskdesc"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_fulfill_desc"
+   	    android:textStyle="bold" />
 
-</LinearLayout>
+	<TextView
+   	    android:id="@+id/text_fulfill_desired"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_fulfill_desired"
+   	    android:textStyle="bold" />
+
+	<TextView
+   	    android:id="@+id/text_fulfill_scope"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_fulfill_scope"
+   	    android:textStyle="bold" />
+	<View
+	    android:layout_width="fill_parent"
+		android:layout_height="2dip"
+		android:background="#000000" />
+	<TextView
+   	    android:id="@+id/text_fulfill_texthead"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_fulfill_text"
+   	    android:textStyle="bold" />	
+	
+	<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:id="@+id/text_edit_textresponse"
+       	android:hint="@string/text_fulfill_texthint"
+       	android:layout_width="match_parent"
+       	android:layout_height="200dp"/>   
+	
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+     <Button
+         android:id="@+id/button_fulfill_takePhoto"
+         android:layout_weight="0.33"
+         android:layout_width="0px"
+         android:layout_height="match_parent"
+         android:text="@string/button_fulfill_photo" />
+    <Button
+         android:id="@+id/button_fulfill_recordAudio"
+         android:layout_weight="0.33"
+         android:layout_width="0px"
+         android:layout_height="match_parent"
+         android:text="@string/button_fulfill_audio" />
+    
+    </LinearLayout>
+	
+	
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+     <Button
+         android:id="@+id/button_fulfill_photoMem"
+         android:layout_weight="0.33"
+         android:layout_width="0px"
+         android:layout_height="match_parent"
+         android:text="@string/button_fulfill_photoMem" />
+    <Button
+         android:id="@+id/button_fulfill_audioMem"
+         android:layout_weight="0.33"
+         android:layout_width="0px"
+         android:layout_height="match_parent"
+         android:text="@string/button_fulfill_audioMem" />
+    
+    </LinearLayout>	
+	<View
+	    android:layout_width="fill_parent"
+		android:layout_height="2dip"
+		android:background="#000000" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+     <Button
+         android:id="@+id/button_fulfill_save"
+         android:layout_weight="0.33"
+         android:layout_width="0px"
+         android:layout_height="match_parent"
+         android:text="@string/button_create_save" />
+      <Button
+          android:id="@+id/button_fulfill_cancel"
+          android:layout_weight="0.33"
+          android:layout_width="0px"
+          android:layout_height="match_parent"
+          android:text="@string/button_edit_cancel" />
+    
+    </LinearLayout>
+
+</LinearLayout>    

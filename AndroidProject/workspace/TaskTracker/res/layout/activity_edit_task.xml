@@ -1,34 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TaskManager Main Screen UI -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <Button
-        android:id="@+id/button_edit_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_edit_cancel"
-        android:onClick="cancelEdit" />
     
-    <Button
-        android:id="@+id/button_edit_delete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_edit_delete"
-        android:onClick="deleteTask" />
-    
-    <Button
-        android:id="@+id/button_edit_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_edit_save"
-        android:onClick="saveEdit" />
+   	<TextView
+   	    android:id="@+id/text_create_taskname"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_create_taskname"
+   	    android:textStyle="bold" />
 
-</LinearLayout>
+  	<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:id="@+id/text_edit_name"
+       	android:hint="@string/text_create_namehint"
+       	android:layout_width="match_parent"
+       	android:layout_height="wrap_content"/>    
+   	
+   	<TextView
+   	    android:id="@+id/text_create_taskdesc"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_create_taskdesc"
+   	    android:textStyle="bold" />
+
+  	<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:id="@+id/text_edit_desc"
+       	android:hint="@string/text_create_deschint"
+       	android:layout_width="match_parent"
+       	android:layout_height="wrap_content"/>  
+       	
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >  	
+  	
+  	<TextView
+   	    android:id="@+id/text_create_scope"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_create_scope"
+   	    android:textStyle="bold" />	
+
+	<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    <RadioButton android:id="@+id/radio_public"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/text_create_public"
+	        android:onClick="onRadioButtonClicked"/>
+	    <RadioButton android:id="@+id/radio_private"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/text_create_private"
+	        android:onClick="onRadioButtonClicked"/>
+	</RadioGroup>	
+</LinearLayout>	
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >  	
+  	
+  	<TextView
+   	    android:id="@+id/text_open_close"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_edit_openclose"
+   	    android:textStyle="bold" />	
+
+	<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    <RadioButton android:id="@+id/radio_open"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/text_edit_open"
+	        android:onClick="onRadioButtonClicked"/>
+	    <RadioButton android:id="@+id/radio_close"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/text_edit_close"
+	        android:onClick="onRadioButtonClicked"/>
+	</RadioGroup>	
+</LinearLayout>	
+
+
+	
+  	<TextView
+   	    android:id="@+id/text_create_responses"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_create_responses"
+   	    android:textStyle="bold" />	
+   	    
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >  	
+        
+    <CheckBox android:id="@+id/checkbox_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_create_photo"
+        android:onClick="onCheckboxClicked"/>   	    
+    <CheckBox android:id="@+id/checkbox_audio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_create_audio"
+        android:onClick="onCheckboxClicked"/> 	
+    <CheckBox android:id="@+id/checkbox_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_create_text"
+        android:onClick="onCheckboxClicked"/> 	
+        
+</LinearLayout>    
+        
+    <ListView
+    android:id="@+id/oldLogs"
+    android:layout_width="fill_parent"
+    android:layout_height="150dp" 
+    android:scrollbars="vertical">
+    </ListView>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+     <Button
+         android:id="@+id/button_edit_savechanges"
+         android:layout_weight="0.33"
+         android:layout_width="0px"
+         android:layout_height="match_parent"
+         android:text="@string/button_edit_save" />
+     <Button
+         android:id="@+id/button_edit_delete"
+         android:layout_weight="0.33"
+         android:layout_width="0px"
+         android:layout_height="match_parent"
+         android:text="@string/button_edit_delete" />
+      <Button
+          android:id="@+id/button_edit_cancel"
+          android:layout_weight="0.33"
+          android:layout_width="0px"
+          android:layout_height="match_parent"
+          android:text="@string/button_edit_cancel" />
+    
+    </LinearLayout>
+
+</LinearLayout>    

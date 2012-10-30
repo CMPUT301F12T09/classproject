@@ -1,25 +1,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.38"
+        android:src="@drawable/test" />
+
     <Button
-        android:id="@+id/button_photo_take"
+        android:id="@+id/button_photo_retake"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_photo_take"
-        android:onClick="takePhoto" />
-    
+        android:onClick="retakePhoto"
+        android:text="@string/button_photo_retake" />
+
     <Button
-        android:id="@+id/button_photo_cancel"
+        android:id="@+id/button_photo_use"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_photo_cancel"
-        android:onClick="cancelPhoto" />
+        android:onClick="usePhoto"
+        android:text="@string/button_photo_use" />
 
 </LinearLayout>

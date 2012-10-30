@@ -1,25 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TaskManager Main Screen UI -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <Button
-        android:id="@+id/button_main_create_task"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_main_create_task"
-        android:onClick="createTask" />
+    <ListView
+        android:id="@+id/tasks"
+        android:layout_width="fill_parent"
+        android:layout_height="400dp"
+        android:scrollbars="vertical" >
+    </ListView>
     
-    <Button
-        android:id="@+id/button_main_update_data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_main_update_data"
-        android:onClick="updateData" />
+    	
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
 
-</LinearLayout>
+        <Button
+            android:id="@+id/createTask"
+            android:layout_weight="0.5"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:text="@string/button_main_create_task" />
+
+      <Button
+          android:id="@+id/updateData"
+          android:layout_weight="0.5"
+          android:layout_width="0px"
+          android:layout_height="wrap_content"
+          android:text="@string/button_main_update_data" />
+    
+    </LinearLayout>
+
+</LinearLayout>    

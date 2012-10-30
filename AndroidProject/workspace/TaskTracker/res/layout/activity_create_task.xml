@@ -1,4 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TaskManager Main Screen UI -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+   	<TextView
+   	    android:id="@+id/text_create_taskname"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_create_taskname"
+   	    android:textStyle="bold" />
+
+  	<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:id="@+id/text_edit_name"
+       	android:hint="@string/text_create_namehint"
+       	android:layout_width="match_parent"
+       	android:layout_height="wrap_content"/>    
+   	
+   	<TextView
+   	    android:id="@+id/text_create_taskdesc"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_create_taskdesc"
+   	    android:textStyle="bold" />
+
+  	<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:id="@+id/text_edit_desc"
+       	android:hint="@string/text_create_deschint"
+       	android:layout_width="match_parent"
+       	android:layout_height="wrap_content"/>  
+       	
+  	<TextView
+   	    android:id="@+id/text_create_scope"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_create_scope"
+   	    android:textStyle="bold" />	
+
+	<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    <RadioButton android:id="@+id/radio_public"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/text_create_public"
+	        android:onClick="onRadioButtonClicked"/>
+	    <RadioButton android:id="@+id/radio_private"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/text_create_private"
+	        android:onClick="onRadioButtonClicked"/>
+	</RadioGroup>	
+	
+  	<TextView
+   	    android:id="@+id/text_create_responses"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_create_responses"
+   	    android:textStyle="bold" />	
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="225dp"
+    android:orientation="horizontal" >  	
+        
+    <CheckBox android:id="@+id/checkbox_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_create_photo"
+        android:onClick="onCheckboxClicked"/>   	    
+    <CheckBox android:id="@+id/checkbox_audio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_create_audio"
+        android:onClick="onCheckboxClicked"/> 	
+    <CheckBox android:id="@+id/checkbox_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_create_text"
+        android:onClick="onCheckboxClicked"/> 	
+        
+</LinearLayout>    
+        
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+     <Button
+         android:id="@+id/button_create_save"
+         android:layout_weight="0.5"
+         android:layout_width="0px"
+         android:layout_height="wrap_content"
+         android:text="@string/button_create_save" />
+
+      <Button
+          android:id="@+id/button_create_cancel"
+          android:layout_weight="0.5"
+          android:layout_width="0px"
+          android:layout_height="wrap_content"
+          android:text="@string/button_create_cancel" />
+    
+    </LinearLayout>
+
+</LinearLayout>    
+
+
+
+<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
@@ -22,4 +136,4 @@
         android:text="@string/button_create_cancel"
         android:onClick="cancelTask" />
 
-</LinearLayout>
+</LinearLayout>-->

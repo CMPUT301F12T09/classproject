@@ -1,6 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  Task Author menu -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_settings"
-        android:title="@string/menu_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
+    <item android:id="@+id/menu_fulfill"
+          android:title="@string/menu_fulfill" />
+    <item android:id="@+id/menu_public"
+          android:title="@string/menu_public" />
+    <item android:id="@+id/menu_edit"
+          android:title="@string/menu_edit" />      
+    <item android:id="@+id/menu_view"
+          android:title="@string/menu_view" /> 	
+    <item android:id="@+id/menu_close"
+          android:title="@string/menu_close" /> 
 </menu>

@@ -29,6 +29,9 @@
     <string name="text_fulfill_scope">Task Scope: {public/private}</string>
     <string name="text_fulfill_text">Text Response:</string>
     <string name="text_fulfill_texthint">Your Text Response</string>
+    <string name="text_view_openclose">Availability: {Open/Closed}</string>
+    <string name="text_viewresponse_textresponse">Text Response: {some text}</string>
+    <string name="text_viewresponse_attach">Attachments: </string>
     
     <string name="button_edit_cancel">Cancel</string>
     <string name="button_edit_save">Save Changes</string>

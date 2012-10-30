@@ -1,25 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <Button
-        android:id="@+id/button_view_fulfill"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_view_fulfill"
-        android:onClick="goToFulfill" />
-    
-    <Button
-        android:id="@+id/button_view_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/button_view_cancel"
-        android:onClick="returnToMain" />
+   	<TextView
+   	    android:id="@+id/text_view_name"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_fulfill_name"
+   	    android:textStyle="bold" />
+   	
+   	<TextView
+   	    android:id="@+id/text_view_taskdesc"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_fulfill_desc"
+   	    android:textStyle="bold" />
 
-</LinearLayout>
+	<TextView
+   	    android:id="@+id/text_view_desired"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_fulfill_desired"
+   	    android:textStyle="bold" />
+	<TextView
+   	    android:id="@+id/text_view_openclose"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_view_openclose"
+   	    android:textStyle="bold" />
+	<TextView
+   	    android:id="@+id/text_fulfill_scope"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_fulfill_scope"
+   	    android:textStyle="bold" />
+
+	<View
+	    android:layout_width="fill_parent"
+		android:layout_height="2dip"
+		android:background="#000000" />  
+        
+    <ListView
+    android:id="@+id/oldLogs"
+    android:layout_width="fill_parent"
+    android:layout_height="320dp" 
+    android:scrollbars="vertical">
+    </ListView>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+     <Button
+         android:id="@+id/button_view_fulfill"
+         android:layout_weight="0.5"
+         android:layout_width="0px"
+         android:layout_height="match_parent"
+         android:text="@string/button_view_fulfill" />
+     <Button
+         android:id="@+id/button_view_cancel"
+         android:layout_weight="0.5"
+         android:layout_width="0px"
+         android:layout_height="match_parent"
+         android:text="@string/button_view_cancel" />
+
+    
+    </LinearLayout>
+
+</LinearLayout>    

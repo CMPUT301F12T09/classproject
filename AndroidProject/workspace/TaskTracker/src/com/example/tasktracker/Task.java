@@ -6,7 +6,7 @@ import java.util.*;
 
 
 
-public class Task implements Serializable{
+public class Task extends SavableToService implements Serializable{
 	
 	//default serial for serializable object
 	private static final long serialVersionUID = 1L;
@@ -40,7 +40,7 @@ public class Task implements Serializable{
 	}
 	
 	//add a new fulfillment to the submissions list
-	public void addSubmission(String ownerId, String text, ArrayList<File> images, ArrayList<File> audio){
+	public void addSubmission(String ownerId, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
 		Fulfillment ful = new Fulfillment(ownerId, text,images, audio);
 		this.submissions.add(ful);
 	}
@@ -153,5 +153,38 @@ public class Task implements Serializable{
 		}else{
 			this.flags = (byte) (flags & ~(1 << 3));
 		}
+	}
+	
+	public ArrayList<Fulfillment> getSubmissions()
+	{
+		return submissions;
+	}
+	
+	//Called by the service manager to get the string to be sent to the service
+	public String saveToString()
+	{
+		//Format of (service given id) (service given id of owner) (type of object) (body string)
+		String ret;
+		body = String.format("%s %s", id, "");
+		
+		ret = String.format("%s %s %s %s", id, id, "TASK", body);
+		return ret;
+	}
+	
+	public static Task buildFromString(String data)
+	{
+		String ownerId = ""; 
+		String name = "";
+		String desc = "";
+		boolean wantText = false;
+		boolean wantPhoto = false;
+		boolean wantAudio = false;
+		boolean isPublic = false;
+		
+		//parse the string and get the required data
+		
+		Task ret = new Task(ownerId, name, desc, wantText, wantPhoto, wantAudio, isPublic);
+		
+		return ret;
 	}
 }

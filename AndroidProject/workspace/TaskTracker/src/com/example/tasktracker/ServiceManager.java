@@ -1,5 +1,7 @@
 package com.example.tasktracker;
 
+import Task;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +22,17 @@ import com.google.gson.Gson;
 
 public class ServiceManager
 {
+	//We need to keep a pool for all objects as we don't know who they belong to until after we build them all.
+	private ArrayList<Task> tasks;
+	private ArrayList<Fulfillment> fulfillments;
+	private ArrayList<ImageFile> images;
+	private ArrayList<AudioFile> audios;
+	
 	private static ServiceManager instance = null;
-	private static String URLPath = "http://crowdsourcer.softwareprocess.es/F12/CMPUT301F12T09";
+	
+	private HttpClient httpclient = new DefaultHttpClient();
+	private Gson gson = new Gson();
+	private HttpPost httpPost = new HttpPost("http://crowdsourcer.softwareprocess.es/F12/CMPUT301F12T09/");
 	
 	protected ServiceManager(String path)
 	{
@@ -35,7 +46,7 @@ public class ServiceManager
 		{
 			if(instance == null)
 			{
-				instance = new ServiceManager(URLPath);
+				instance = new ServiceManager("http://crowdsourcer.softwareprocess.es/F12/CMPUT301F12T09/");
 			}
 			ret = instance;
 		}
@@ -43,13 +54,389 @@ public class ServiceManager
 		return ret;
 	}
 	
+	//====================================================================================================================================================
+	// To be called when before deleting an object.
+	// Will require a connection to the internet in order to properly delete.
+	// Unless we come up with a storage system for pseudo deleted objects.
+	//====================================================================================================================================================
+	
+	public void saveToService(Task toSend)
+	{
+		if(toSend.id == "")
+		{
+			List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("action", "post"));
+			nameValuePairs.add(new BasicNameValuePair("belongsTo", toSend.belongsTo));
+			nameValuePairs.add(new BasicNameValuePair("type", toSend.type));
+			nameValuePairs.add(new BasicNameValuePair("body", toSend.saveToString()));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = httpclient.execute(httpPost);
+		    
+		    String status = response.getStatusLine().toString();
+		    System.out.println(status);
+		    
+		    //Get the updated object with proper id set
+		    
+		    SavableToService tempNew;
+		    HttpEntity entity = response.getEntity();
+		    
+		    if (entity != null) {
+		        InputStream is = entity.getContent();
+		        String jsonStringVersion = convertStreamToString(is);
+		        Type taskType = SavableToService.class;     
+		        tempNew = gson.fromJson(jsonStringVersion, taskType);
+		    }
+		    entity.consumeContent();
+		    
+		    toSend.id = tempNew.id;
+		    toSend.belongsTo = tempNew.id; //Tasks should belong to themselves, or nothing if that seems weird
+		    
+		    ArrayList<Fulfillment> tempFulfillments = toSend.getSubmissions();
+		    for(int i = 0; i < tempFulfillments.size(); i++)
+		    {
+		    	tempFulfillments.get(i).belongsTo = toSend.id;
+		    	saveToService(tempFulfillments.get(i));
+		    }
+		}
+		else
+		{
+			List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("action", "update"));
+			nameValuePairs.add(new BasicNameValuePair("id", toSend.id));
+			nameValuePairs.add(new BasicNameValuePair("belongsTo", toSend.belongsTo));
+			nameValuePairs.add(new BasicNameValuePair("type", toSend.type));
+			nameValuePairs.add(new BasicNameValuePair("body", toSend.saveToString()));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = httpclient.execute(httpPost);
+		    
+		    String status = response.getStatusLine().toString();
+		    System.out.println(status);
+		    
+		    //Get the updated object with proper id set
+		    
+		    SavableToService tempNew;
+		    HttpEntity entity = response.getEntity();
+		    
+		    if (entity != null) {
+		        InputStream is = entity.getContent();
+		        String jsonStringVersion = convertStreamToString(is);
+		        Type taskType = SavableToService.class;     
+		        tempNew = gson.fromJson(jsonStringVersion, taskType);
+		    }
+		    entity.consumeContent();
+		    
+			ArrayList<Fulfillment> tempFulfillments = toSend.getSubmissions();
+		    for(int i = 0; i < tempFulfillments.size(); i++)
+		    {
+		    	tempFulfillments.get(i).belongsTo = toSend.id;
+		    	saveToService(tempFulfillments.get(i));
+		    }
+		}
+		//check if the SavableToService id is null
+		//if it is we need to add it, build the returned object, set the old objects id, set the owned by ids for its fulfillments, kill the new entity and object
+		//otherwise we just update it, and add any fulfillments with null ids
+	}
+	
+	public void saveToService(Fulfillment toSend)
+	{
+		if(toSend.id == "")
+		{
+			List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("action", "post"));
+			nameValuePairs.add(new BasicNameValuePair("belongsTo", toSend.belongsTo));
+			nameValuePairs.add(new BasicNameValuePair("type", toSend.type));
+			nameValuePairs.add(new BasicNameValuePair("body", toSend.saveToString()));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = httpclient.execute(httpPost);
+		    
+		    String status = response.getStatusLine().toString();
+		    System.out.println(status);
+		    
+		    //Get the updated object with proper id set
+		    
+		    SavableToService tempNew;
+		    HttpEntity entity = response.getEntity();
+		    
+		    if (entity != null) {
+		        InputStream is = entity.getContent();
+		        String jsonStringVersion = convertStreamToString(is);
+		        Type taskType = SavableToService.class;     
+		        tempNew = gson.fromJson(jsonStringVersion, taskType);
+		    }
+		    entity.consumeContent();
+		    
+		    toSend.id = tempNew.id;
+		    
+		    ArrayList<AudioFile> tempAudio = toSend.getAudioFiles();
+		    for(int i = 0; i < tempAudio.size(); i++)
+		    {
+		    	tempAudio.get(i).belongsTo = toSend.id;
+		    	saveToService(tempAudio.get(i));
+		    }
+		    
+		    ArrayList<ImageFile> tempImages = toSend.getImageFiles();
+		    for(int i = 0; i < tempImages.size(); i++)
+		    {
+		    	tempImages.get(i).belongsTo = toSend.id;
+		    	saveToService(tempImages.get(i));
+		    }
+		}
+		else
+		{
+			//This already exists in the service and probably doesn't need to be updated
+		}
+	}
+	
+	public void saveToService(ImageFile toSend)
+	{
+		if(toSend.id == "")
+		{
+			List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("action", "post"));
+			nameValuePairs.add(new BasicNameValuePair("belongsTo", toSend.belongsTo));
+			nameValuePairs.add(new BasicNameValuePair("type", toSend.type));
+			nameValuePairs.add(new BasicNameValuePair("body", toSend.saveToString()));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = httpclient.execute(httpPost);
+		    
+		    String status = response.getStatusLine().toString();
+		    System.out.println(status);
+		    
+		    //Get the updated object with proper id set
+		    
+		    SavableToService tempNew;
+		    HttpEntity entity = response.getEntity();
+		    
+		    if (entity != null) {
+		        InputStream is = entity.getContent();
+		        String jsonStringVersion = convertStreamToString(is);
+		        Type taskType = SavableToService.class;     
+		        tempNew = gson.fromJson(jsonStringVersion, taskType);
+		    }
+		    entity.consumeContent();
+		    
+		    toSend.id = tempNew.id;
+		}
+		else
+		{
+			//This already exists in the service and probably doesn't need to be updated
+		}
+	}
+	
+	public void saveToService(AudioFile toSend)
+	{
+		if(toSend.id == "")
+		{
+			List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("action", "post"));
+			nameValuePairs.add(new BasicNameValuePair("belongsTo", toSend.belongsTo));
+			nameValuePairs.add(new BasicNameValuePair("type", toSend.type));
+			nameValuePairs.add(new BasicNameValuePair("body", toSend.saveToString()));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = httpclient.execute(httpPost);
+		    
+		    String status = response.getStatusLine().toString();
+		    System.out.println(status);
+		    
+		    //Get the updated object with proper id set
+		    
+		    SavableToService tempNew;
+		    HttpEntity entity = response.getEntity();
+		    
+		    if (entity != null) {
+		        InputStream is = entity.getContent();
+		        String jsonStringVersion = convertStreamToString(is);
+		        Type taskType = SavableToService.class;     
+		        tempNew = gson.fromJson(jsonStringVersion, taskType);
+		    }
+		    entity.consumeContent();
+		    
+		    toSend.id = tempNew.id;
+		}
+		else
+		{
+			//This already exists in the service and probably doesn't need to be updated
+		}
+	}
+	
+	//====================================================================================================================================================
+	// To be called when before deleting an object.
+	// Will require a connection to the internet in order to properly delete.
+	// Unless we come up with a storage system for pseudo deleted objects.
+	//====================================================================================================================================================
+	
+	public void removeFromService(Task toRemove)
+	{
+		if(toRemove.id == "")
+		{
+			//throw an error and leave
+			return;
+		}
+		
+		try
+		{	
+			ArrayList<Fulfillment> tempFulfillments = toRemove.getSubmissions(); 
+			for(int i = 0; i < tempFulfillments.size(); i++)
+			{
+				removeFromService(tempFulfillments.get(i));
+			}
+			
+			List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("action", "remove"));
+			nameValuePairs.add(new BasicNameValuePair("id", toRemove.id));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = httpclient.execute(httpPost);
+		    
+		    String status = response.getStatusLine().toString();
+		    System.out.println(status);
+		    
+		    HttpEntity entity = response.getEntity();
+		    entity.consumeContent();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void removeFromService(Fulfillment toRemove)
+	{
+		if(toRemove.id == "")
+		{
+			//throw an error and leave
+			return;
+		}
+		
+		try
+		{
+			ArrayList<AudioFile> tempAudio = toRemove.getAudioFiles(); 
+			for(int i = 0; i < tempAudio.size(); i++)
+			{
+				removeFromService(tempAudio.get(i));
+			}
+			
+			ArrayList<ImageFile> tempImages = toRemove.getImageFiles(); 
+			for(int i = 0; i < tempImages.size(); i++)
+			{
+				removeFromService(tempImages.get(i));
+			}
+			
+			List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("action", "remove"));
+			nameValuePairs.add(new BasicNameValuePair("id", toRemove.id));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = httpclient.execute(httpPost);
+		    
+		    String status = response.getStatusLine().toString();
+		    System.out.println(status);
+		    
+		    HttpEntity entity = response.getEntity();
+		    entity.consumeContent();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void removeFromService(ImageFile toRemove)
+	{
+		if(toRemove.id == "")
+		{
+			//throw an error and leave
+			return;
+		}
+		
+		try
+		{
+			List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("action", "remove"));
+			nameValuePairs.add(new BasicNameValuePair("id", toRemove.id));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = httpclient.execute(httpPost);
+		    
+		    String status = response.getStatusLine().toString();
+		    System.out.println(status);
+		    
+		    HttpEntity entity = response.getEntity();
+		    entity.consumeContent();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void removeFromService(AudioFile toRemove)
+	{
+		if(toRemove.id == "")
+		{
+			//throw an error and leave
+			return;
+		}
+		
+		try
+		{
+			List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("action", "remove"));
+			nameValuePairs.add(new BasicNameValuePair("id", toRemove.id));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = httpclient.execute(httpPost);
+		    
+		    String status = response.getStatusLine().toString();
+		    System.out.println(status);
+		    
+		    HttpEntity entity = response.getEntity();
+		    entity.consumeContent();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	public void requestUpdate(TaskManager requester)
 	{
 		//connect to service
 		//read in database
 		//parse database
-		//create tasks/fulfillments
+		//create tasks/fulfillments/images/audio
 		//link appropriately
 		//add tasks to requester
+		//Send out all tasks/fulfillments/images/audio with null SavableToService ids
+	}
+	
+	private  String convertStreamToString(InputStream is) 
+	{		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		StringBuilder sb = new StringBuilder();
+
+		String line = null;
+		try {
+			while ((line = reader.readLine()) != null) {
+				sb.append(line + "\n");
+			}
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+		finally {
+			try {
+				is.close();
+			} 
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return sb.toString();
 	}
 }

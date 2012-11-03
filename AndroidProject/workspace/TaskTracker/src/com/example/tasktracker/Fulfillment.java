@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 
-public class Fulfillment implements Serializable{
+public class Fulfillment extends SavableToService implements Serializable{
 	
 	//default serial for serializable object
 	private static final long serialVersionUID = 1L;
@@ -19,11 +19,11 @@ public class Fulfillment implements Serializable{
 	private Date dateAdded;
 	
 	//Lists of images and audio files attached to the submission
-	private ArrayList<File> imageFiles;
-	private ArrayList<File> audioFiles;
+	private ArrayList<ImageFile> imageFiles;
+	private ArrayList<AudioFile> audioFiles;
 	
 	//Create new Fulfillment and set fields
-	Fulfillment(String ownerId, String text, ArrayList<File> images, ArrayList<File> audio){
+	Fulfillment(String ownerId, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
 		this.userDeviceId = ownerId;
 		this.textInput = text;
 		this.dateAdded = new Date();
@@ -56,19 +56,19 @@ public class Fulfillment implements Serializable{
 		this.dateAdded = newDate;
 	}
 	
-	public ArrayList<File> getImageFiles(){
+	public ArrayList<ImageFile> getImageFiles(){
 		return imageFiles;
 	}
 	
-	public void setImageFiles(ArrayList<File> newImages){
+	public void setImageFiles(ArrayList<ImageFile> newImages){
 		this.imageFiles = newImages;
 	}
 	
-	public ArrayList<File> getAudioFiles(){
+	public ArrayList<AudioFile> getAudioFiles(){
 		return audioFiles;
 	}
 	
-	public void setAudioFiles(ArrayList<File> newAudio){
+	public void setAudioFiles(ArrayList<AudioFile> newAudio){
 		this.audioFiles = newAudio;
 	}
 }

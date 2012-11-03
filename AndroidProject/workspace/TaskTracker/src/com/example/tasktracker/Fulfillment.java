@@ -1,19 +1,28 @@
 package com.example.tasktracker;
 
-import java.io.File;
-import java.util.Date;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 
-public class Fulfillment{
+public class Fulfillment implements Serializable{
+	
+	//default serial for serializable object
+	private static final long serialVersionUID = 1L;
+		
+	//Device Id of user who created fulfillment
 	private String userDeviceId;
+	
+	//Text portion of Fulfillment
 	private String textInput;
 	
+	//Date the fulfillment was created
 	private Date dateAdded;
 	
+	//Lists of images and audio files attached to the submission
 	private ArrayList<File> imageFiles;
 	private ArrayList<File> audioFiles;
 	
+	//Create new Fulfillment and set fields
 	Fulfillment(String ownerId, String text, ArrayList<File> images, ArrayList<File> audio){
 		this.userDeviceId = ownerId;
 		this.textInput = text;
@@ -22,6 +31,7 @@ public class Fulfillment{
 		this.audioFiles = audio;
 	}
 	
+	//remaining methods are simple getters and setters for the data
 	public String getUserDeviceId(){
 		return userDeviceId;
 	}

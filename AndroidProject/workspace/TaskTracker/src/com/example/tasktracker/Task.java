@@ -1,22 +1,32 @@
 package com.example.tasktracker;
 
-import java.io.File;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 
 
 
-public class Task
-{
+public class Task implements Serializable{
+	
+	//default serial for serializable object
+	private static final long serialVersionUID = 1L;
+
+	//Name of task
 	private String taskName;
+	
+	//Description of task
 	private String taskDescription;
 	
-	private byte flags; //stores booleans in the form 0b(photo)(text)(audio)(open)(public)000
+	//stores booleans in the form 0b(photo)(text)(audio)(open)(public)000
+	private byte flags;
 	
+	//Device Id of user who created task
 	private String userDeviceId;
 	
+	//List of fulfillments attached to this task;
 	private ArrayList<Fulfillment> submissions;
 	
+	//Create task and set fields
 	Task(String ownerId, String name, String desc, boolean wantText, boolean wantPhoto, boolean wantAudio, boolean isPublic){
 		this.taskName = name;
 		this.taskDescription = desc;
@@ -29,6 +39,18 @@ public class Task
 		this.submissions = new ArrayList<Fulfillment>();
 	}
 	
+	//add a new fulfillment to the submissions list
+	public void addSubmission(String ownerId, String text, ArrayList<File> images, ArrayList<File> audio){
+		Fulfillment ful = new Fulfillment(ownerId, text,images, audio);
+		this.submissions.add(ful);
+	}
+	
+	//remove a fulfillment from the submissions list
+	public void removeSubmission(int index){
+		this.submissions.remove(index);
+	}
+	
+	//remaining methods are simple getters and setters for data fields
 	public String getUserDeviceId(){
 		return userDeviceId;
 	}
@@ -131,15 +153,5 @@ public class Task
 		}else{
 			this.flags = (byte) (flags & ~(1 << 3));
 		}
-	}
-	
-	
-	public void addSubmission(String ownerId, String text, ArrayList<File> images, ArrayList<File> audio){
-		Fulfillment ful = new Fulfillment(ownerId, text,images, audio);
-		this.submissions.add(ful);
-	}
-	
-	public void removeSubmission(int index){
-		this.submissions.remove(index);
 	}
 }

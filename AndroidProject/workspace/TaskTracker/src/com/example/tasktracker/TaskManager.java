@@ -1,39 +1,35 @@
 package com.example.tasktracker;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import android.provider.Settings.Secure;
 import android.content.Context;
 
 
 public class TaskManager{
-	
-	private static final String FILE_NAME = "tasks.sav";
-	
+		
 	private ArrayList<Task> TaskList;
-	
-	private Context context;
 	
 	private String userId; 
 	
 	private static TaskManager instance = null;
 	
+	private DatabaseManager dbManager = null;
+	
+	private ServiceManager sManager = null;
+	
 	protected TaskManager(Context context){
 		this.TaskList = new ArrayList<Task>();
-		this.context = context;
+		this.dbManager = DatabaseManager.getInstance(1, context);
+		this.sManager = ServiceManager.getInstance(1);
 		this.userId = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID); 
+		
 	}
 	
 	public static TaskManager getInstance(int type, Context context)
 	{
 		TaskManager ret = null;
-		if( type == 1)//change if we need to accommodate multiple servers
+		if(type == 1)//change if we need to accommodate multiple servers
 		{
 			if(instance == null)
 			{
@@ -45,89 +41,116 @@ public class TaskManager{
 		
 		return ret;
 	}
-	
+	//update name of task at index
 	public void updateName(int index, String name){
 		TaskList.get(index).setTaskName(name);
-		saveTasks();
+		
+		//If public update via service manager
+		if(TaskList.get(index).getIsPublic()){
+			//TODO update public storage via service manager;
+		}
+		//Either way update local storage;
+		dbManager.saveTasks(TaskList);
 	}
-	
+	//update description of task at index
 	public void updateDesc(int index, String desc){
 		TaskList.get(index).setTaskDescription(desc);
-		saveTasks();
+		
+		//If public update via service manager
+		if(TaskList.get(index).getIsPublic()){
+			//TODO update public storage via service manager;
+		}
+		//Either way update local storage;
+		dbManager.saveTasks(TaskList);
 	}
 	
 	public void updateRequirements(int index, boolean text, boolean photo, boolean audio){
 		TaskList.get(index).setWantText(text);
 		TaskList.get(index).setWantPhoto(photo);
 		TaskList.get(index).setWantAudio(audio);
-		saveTasks();
+		
+		//If public update via service manager
+		if(TaskList.get(index).getIsPublic()){
+			//TODO update public storage via service manager;
+		}
+		//Either way update local storage;
+		dbManager.saveTasks(TaskList);
 	}
 	
 	public void updateOpen(int index, boolean open){
 		TaskList.get(index).setIsOpen(open);
-		saveTasks();
+		
+		//If public update via service manager
+		if(TaskList.get(index).getIsPublic()){
+			//TODO update public storage via service manager;
+		}
+		//Either way update local storage;
+		dbManager.saveTasks(TaskList);
 	}
 	
 	public void updatePublic(int index, boolean pub){
 		TaskList.get(index).setIsPublic(pub);
-		saveTasks();
+		
+		//If public update via service manager
+		if(TaskList.get(index).getIsPublic()){
+			//TODO update public storage via service manager;
+		}
+		//Either way update local storage;
+		dbManager.saveTasks(TaskList);
 	}
 	
 	public void createTask(String name, String desc, boolean wantText, boolean wantPhoto, boolean wantAudio, boolean isPublic){
 		Task newTask = new Task(userId, name, desc, wantText, wantPhoto, wantAudio, isPublic);
 		TaskList.add(newTask);
-		saveTasks();
+		
+		//If public update via service manager
+		if(isPublic){
+			//TODO update public storage via service manager;
+		}
+		//Either way update local storage;
+		dbManager.saveTasks(TaskList);
 	}
 	
 	public void deleteTask(int index){
-		TaskList.remove(index);
-		saveTasks();
+		//find task to delete so we can check the public flag
+		Task toRemove = TaskList.get(index);
+		//remove task
+		TaskList.remove(toRemove);
+		//If public update via service manager
+		if(TaskList.get(index).getIsPublic()){
+			//TODO update public storage via service manager;
+		}
+		//Either way update local storage;
+		dbManager.saveTasks(TaskList);
 	}
 	
 	public void addSubmission(int index, String text, ArrayList<File> images, ArrayList<File> audio){
 		TaskList.get(index).addSubmission(userId, text, images, audio);
-		saveTasks();
+		
+		//If public update via service manager
+		if(TaskList.get(index).getIsPublic()){
+			//TODO update public storage via service manager;
+		}
+		//Either way update local storage;
+		dbManager.saveTasks(TaskList);
 	}
 	
 	public void removeSubmission(int taskIndex, int subIndex){
 		TaskList.get(taskIndex).removeSubmission(subIndex);
-		saveTasks();
+		//If public update via service manager
+		if(TaskList.get(taskIndex).getIsPublic()){
+			//TODO update public storage via service manager;
+		}
+		//Either way update local storage;
+		dbManager.saveTasks(TaskList);
 	}
 	
 	public ArrayList<Task> getTaskList(){
-		this.TaskList = loadTasks();
-		//Eventually load public tasks from service manager
+		//get a fresh copy of the TaskList
+		this.TaskList = dbManager.loadTasks();
+		
+		//TODO fetch public tasks via service manager
+		
 		return TaskList;
-	}
-	
-	private void saveTasks(){
-		 try {  
-	            FileOutputStream fOut = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-	        	ObjectOutputStream oOut = new ObjectOutputStream(fOut);    
-	            oOut.writeObject(TaskList);
-	            oOut.flush();
-	            oOut.close();  
-	        } catch (FileNotFoundException e) {  
-	            e.printStackTrace();  
-	        } catch (IOException e) {  
-	            e.printStackTrace();  
-	        }  
-	}
-	
-	@SuppressWarnings("unchecked")
-	private ArrayList<Task> loadTasks(){
-	    ArrayList<Task> loadedTasks = new ArrayList<Task>();
-    	try {  
-        	FileInputStream fIn = context.openFileInput(FILE_NAME);
-            ObjectInputStream oIn = new ObjectInputStream(fIn);  
-            loadedTasks = (ArrayList<Task>) oIn.readObject();  
-            oIn.close(); 
-        } 
-         catch (IOException e) {  
-            e.printStackTrace();  
-        } catch (ClassNotFoundException e) {  
-            e.printStackTrace();  
-        }
-        return loadedTasks;
-	}
+	}	
 }

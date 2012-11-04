@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +27,8 @@ public class MainScreen extends Activity {
         Button updateData = (Button) findViewById(R.id.updateData);
         tasks = (ListView) findViewById(R.id.tasks);
         
+        registerForContextMenu(tasks);
+        
         createTask.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 setResult(RESULT_OK);
@@ -39,6 +44,13 @@ public class MainScreen extends Activity {
         });
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_main_screen, menu);
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main_screen, menu);

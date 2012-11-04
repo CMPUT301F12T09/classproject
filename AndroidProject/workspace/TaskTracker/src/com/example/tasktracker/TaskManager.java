@@ -1,5 +1,6 @@
 package com.example.tasktracker;
 
+import java.io.File;
 import java.util.ArrayList;
 import android.provider.Settings.Secure;
 import android.content.Context;
@@ -18,8 +19,8 @@ public class TaskManager{
 	private ServiceManager sManager = null;
 	
 	protected TaskManager(Context context){
+		this.TaskList = new ArrayList<Task>();
 		this.dbManager = DatabaseManager.getInstance(1, context);
-		this.TaskList = dbManager.loadTasks();
 		this.sManager = ServiceManager.getInstance(1);
 		this.userId = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID); 
 		
@@ -47,6 +48,8 @@ public class TaskManager{
 		//If public update via service manager
 		if(TaskList.get(index).getIsPublic()){
 			//TODO update public storage via service manager;
+		    
+		    
 		}
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
@@ -104,7 +107,7 @@ public class TaskManager{
 		
 		//If public update via service manager
 		if(isPublic){
-			//TODO update public storage via service manager;
+		        sManager.saveToService(newTask);
 		}
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
@@ -117,7 +120,7 @@ public class TaskManager{
 		TaskList.remove(toRemove);
 		//If public update via service manager
 		if(TaskList.get(index).getIsPublic()){
-			//TODO update public storage via service manager;
+		        sManager.removeFromService(toRemove);
 		}
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
@@ -125,20 +128,22 @@ public class TaskManager{
 	
 	public void addSubmission(int index, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
 		TaskList.get(index).addSubmission(userId, text, images, audio);
-		
 		//If public update via service manager
 		if(TaskList.get(index).getIsPublic()){
-			//TODO update public storage via service manager;
+		        Fulfillment ful = new Fulfillment(userId, text,images, audio);
+		        sManager.saveToService(ful);
 		}
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
 	}
 	
 	public void removeSubmission(int taskIndex, int subIndex){
-		TaskList.get(taskIndex).removeSubmission(subIndex);
+	        ArrayList<Fulfillment> sub = TaskList.get(taskIndex).getSubmissions();
+	        Fulfillment ful = sub.get(subIndex);
+	        TaskList.get(taskIndex).removeSubmission(subIndex);
 		//If public update via service manager
 		if(TaskList.get(taskIndex).getIsPublic()){
-			//TODO update public storage via service manager;
+		        sManager.removeFromService(ful);
 		}
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
@@ -146,9 +151,8 @@ public class TaskManager{
 	
 	public ArrayList<Task> getTaskList(){
 		//get a fresh copy of the TaskList
-		this.TaskList = dbManager.loadTasks();
-		
-		//TODO fetch public tasks via service manager
+	        sManager.requestUpdate(this);
+		this.TaskList.addAll(dbManager.loadTasks());
 		
 		return TaskList;
 	}	

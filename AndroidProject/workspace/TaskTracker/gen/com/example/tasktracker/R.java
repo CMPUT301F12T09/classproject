@@ -40,22 +40,23 @@ public final class R {
         public static final int checkbox_photo=0x7f07000a;
         public static final int checkbox_text=0x7f07000c;
         public static final int createTask=0x7f070024;
-        public static final int menu_close=0x7f070038;
-        public static final int menu_delete=0x7f070033;
-        public static final int menu_edit=0x7f070036;
-        public static final int menu_fulfill=0x7f070034;
-        public static final int menu_public=0x7f070035;
-        public static final int menu_settings=0x7f070031;
-        public static final int menu_view=0x7f070037;
-        public static final int menu_viewresponse=0x7f070032;
-        public static final int nmenu_fulfill=0x7f070039;
-        public static final int nmenu_view=0x7f07003a;
+        public static final int menu_close=0x7f070039;
+        public static final int menu_delete=0x7f070034;
+        public static final int menu_edit=0x7f070037;
+        public static final int menu_fulfill=0x7f070035;
+        public static final int menu_public=0x7f070036;
+        public static final int menu_settings=0x7f070032;
+        public static final int menu_view=0x7f070038;
+        public static final int menu_viewresponse=0x7f070033;
+        public static final int nmenu_fulfill=0x7f07003a;
+        public static final int nmenu_view=0x7f07003b;
         public static final int oldLogs=0x7f070012;
         public static final int radio_close=0x7f070011;
         public static final int radio_open=0x7f070010;
         public static final int radio_private=0x7f070008;
         public static final int radio_public=0x7f070007;
         public static final int tasks=0x7f070023;
+        public static final int text=0x7f070031;
         public static final int text_create_responses=0x7f070009;
         public static final int text_create_scope=0x7f070006;
         public static final int text_create_taskdesc=0x7f070004;
@@ -88,6 +89,7 @@ public final class R {
         public static final int activity_photo_taker=0x7f030007;
         public static final int activity_view_response=0x7f030008;
         public static final int activity_view_task=0x7f030009;
+        public static final int task_display=0x7f03000a;
     }
     public static final class menu {
         public static final int activity_audio_recorder=0x7f060000;

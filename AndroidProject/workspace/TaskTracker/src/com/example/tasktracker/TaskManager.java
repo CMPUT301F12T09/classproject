@@ -1,6 +1,5 @@
 package com.example.tasktracker;
 
-import java.io.File;
 import java.util.ArrayList;
 import android.provider.Settings.Secure;
 import android.content.Context;
@@ -19,8 +18,8 @@ public class TaskManager{
 	private ServiceManager sManager = null;
 	
 	protected TaskManager(Context context){
-		this.TaskList = new ArrayList<Task>();
 		this.dbManager = DatabaseManager.getInstance(1, context);
+		this.TaskList = dbManager.loadTasks();
 		this.sManager = ServiceManager.getInstance(1);
 		this.userId = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID); 
 		

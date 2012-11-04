@@ -69,7 +69,6 @@ public class CreateTask extends Activity {
     
     public void confirmTask(View view)
     {
-    	//Prompt confirmation
         String name = editName.getText().toString();
         String desc = editDesc.getText().toString();
         

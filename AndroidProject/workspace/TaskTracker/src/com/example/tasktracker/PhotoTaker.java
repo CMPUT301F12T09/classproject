@@ -5,12 +5,17 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 
-public class PhotoTaker extends Activity {
+//Some camera code taken from http://stackoverflow.com/questions/5991319/capture-image-from-camera-and-display-in-activity
 
+public class PhotoTaker extends Activity {
+    
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_taker);
+        
+        
     }
 
     @Override

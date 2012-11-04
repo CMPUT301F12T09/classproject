@@ -18,6 +18,8 @@ public class FulfillTask extends Activity {
         Button photoMem = (Button) findViewById(R.id.button_fulfill_photoMem);
         Button recordAudio = (Button) findViewById(R.id.button_fulfill_recordAudio);
         Button audioMem = (Button) findViewById(R.id.button_fulfill_audioMem);
+        Button cancel = (Button) findViewById(R.id.button_fulfill_cancel);
+        Button save = (Button) findViewById(R.id.button_fulfill_save);
         
         takePhoto.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -47,6 +49,19 @@ public class FulfillTask extends Activity {
             }
         });
         
+        save.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                setResult(RESULT_OK);
+                saveFulfill(v);
+            }
+        });
+        
+        cancel.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                setResult(RESULT_OK);
+                cancelFulfill(v);
+            }
+        });
     }
 
     @Override

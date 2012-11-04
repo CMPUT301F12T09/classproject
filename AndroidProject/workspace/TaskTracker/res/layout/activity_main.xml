@@ -3,13 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <Button
+<!--     <Button
         android:id="@+id/button_splash_continue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="@string/button_splash_continue"
+        android:onClick="continueToMain" />-->
+    <ImageButton
+        android:id="@+id/button_splash_continue"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/spashpage"
+        android:contentDescription="@string/splash_continue"
         android:onClick="continueToMain" />
-    
 </RelativeLayout>

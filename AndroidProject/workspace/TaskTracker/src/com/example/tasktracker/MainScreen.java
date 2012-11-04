@@ -1,20 +1,28 @@
 package com.example.tasktracker;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.support.v4.app.NavUtils;
+import android.widget.Button;
+import android.widget.ListView;
 
 public class MainScreen extends Activity {
 
+    private ListView tasks;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        
+        Button createTask = (Button) findViewById(R.id.createTask);
+        Button updateData = (Button) findViewById(R.id.updateData);
+        tasks = (ListView) findViewById(R.id.tasks);
     }
 
     @Override

@@ -1,5 +1,5 @@
 <resources>
-
+	<string name="splash_continue">Tap to Continue</string>
     <string name="app_name">TaskTracker</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>

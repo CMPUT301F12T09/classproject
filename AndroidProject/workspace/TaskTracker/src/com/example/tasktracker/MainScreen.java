@@ -1,5 +1,7 @@
 package com.example.tasktracker;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +12,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
 public class MainScreen extends Activity {
 
     private ListView tasks;
+    private ArrayAdapter<Task> adapter;
+    private ArrayList<Task> TaskList;
+    private TaskManager tManager;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,8 +32,10 @@ public class MainScreen extends Activity {
         Button createTask = (Button) findViewById(R.id.createTask);
         Button updateData = (Button) findViewById(R.id.updateData);
         tasks = (ListView) findViewById(R.id.tasks);
+        tManager = TaskManager.getInstance(1, this);
         
         registerForContextMenu(tasks);
+        
         
         createTask.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -68,9 +76,11 @@ public class MainScreen extends Activity {
         return super.onOptionsItemSelected(item);
     }
     
-    public void updateData(View view)
-    {
-    	//pull server type from settings (if we end up having to support multiple servers)
+    public void updateData(View view){
+    	TaskList = tManager.getTaskList();
+    	adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
+    	tasks.setAdapter(adapter);
+    	
     }
     
     public void createTask(View view)

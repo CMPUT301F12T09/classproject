@@ -165,6 +165,39 @@ public class Task extends SavableToService implements Serializable{
 		submissions.add(toAdd);
 	}
 	
+	@Override
+	public String toString() {  
+		String scope;
+		String text;
+		String audio;
+		String photo;
+		if(this.getIsPublic()){
+			scope = "public";
+		}else{
+			scope = "private";
+		}
+		if(this.getWantText()){
+			text = "Text";
+		}else{
+			text = "";
+		}
+		if(this.getWantAudio()){
+			audio = "Audio";
+		}else{
+			audio = "";
+		}
+		if(this.getWantPhoto()){
+			photo = "Photo";
+		}else{
+			photo = "";
+		}
+		
+		String task = String.format("Task Name: %s\nDescription: %s\nScope: %s \n" +
+									 "Required: %s %s %s", this.taskName, this.taskDescription,
+										scope, text, photo, audio);
+        return task;
+	}
+	
 	//Called by the service manager to get the string to be sent to the service
 	public String saveToString()
 	{

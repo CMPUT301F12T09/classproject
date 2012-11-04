@@ -124,7 +124,7 @@ public class TaskManager{
 		dbManager.saveTasks(TaskList);
 	}
 	
-	public void addSubmission(int index, String text, ArrayList<File> images, ArrayList<File> audio){
+	public void addSubmission(int index, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
 		TaskList.get(index).addSubmission(userId, text, images, audio);
 		
 		//If public update via service manager
@@ -153,4 +153,9 @@ public class TaskManager{
 		
 		return TaskList;
 	}	
+	
+	public void addTask(Task toAdd)
+	{
+		TaskList.add(toAdd);
+	}
 }

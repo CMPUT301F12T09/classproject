@@ -73,6 +73,16 @@ public class Fulfillment extends SavableToService implements Serializable{
 		this.audioFiles = newAudio;
 	}
 	
+	public void addImage(ImageFile toAdd)
+	{
+		imageFiles.add(toAdd);
+	}
+	
+	public void addAudio(AudioFile toAdd)
+	{
+		audioFiles.add(toAdd);
+	}
+	
 	//Called by the service manager to get the string to be sent to the service
 	public String saveToString()
 	{

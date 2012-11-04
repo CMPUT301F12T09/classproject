@@ -160,6 +160,11 @@ public class Task extends SavableToService implements Serializable{
 		return submissions;
 	}
 	
+	public void addFulfillment(Fulfillment toAdd)
+	{
+		submissions.add(toAdd);
+	}
+	
 	//Called by the service manager to get the string to be sent to the service
 	public String saveToString()
 	{

@@ -429,13 +429,69 @@ public class ServiceManager
 	
 	public void requestUpdate(TaskManager requester)
 	{
+		//Save all current data out to the service
+		ArrayList<Task> currentTasks = requester.getTaskList();
+		for(int i = 0; i < currentTasks.size(); i++)
+		{
+			saveToService(currentTasks.get(i));
+		}
+		
 		//connect to service
 		//read in database
 		//parse database
 		//create tasks/fulfillments/images/audio
-		//link appropriately
-		//add tasks to requester
-		//Send out all tasks/fulfillments/images/audio with null SavableToService ids
+		
+		//Add all image files to the fulfillments that own them
+		for(int i = 0; i < images.size(); i++)
+		{
+			ImageFile tempI = images.get(i);
+			for(int j = 0; j < fulfillments.size(); j++)
+			{
+				Fulfillment tempF = fulfillments.get(j);
+				if(tempF.id == tempI.belongsTo)
+				{
+					tempF.addImage(tempI);
+					break;
+				}
+			}
+		}
+		
+		//Add all audio files to the fulfillments that own them
+		for(int i = 0; i < audios.size(); i++)
+		{
+			AudioFile tempA = audios.get(i);
+			for(int j = 0; j < fulfillments.size(); j++)
+			{
+				Fulfillment tempF = fulfillments.get(j);
+				if(tempF.id == tempA.belongsTo)
+				{
+					tempF.addAudio(tempA);
+					break;
+				}
+			}
+		}
+		
+		//Add all fulfillments to the tasks that own them
+		for(int i = 0; i < fulfillments.size(); i++)
+		{
+			Fulfillment tempF = fulfillments.get(i);
+			for(int j = 0; j < tasks.size(); j++)
+			{
+				Task tempT = tasks.get(j);
+				if(tempT.id == tempF.belongsTo)
+				{
+					tempT.addFulfillment(tempF);
+					break;
+				}
+			}
+		}
+		
+		//Clear out the task list of the requester and populate it with the new tasks
+		currentTasks.clear();
+		for(int i = 0; i < tasks.size(); i++)
+		{
+			requester.addTask(tasks.get(i));
+		}
 	}
 	
 	private  String convertStreamToString(InputStream is) 

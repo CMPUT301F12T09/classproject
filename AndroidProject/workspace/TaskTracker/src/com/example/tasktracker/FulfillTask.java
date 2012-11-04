@@ -1,10 +1,11 @@
 package com.example.tasktracker;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 
 public class FulfillTask extends Activity {
 
@@ -12,6 +13,40 @@ public class FulfillTask extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fulfill_task);
+        
+        Button takePhoto = (Button) findViewById(R.id.button_fulfill_takePhoto);
+        Button photoMem = (Button) findViewById(R.id.button_fulfill_photoMem);
+        Button recordAudio = (Button) findViewById(R.id.button_fulfill_recordAudio);
+        Button audioMem = (Button) findViewById(R.id.button_fulfill_audioMem);
+        
+        takePhoto.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                setResult(RESULT_OK);
+                takePhoto(v);
+            }
+        });
+        
+        photoMem.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                setResult(RESULT_OK);
+                findPhoto(v);
+            }
+        });
+        
+        recordAudio.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                setResult(RESULT_OK);
+                recordAudio(v);
+            }
+        });
+        
+        audioMem.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                setResult(RESULT_OK);
+                findAudio(v);
+            }
+        });
+        
     }
 
     @Override

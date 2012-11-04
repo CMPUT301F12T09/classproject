@@ -19,13 +19,13 @@ public class CreateTask extends Activity {
         save.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 setResult(RESULT_OK);
-                save(v);
+                confirmTask(v);
             }
         });
         cancel.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 setResult(RESULT_OK);
-                finish();
+                cancelTask(v);
             }
         });
     }
@@ -34,12 +34,6 @@ public class CreateTask extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_create_task, menu);
         return true;
-    }
-    
-    public void save(View v){
-        //Insert code to save the task locally.  Then if deemed public also save to service
-        
-        finish();
     }
     
     public void confirmTask(View view)

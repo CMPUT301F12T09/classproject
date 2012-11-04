@@ -34,7 +34,7 @@ public class MainScreen extends Activity {
         updateData.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 setResult(RESULT_OK);
-                //goToUpdateData()
+                updateData(v);
             }
         });
     }

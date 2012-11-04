@@ -165,25 +165,32 @@ public class Task extends SavableToService implements Serializable{
 	{
 		//Format of (service given id) (service given id of owner) (type of object) (body string)
 		String ret;
-		body = String.format("%s %s", id, "");
+		body = String.format("%s %s %s %b %b %b %b %b", userDeviceId, taskName, taskDescription, getWantText(), getWantPhoto(), getWantAudio(), getIsPublic(), getIsOpen());
 		
 		ret = String.format("%s %s %s %s", id, id, "TASK", body);
 		return ret;
 	}
 	
+	//Called by the service manager when building the objects pulled from the server
 	public static Task buildFromString(String data)
 	{
-		String ownerId = ""; 
-		String name = "";
-		String desc = "";
-		boolean wantText = false;
-		boolean wantPhoto = false;
-		boolean wantAudio = false;
-		boolean isPublic = false;
-		
 		//parse the string and get the required data
+		//We should get the body string from the saveToString method
+		
+		String deliminator = "[ ]+";
+		String[] tokens = data.split(deliminator);
+		
+		String ownerId = tokens[0]; 
+		String name = tokens[1];
+		String desc = tokens[2];
+		boolean wantText = Boolean.getBoolean(tokens[3]);
+		boolean wantPhoto = Boolean.getBoolean(tokens[4]);
+		boolean wantAudio = Boolean.getBoolean(tokens[5]);
+		boolean isPublic = Boolean.getBoolean(tokens[6]);
+		boolean isOpen = Boolean.getBoolean(tokens[7]);
 		
 		Task ret = new Task(ownerId, name, desc, wantText, wantPhoto, wantAudio, isPublic);
+		ret.setIsOpen(isOpen);
 		
 		return ret;
 	}

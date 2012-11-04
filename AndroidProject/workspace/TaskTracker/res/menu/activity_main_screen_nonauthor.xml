@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Task non-author menu -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nmenu_fulfill"
+          android:title="@string/menu_fulfill" />
+    <item android:id="@+id/nmenu_view"
+          android:title="@string/menu_view" />          
+</menu>        
+        

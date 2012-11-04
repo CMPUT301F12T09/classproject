@@ -23,6 +23,20 @@ public class MainScreen extends Activity {
         Button createTask = (Button) findViewById(R.id.createTask);
         Button updateData = (Button) findViewById(R.id.updateData);
         tasks = (ListView) findViewById(R.id.tasks);
+        
+        createTask.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                setResult(RESULT_OK);
+                goToCreateTask(v);
+            }
+        });
+        
+        updateData.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                setResult(RESULT_OK);
+                //goToUpdateData()
+            }
+        });
     }
 
     @Override
@@ -51,6 +65,11 @@ public class MainScreen extends Activity {
     {
     	Intent intent = new Intent(this, CreateTask.class);
     	startActivity(intent);
+    }
+    
+    public void goToCreateTask(View v){
+        Intent intent = new Intent(MainScreen.this, CreateTask.class);
+        startActivity(intent);
     }
 
 }

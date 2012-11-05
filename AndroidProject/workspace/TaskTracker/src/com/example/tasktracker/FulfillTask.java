@@ -6,13 +6,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class FulfillTask extends Activity {
-
+    
+    private TextView nameView;
+    public Task curTask;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fulfill_task);
+                
+        //nameView.setText("Task Name: "+curTask.getTaskName());
         
         Button takePhoto = (Button) findViewById(R.id.button_fulfill_takePhoto);
         Button photoMem = (Button) findViewById(R.id.button_fulfill_photoMem);

@@ -24,10 +24,10 @@
         android:onClick="usePhoto"
         android:text="@string/button_photo_use" />
     <Button
-        android:id="@+id/photo_cancel"
+        android:id="@+id/photo_done"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="usePhoto"
-        android:text="@string/button_edit_cancel" />
+        android:text="@string/photo_done" />
 
 </LinearLayout>

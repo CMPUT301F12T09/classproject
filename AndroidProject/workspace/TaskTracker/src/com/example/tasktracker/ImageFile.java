@@ -2,10 +2,13 @@ package com.example.tasktracker;
 
 import java.io.File;
 
+import android.graphics.Bitmap;
+
 
 public class ImageFile extends SavableToService
 {
 	public File image;
+	public Bitmap bitmap;
 	
 	//Called by the service manager to get the string to be sent to the service
 	public String saveToString()
@@ -16,6 +19,13 @@ public class ImageFile extends SavableToService
 		
 		ret = String.format("%s %s %s %s", id, belongsTo, "IMAGE", body);
 		return ret;
+	}
+	
+	public ImageFile(Bitmap bmp){
+	    bitmap = bmp;
+	}
+	public ImageFile(){
+	    
 	}
 	
 	//Called by the service manager when building the objects pulled from the server
@@ -36,4 +46,5 @@ public class ImageFile extends SavableToService
 		
 		return ret;
 	}
+	
 }

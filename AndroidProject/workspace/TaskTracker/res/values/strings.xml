@@ -39,7 +39,7 @@
     <string name="menu_view">View Task</string>    
     <string name="menu_close">Close Task</string>    
     <string name="menu_viewresponse">View Response</string>    
-    
+    <string name="photo_done">Done taking Photos</string>
     <string name="menu_delete">Delete Response</string>    
     
     

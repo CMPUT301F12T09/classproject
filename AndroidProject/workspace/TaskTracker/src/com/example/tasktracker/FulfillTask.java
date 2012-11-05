@@ -1,17 +1,25 @@
 package com.example.tasktracker;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class FulfillTask extends Activity {
     
     private TextView nameView, descView, responseView, scopeView;
-    public Task curTask;
+    private ArrayList<ImageFile> photos;
+    private ArrayList<AudioFile> audio;
+    private int index;
+    private Task curTask;
+    private EditText textResponse;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +30,9 @@ public class FulfillTask extends Activity {
         
         
         curTask = (Task) getIntent().getSerializableExtra("task");
+        photos = (ArrayList<ImageFile>) getIntent().getSerializableExtra("images");
+        Bundle bundle = getIntent().getExtras();
+        index = bundle.getInt("index");
         
         nameView = (TextView) findViewById(R.id.text_fulfill_name);
         nameView.setText("Task Name: "+curTask.getTaskName());
@@ -35,12 +46,18 @@ public class FulfillTask extends Activity {
         scopeView = (TextView) findViewById(R.id.text_fulfill_scope);
         scopeView.setText("Task Scope: "+buildScope(curTask));
         
+        textResponse = (EditText)  findViewById(R.id.text_edit_textresponse);
+        
+        
         Button takePhoto = (Button) findViewById(R.id.button_fulfill_takePhoto);
         Button photoMem = (Button) findViewById(R.id.button_fulfill_photoMem);
         Button recordAudio = (Button) findViewById(R.id.button_fulfill_recordAudio);
         Button audioMem = (Button) findViewById(R.id.button_fulfill_audioMem);
         Button cancel = (Button) findViewById(R.id.button_fulfill_cancel);
         Button save = (Button) findViewById(R.id.button_fulfill_save);
+        
+        audio = new ArrayList<AudioFile>();
+        photos = new ArrayList<ImageFile>();
         
         takePhoto.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -93,15 +110,16 @@ public class FulfillTask extends Activity {
     
     public void takePhoto(View view)
     {
-    	Intent intent = new Intent(this, PhotoTaker.class);
-    	startActivity(intent); //change to require return
-    	//get returned photo
-    	//if not null add to fulfillment
+    	Intent intent = new Intent(FulfillTask.this, PhotoTaker.class);
+        intent.putExtra("task",curTask);
+        intent.putExtra("images", photos);
+    	startActivityForResult(intent,1); 
+    	finish();
     }
     
     public void recordAudio(View view)
     {
-    	Intent intent = new Intent(this, AudioRecorder.class);
+    	Intent intent = new Intent(FulfillTask.this, AudioRecorder.class);
     	startActivity(intent); //change to require return
     	//get returned audio
     	//if not null add to fulfillment
@@ -109,7 +127,7 @@ public class FulfillTask extends Activity {
     
     public void findPhoto(View view)
     {
-    	Intent intent = new Intent(this, MemoryCheck.class);
+    	Intent intent = new Intent(FulfillTask.this, MemoryCheck.class);
     	//set extra for type
     	startActivity(intent); //change to require return
     	//get returned photo
@@ -118,7 +136,7 @@ public class FulfillTask extends Activity {
     
     public void findAudio(View view)
     {
-    	Intent intent = new Intent(this, MemoryCheck.class);
+    	Intent intent = new Intent(FulfillTask.this, MemoryCheck.class);
     	//set extra for type
     	startActivity(intent); //change to require return
     	//get returned audio
@@ -134,9 +152,18 @@ public class FulfillTask extends Activity {
     {
     	//Ask for confirmation
     	//Send fulfillment to task manager
-    	finish();
+        TaskManager manage = TaskManager.getInstance(1, this);
+        manage.addSubmission(index, textResponse.getText().toString(),photos,audio);
+       	finish();
     }
-    
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                curTask=(Task)data.getSerializableExtra("task");
+                photos=(ArrayList<ImageFile>)data.getSerializableExtra("images");
+            }
+        }
+    }
     private String buildResponses(Task t){
         String ret = "";
         if (t.getWantText()){

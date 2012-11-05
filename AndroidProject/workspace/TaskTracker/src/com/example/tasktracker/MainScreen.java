@@ -70,12 +70,14 @@ public class MainScreen extends Activity {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         switch(item.getItemId()){
             case R.id.menu_fulfill:
+                //probably want to bundle the task and pass it off
                 intent = new Intent(this,FulfillTask.class);
                 startActivity(intent);
-                //Ideally this will toast the task name of the selected task, that way
+                //This will toast the task name of the selected task, that way
                 //we know if we can access tasks in this manner and therefore do comparisons
-                //of who di what task, and populate fields for editing tasks etc
-                Toast.makeText(this, "selected task "+TaskList.get((int)info.id).getTaskName(),Toast.LENGTH_SHORT).show();
+                //of who did what task, and populate fields for editing tasks etc
+                //Access selected task with TaskList.get((int)info.id)
+                //Toast.makeText(this, "selected task "+TaskList.get((int)info.id).getTaskName(),Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_public:
                 //Make task public

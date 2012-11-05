@@ -32,12 +32,12 @@
     <string name="text_view_openclose">Availability: {Open/Closed}</string>
     <string name="text_viewresponse_textresponse">Text Response: {some text}</string>
     <string name="text_viewresponse_attach">Attachments: </string>
-  
+  	<string name="text_photo_take">Take New Photo</string>
     <string name="menu_fulfill">Fulfill Task</string>    
     <string name="menu_public">Make Task Public</string>    
     <string name="menu_edit">Edit Task</string>    
     <string name="menu_view">View Task</string>    
-    <string name="menu_close">Fulfill Task</string>    
+    <string name="menu_close">Close Task</string>    
     <string name="menu_viewresponse">View Response</string>    
     
     <string name="menu_delete">Delete Response</string>    

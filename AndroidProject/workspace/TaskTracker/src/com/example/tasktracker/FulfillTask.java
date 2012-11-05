@@ -16,8 +16,12 @@ public class FulfillTask extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fulfill_task);
-                
+        
+        //Bundle data = getIntent().getExtras();
+        //curTask = data.getParcelable("task");
         //nameView.setText("Task Name: "+curTask.getTaskName());
+        
+        
         
         Button takePhoto = (Button) findViewById(R.id.button_fulfill_takePhoto);
         Button photoMem = (Button) findViewById(R.id.button_fulfill_photoMem);

@@ -72,7 +72,7 @@ public class MainScreen extends Activity {
             case R.id.menu_fulfill:
                 //probably want to bundle the task and pass it off
                 intent = new Intent(this,FulfillTask.class);
-
+                intent.putExtra("task",TaskList.get((int)info.id));
                 startActivity(intent);
                 //This will toast the task name of the selected task, that way
                 //we know if we can access tasks in this manner and therefore do comparisons

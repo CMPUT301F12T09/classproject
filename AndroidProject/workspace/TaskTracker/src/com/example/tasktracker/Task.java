@@ -1,12 +1,16 @@
 package com.example.tasktracker;
 
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 
 
 
-public class Task extends SavableToService implements Serializable{
+public class Task extends SavableToService implements Serializable//, Parcelable.
+{
 	
 	//default serial for serializable object
 	private static final long serialVersionUID = 1L;
@@ -25,6 +29,43 @@ public class Task extends SavableToService implements Serializable{
 	
 	//List of fulfillments attached to this task;
 	private ArrayList<Fulfillment> submissions;
+	
+	//Parcelable Constructor 
+	//code from techdroid.kbeanie.com/2010/06/parcelable-how-to-do-that-in-android.html 
+	public Task(Parcel in){
+	    readFromParcel(in);
+	}
+	
+	private void readFromParcel(Parcel in){
+	       taskName = in.readString();
+	       taskDescription = in.readString();
+	       flags = in.readByte();
+	       userDeviceId = in.readString();
+	       submissions = new ArrayList<Fulfillment>();
+	       in.readList(submissions,null);
+	}
+/*	@Override
+	public void writeToParcel(Parcel out, int arg){
+	    out.writeString(taskName);
+	    out.writeString(taskDescription);
+	    out.writeByte(flags);
+	    out.writeString(userDeviceId);
+	    out.writeList(submissions);
+    	}
+
+	@Override
+	public int describeContents(){
+	    return 0;
+	}
+*/	
+	public static final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>(){
+	    public Task createFromParcel(Parcel in){
+	        return new Task(in);
+	    }
+	    public Task[] newArray(int size){
+	        return new Task[size];
+	    }
+	};
 	
 	//Create task and set fields
 	Task(String ownerId, String name, String desc, boolean wantText, boolean wantPhoto, boolean wantAudio, boolean isPublic){

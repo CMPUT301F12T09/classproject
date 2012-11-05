@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -54,9 +56,42 @@ public class MainScreen extends Activity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
+        AdapterView.AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+        
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
+        
         inflater.inflate(R.menu.activity_main_screen, menu);
+    }
+    
+    //Context menu listener code from http://developer.android.com/guide/topics/ui/menus.html
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        Intent intent;
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        switch(item.getItemId()){
+            case R.id.menu_fulfill:
+                intent = new Intent(this,FulfillTask.class);
+                startActivity(intent);
+                return true;
+            case R.id.menu_public:
+                //Make task public
+                return true;
+            case R.id.menu_edit:
+                intent = new Intent(this,EditTask.class);
+                startActivity(intent);
+                return true;
+            case R.id.menu_view:
+                intent = new Intent(this,ViewTask.class);
+                startActivity(intent);
+                return true;
+            case R.id.menu_close:
+                //close the task
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+                
+        }
     }
     
     @Override
@@ -82,14 +117,8 @@ public class MainScreen extends Activity {
     	tasks.setAdapter(adapter);
     	
     }
-    
-    public void createTask(View view)
-    {
-    	Intent intent = new Intent(this, CreateTask.class);
-    	startActivity(intent);
-    }
-    
-    public void goToCreateTask(View v){
+      
+    public void goToCreateTask(View view){
         Intent intent = new Intent(MainScreen.this, CreateTask.class);
         startActivity(intent);
     }

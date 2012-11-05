@@ -50,9 +50,14 @@ public class MainScreen extends Activity {
         updateData.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 setResult(RESULT_OK);
-                updateData(v);
+                updateData();
             }
         });
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateData();
     }
 
     @Override
@@ -119,7 +124,7 @@ public class MainScreen extends Activity {
         return super.onOptionsItemSelected(item);
     }
     
-    public void updateData(View view){
+    public void updateData(){
     	TaskList = tManager.getTaskList();
     	adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
     	tasks.setAdapter(adapter);

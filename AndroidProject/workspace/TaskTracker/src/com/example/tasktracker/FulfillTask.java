@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class FulfillTask extends Activity {
     
-    private TextView nameView;
+    private TextView nameView, descView, responseView, scopeView;
     public Task curTask;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -19,9 +19,21 @@ public class FulfillTask extends Activity {
         
         //Bundle data = getIntent().getExtras();
         //curTask = data.getParcelable("task");
-        //nameView.setText("Task Name: "+curTask.getTaskName());
         
         
+        curTask = (Task) getIntent().getSerializableExtra("task");
+        
+        nameView = (TextView) findViewById(R.id.text_fulfill_name);
+        nameView.setText("Task Name: "+curTask.getTaskName());
+        
+        descView = (TextView) findViewById(R.id.text_fulfill_taskdesc);
+        descView.setText("Description: "+curTask.getTaskDescription());
+             
+        responseView = (TextView) findViewById(R.id.text_fulfill_desired);
+        responseView.setText("Desired Responses: "+buildResponses(curTask));
+        
+        scopeView = (TextView) findViewById(R.id.text_fulfill_scope);
+        scopeView.setText("Task Scope: "+buildScope(curTask));
         
         Button takePhoto = (Button) findViewById(R.id.button_fulfill_takePhoto);
         Button photoMem = (Button) findViewById(R.id.button_fulfill_photoMem);
@@ -123,5 +135,29 @@ public class FulfillTask extends Activity {
     	//Ask for confirmation
     	//Send fulfillment to task manager
     	finish();
+    }
+    
+    private String buildResponses(Task t){
+        String ret = "";
+        if (t.getWantText()){
+            ret = ret + "Text ";
+        }
+        if(t.getWantPhoto()){
+            ret = ret + "Photo ";
+        }
+        if(t.getWantAudio()){
+            ret = ret + "Audio";
+        }
+        return ret;
+    }
+    private String buildScope(Task t){
+        String ret ="";
+        if(t.getIsPublic()){
+            ret = "Public";
+        }
+        else{
+            ret = "Private";
+        }
+        return ret;
     }
 }

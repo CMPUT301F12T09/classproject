@@ -151,8 +151,7 @@ public class TaskManager{
 	
 	public ArrayList<Task> getTaskList(){
 		//get a fresh copy of the TaskList
-	        sManager.requestUpdate(this);
-		this.TaskList.addAll(dbManager.loadTasks());
+	        this.TaskList = dbManager.loadTasks();
 		
 		return TaskList;
 	}	

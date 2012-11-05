@@ -3,6 +3,7 @@ package com.example.tasktracker;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -435,12 +436,48 @@ public class ServiceManager
 		{
 			saveToService(currentTasks.get(i));
 		}
+		//gets all data from webservice and sends tokens to be decoded into tasks, fulfillments, images and audio
+		try
+		{
+		        String jsonStringVersion = new String();
+		        List <BasicNameValuePair> nvps = new ArrayList <BasicNameValuePair>();
+		        nvps.add(new BasicNameValuePair("action", "list"));
 		
-		//connect to service
-		//read in database
-		//parse database
-		//create tasks/fulfillments/images/audio
+		        httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+		        HttpResponse response = httpclient.execute(httpPost);
 		
+		    String status = response.getStatusLine().toString();
+		    HttpEntity entity = response.getEntity();
+
+		    System.out.println(status);
+		    
+		    if (entity != null) {
+		        InputStream is = entity.getContent();
+		        jsonStringVersion = convertStreamToString(is);
+		    }
+		    
+		    StringTokenizer st = new StringTokenizer(jsonStringVersion);
+		    while(st.hasMoreTokens()){
+		        if (st.nextToken() == "TASK"){
+		            tasks.add(Task.buildFromString(st.nextToken()));
+		        }
+		        else if (st.nextToken() == "FULFILLMENT"){
+		            fulfillments.add(Fulfillment.buildFromString(st.nextToken()));
+		        }
+		        else if (st.nextToken() == "AUDIO"){
+		            audios.add(AudioFile.buildFromString(st.nextToken()));
+		        }
+		        else if (st.nextToken() == "IMAGE"){
+		            images.add(ImageFile.buildFromString(st.nextToken()));
+		        }
+		        st.nextToken();
+		    }
+		    
+		    entity.consumeContent();
+		}
+		catch (Exception e){
+		        e.printStackTrace();
+		}
 		//Add all image files to the fulfillments that own them
 		for(int i = 0; i < images.size(); i++)
 		{

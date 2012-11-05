@@ -1,4 +1,3 @@
-
 /**
 *	Copyright 2012 Zak Turchansky, Evan Fauser, Gordon Lancop, Seth Davis
 *	
@@ -100,7 +99,7 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	 * @param isPublic
 	 */
 	//Create task and set fields
-	Task(String ownerId, String name, String desc, boolean wantText, boolean wantPhoto, boolean wantAudio, boolean isPublic){
+	public Task(String ownerId, String name, String desc, boolean wantText, boolean wantPhoto, boolean wantAudio, boolean isPublic){
 		this.taskName = name;
 		this.taskDescription = desc;
 		this.setWantText(wantText);

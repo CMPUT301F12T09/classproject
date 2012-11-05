@@ -14,7 +14,7 @@ public class AudioFile extends SavableToService
 		String ret;
 		//body = String.format("", audio);
 		
-		ret = String.format("%s %s %s %s", id, belongsTo, "FULFILLMENT", body);
+		ret = String.format("%s %s %s %s", id, belongsTo, "AUDIO", body);
 		return ret;
 	}
 	

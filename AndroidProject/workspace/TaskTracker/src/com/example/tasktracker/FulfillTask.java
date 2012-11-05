@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -25,14 +26,11 @@ public class FulfillTask extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fulfill_task);
         
-        //Bundle data = getIntent().getExtras();
-        //curTask = data.getParcelable("task");
-        
-        
+        Bundle data = getIntent().getExtras();
+        //curTask =(Task) data.getParcelable("task");
         curTask = (Task) getIntent().getSerializableExtra("task");
         photos = (ArrayList<ImageFile>) getIntent().getSerializableExtra("images");
-        Bundle bundle = getIntent().getExtras();
-        index = bundle.getInt("index");
+        index = data.getInt("index");
         
         nameView = (TextView) findViewById(R.id.text_fulfill_name);
         nameView.setText("Task Name: "+curTask.getTaskName());

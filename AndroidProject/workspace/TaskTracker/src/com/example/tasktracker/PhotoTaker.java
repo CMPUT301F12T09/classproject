@@ -25,6 +25,9 @@ public class PhotoTaker extends Activity //implements SurfaceHolder.Callback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_taker);
         
+        Bundle data = getIntent().getExtras();
+        //curTask =(Task) data.getParcelable("task");
+
         curTask = (Task) getIntent().getSerializableExtra("task");
         photos = (ArrayList<ImageFile>) getIntent().getSerializableExtra("images");
 

@@ -14,7 +14,7 @@ public class ImageFile extends SavableToService
 		String ret;
 		//body = String.format("", image);
 		
-		ret = String.format("%s %s %s %s", id, belongsTo, "FULFILLMENT", body);
+		ret = String.format("%s %s %s %s", id, belongsTo, "IMAGE", body);
 		return ret;
 	}
 	

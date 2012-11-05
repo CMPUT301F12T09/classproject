@@ -4,6 +4,21 @@ import java.io.*;
 import java.security.acl.Owner;
 import java.util.*;
 
+/**
+ * This class acts as an object blueprint for a submission of
+ * requirements to the task author.
+ * <ul compact>
+ * <li>Photo</li>
+ * <li>Text</li>
+ * <li>Audio</li>
+ * <li>UserdeviceId, a unique id for each android device 
+ * designed to track who is the author of a task </ul>
+ * This class is SaveableToService which means it can be encoded/decoded
+ * via String to the webservice.  
+ * @author zturchan
+ *
+ */
+
 
 public class Fulfillment extends SavableToService implements Serializable{
 	
@@ -83,6 +98,9 @@ public class Fulfillment extends SavableToService implements Serializable{
 		audioFiles.add(toAdd);
 	}
 	
+	/**
+	 * Encodes the submission as a string for storage on webservice
+	 */
 	@Override
 	public String toString() { 
 		String contents = "";
@@ -103,6 +121,9 @@ public class Fulfillment extends SavableToService implements Serializable{
         return task;
 	}
 	
+	/**
+	 * Saves the fulfillment as a string for future loading
+	 */
 	//Called by the service manager to get the string to be sent to the service
 	public String saveToString()
 	{
@@ -113,7 +134,11 @@ public class Fulfillment extends SavableToService implements Serializable{
 		ret = String.format("%s %s %s %s", id, belongsTo, "FULFILLMENT", body);
 		return ret;
 	}
-	
+	/**
+	 * Recreates a fulfillment from a string in storage
+	 * @param data
+	 * @return
+	 */
 	//Called by the service manager when building the objects pulled from the server
 	public static Fulfillment buildFromString(String data)
 	{

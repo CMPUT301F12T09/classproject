@@ -18,7 +18,24 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-
+/**
+ * This is the main screen of the app.  It contains a scrollable
+ * list of tasks that are visible to the user, as well as buttons to create
+ * a new task, and to update the task data using the webservice.
+ * 
+ * The user can long-click on an element in the task ListView to call
+ * up a contextMenu where they can perform actions pertaining to the task.
+ * <ul compact>
+ * <li>Fulfill Task</li>
+ * <li>View Task</li>
+ * <li>Edit Task (Author only)</li>
+ * <li>Close Task (Author only)</li>
+ * <li>Make task public (Author only)</li>
+ * </ul>
+ * 
+ * @author zturchan
+ *
+ */
 public class MainScreen extends Activity {
 
     private ListView tasks;
@@ -27,6 +44,12 @@ public class MainScreen extends Activity {
     private TaskManager tManager;
     
     @Override
+    /**
+     * Initialize UI elements and then connect appropriate listeners.
+     * Get the list of tasks from the TaskManager.
+     * Also register the elements of the ListView to trigger a ContextMenu
+     * on long-click.  
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
@@ -60,6 +83,9 @@ public class MainScreen extends Activity {
         updateData();
     }
 
+    /**
+     * Inflate the context menu found in activity_main_screen.xml
+     */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -69,6 +95,12 @@ public class MainScreen extends Activity {
     
     //Context menu listener code from http://developer.android.com/guide/topics/ui/menus.html
     //and http://mobile.dzone.com/news/context-menu-android-tutorial
+    /**
+     * When an option from the ContextMenu of a given task is selected,
+     * create the appropriate activity and pass it the appropriate
+     * task and index via intent.  Currently only implemented for fulfill.
+     * Will also need to check if user = author for certain options (see MainScreen header).
+     */
     @Override
     public boolean onContextItemSelected(MenuItem item){
         Intent intent;
@@ -123,14 +155,21 @@ public class MainScreen extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-    
+    /**
+     * Send a request to the webservice to update the local database manager
+     * with any new tasks or edits that have been made since last update, 
+     * provided they are public
+     */
     public void updateData(){
     	TaskList = tManager.getTaskList();
     	adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
     	tasks.setAdapter(adapter);
     	
     }
-      
+    /**
+     * Initiate the activity for teh user to create a new task.  
+     * @param view
+     */
     public void goToCreateTask(View view){
         Intent intent = new Intent(MainScreen.this, CreateTask.class);
         startActivity(intent);

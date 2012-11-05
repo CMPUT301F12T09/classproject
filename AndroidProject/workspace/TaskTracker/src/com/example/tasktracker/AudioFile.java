@@ -1,7 +1,16 @@
 package com.example.tasktracker;
 
 import java.io.File;
-
+/**
+ * This class acts as a wrapper for an audio file that can either be 
+ * recorded and submitted on the fly or read in from storage.
+ * 
+ * <p>This class extends SavableToService which means it has the necessary
+ * functionality to be saved (encoded/decoded via String) to the webservice.</p>
+ * 
+ * @author zturchan
+ *
+ */
 
 public class AudioFile extends SavableToService
 {

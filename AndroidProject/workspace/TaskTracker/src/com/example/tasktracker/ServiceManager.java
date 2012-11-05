@@ -18,7 +18,18 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import com.google.gson.Gson;
-
+/**
+ * This class acts as a manager that interfaces with the webservice 
+ * for remote storage and sharing of tasks.  It is accessed via a getInstance()
+ * method and can save Tasks, Fulfillments, ImageFiles and AudioFiles to 
+ * the webservice, as well as delete them.
+ * 
+ * This class also can update the taskmanager with new and updated
+ * tasks from the webservice
+ * 
+ * @author zturchan
+ *
+ */
 public class ServiceManager
 {
 	//We need to keep a pool for all objects as we don't know who they belong to until after we build them all.
@@ -58,7 +69,10 @@ public class ServiceManager
 	// Will require a connection to the internet in order to properly delete.
 	// Unless we come up with a storage system for pseudo deleted objects.
 	//====================================================================================================================================================
-	
+	/**
+	 * Save a task to the webservice
+	 * @param toSend
+	 */
 	public void saveToService(Task toSend)
 	{
 		try
@@ -141,7 +155,10 @@ public class ServiceManager
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Save a fulfillment to the webservice
+	 * @param toSend
+	 */
 	public void saveToService(Fulfillment toSend)
 	{
 		try
@@ -199,7 +216,10 @@ public class ServiceManager
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Save an image to the service
+	 * @param toSend
+	 */
 	public void saveToService(ImageFile toSend)
 	{
 		try
@@ -243,7 +263,10 @@ public class ServiceManager
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Save an audio file to the webservice
+	 * @param toSend
+	 */
 	public void saveToService(AudioFile toSend)
 	{
 		try
@@ -293,7 +316,10 @@ public class ServiceManager
 	// Will require a connection to the internet in order to properly delete.
 	// Unless we come up with a storage system for pseudo deleted objects.
 	//====================================================================================================================================================
-	
+	/**
+	 * remove a task from the webservice
+	 * @param toRemove
+	 */
 	public void removeFromService(Task toRemove)
 	{
 		if(toRemove.id == "")
@@ -328,7 +354,10 @@ public class ServiceManager
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * remove a fulfillment from the service
+	 * @param toRemove
+	 */
 	public void removeFromService(Fulfillment toRemove)
 	{
 		if(toRemove.id == "")
@@ -369,7 +398,10 @@ public class ServiceManager
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * remove an image from the webservice
+	 * @param toRemove
+	 */
 	public void removeFromService(ImageFile toRemove)
 	{
 		if(toRemove.id == "")
@@ -398,7 +430,10 @@ public class ServiceManager
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * remove an audio file from the service
+	 * @param toRemove
+	 */
 	public void removeFromService(AudioFile toRemove)
 	{
 		if(toRemove.id == "")
@@ -427,7 +462,10 @@ public class ServiceManager
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Update the taskmanager with new data from the webservice
+	 * @param requester
+	 */
 	public void requestUpdate(TaskManager requester)
 	{
 		//Save all current data out to the service

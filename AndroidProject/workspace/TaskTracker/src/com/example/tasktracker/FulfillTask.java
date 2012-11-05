@@ -11,9 +11,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+/**
+ * This class is an activity which allows the user to perform the actions
+ *  requested by a task author.  
+ * <ul compact>
+ * <li>Text Response</li>
+ * <li>Photo (from memory or on the fly)</li>
+ * <li>Audio (from memory or on the fly)</li>
+ * </ul>
+ * @author zturchan
+ *
+ */
 public class FulfillTask extends Activity {
     
+    private final static int PIC_REQUEST = 1;
     private TextView nameView, descView, responseView, scopeView;
     private ArrayList<ImageFile> photos;
     private ArrayList<AudioFile> audio;
@@ -21,6 +32,12 @@ public class FulfillTask extends Activity {
     private Task curTask;
     private EditText textResponse;
     
+    /**
+     * When the activity is created, initialize appropriate UI components
+     * and connect the appropriate listeners.  We also set the text of the 
+     * information TextViews to reflect that information entered by the 
+     * author to describe the task (name, description, responses, scope)
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +123,12 @@ public class FulfillTask extends Activity {
         return true;
     }
     
+    /**
+     * When the user clicks on the "Take Photo" Button, initiate the photo
+     * taker activity and pass it the task we're working on and the arrayList
+     * of photos we are working with
+     * @param view
+     */
     public void takePhoto(View view)
     {
     	Intent intent = new Intent(FulfillTask.this, PhotoTaker.class);
@@ -113,7 +136,12 @@ public class FulfillTask extends Activity {
         intent.putExtra("images", photos);
     	startActivityForResult(intent,1); 
     }
-    
+    /**
+     * When implemented, when the user clicks on the "Record Audio" button
+     * they will see a new activity which will let them record using the
+     * android device's microphone. 
+     * @param view
+     */
     public void recordAudio(View view)
     {
     	Intent intent = new Intent(FulfillTask.this, AudioRecorder.class);
@@ -121,7 +149,11 @@ public class FulfillTask extends Activity {
     	//get returned audio
     	//if not null add to fulfillment
     }
-    
+    /**
+     * When implemented, will allow the user to select a photo from the phone's
+     * storage for use in a fulfillment
+     * @param view
+     */
     public void findPhoto(View view)
     {
     	Intent intent = new Intent(FulfillTask.this, MemoryCheck.class);
@@ -130,7 +162,11 @@ public class FulfillTask extends Activity {
     	//get returned photo
     	//if not null add to fulfillment
     }
-    
+    /**
+     * When implemented, will allow the user to select an audio file
+     * from the phone's storage for use in a fulfillment
+     * @param view
+     */
     public void findAudio(View view)
     {
     	Intent intent = new Intent(FulfillTask.this, MemoryCheck.class);
@@ -145,6 +181,14 @@ public class FulfillTask extends Activity {
     	finish();
     }
     
+    /**
+     * When the user has fulfilled the requirements of the task (perhaps more)
+     * the system will check to see that the submission is acceptable.  The
+     * validity check is to be implemented, but assuming the fulfillment is
+     * valid this method will create a new fulfillment object and attach it 
+     * to the correct task via the taskmanager
+     * @param view
+     */
     public void saveFulfill(View view)
     {
     	//Ask for confirmation
@@ -153,8 +197,15 @@ public class FulfillTask extends Activity {
         manage.addSubmission(index, textResponse.getText().toString(),photos,audio);
        	finish();
     }
+    /**
+     * This method is called when the activity we called with a result request 
+     * returns to us.  Currently it only checks for picture request, but 
+     * will also check for audio requests when that is implemented.
+     * The result is simply updating the array of files to hold whatever 
+     * new ones we got from the activity.  
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(requestCode == 1) {
+        if(requestCode == PIC_REQUEST) {
             if(resultCode == RESULT_OK){
                 curTask=(Task)data.getSerializableExtra("task");
                 photos=(ArrayList<ImageFile>)data.getSerializableExtra("images");

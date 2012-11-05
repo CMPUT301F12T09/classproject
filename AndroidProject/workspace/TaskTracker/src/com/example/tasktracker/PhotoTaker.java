@@ -12,7 +12,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-
+/**
+ * This class handles the taking of photos on-the-fly for task
+ * fulfillment submissions.  The user may take as many photos as they
+ * want in sequence, and after each one that the user deems satisfactory
+ * they may tap "Use Photo" to add it to the list of submitted photos
+ * for the current Task Fulfillment.  The user may submit as many
+ * pictures as they want, and only needs to tap "Done" when they have 
+ * finished. 
+ * @author zturchan
+ *
+ */
 //Some camera code taken from http://mobile.tutsplus.com/tutorials/android/android-sdk-quick-tip-launching-the-camera/
 public class PhotoTaker extends Activity //implements SurfaceHolder.Callback
 {
@@ -21,6 +31,11 @@ public class PhotoTaker extends Activity //implements SurfaceHolder.Callback
     private final static int CAMERA_PIC_REQUEST = 4444;
     private ArrayList<ImageFile> photos;
     @Override
+    /**
+     * Create all UI elements and connect the appropriate listeners.
+     * Also get the current set of photos so that we will add to them
+     * for the current fulfillment.
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_taker);
@@ -62,7 +77,11 @@ public class PhotoTaker extends Activity //implements SurfaceHolder.Callback
         getMenuInflater().inflate(R.menu.activity_photo_taker, menu);
         return true;
     }
-        
+    /**
+     * Call the android photo app so that the user can take a photo. 
+     * Result will be returned as a Bitmap.
+     * @param view
+     */
     public void takePhoto (View view){
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         try{
@@ -72,7 +91,11 @@ public class PhotoTaker extends Activity //implements SurfaceHolder.Callback
             
         }
     }
-    
+    /**
+     * When the requested activity (camera capture) returns, we store it 
+     * as a bitmap and set the imageview so the user can see the picture
+     * they have just taken and choose whetehr or not to use it. 
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {  
         try{
         if (requestCode == CAMERA_PIC_REQUEST) {  
@@ -84,12 +107,23 @@ public class PhotoTaker extends Activity //implements SurfaceHolder.Callback
             
         }
     }
+    /**
+     * Add the current photo to the list that will 
+     * eventually be passed to the new fulfillment
+     * Also display a confirmation message
+     * @param view
+     */
     public void usePhoto(View view){
         photos.add(new ImageFile(thumbnail));
         Toast toast = Toast.makeText(this, "Image saved", 5);
         toast.show();
     }
     
+    /**
+     * When the user has taken enough photos, return and package 
+     * in the task and the image list.
+     * @param view
+     */
     public void donePhoto(View view)
     {
         Intent returnIntent = new Intent(PhotoTaker.this,FulfillTask.class);

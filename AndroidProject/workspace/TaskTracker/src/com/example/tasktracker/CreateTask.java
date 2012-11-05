@@ -8,7 +8,24 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
-
+/**
+ * This class is an activity where the suer will enter relevant information
+ * for creating a new class.
+ * <ul compact>
+ * <li>Task Name</li>
+ * <li>Task Description</li>
+ * <li>Task Requirements: Audio, Photo, Text</li>
+ * <li>Task Scope: Public/Private</li>
+ * </ul>
+ * 
+ * This class contains 2 buttons to exit it.
+ * Cancel will ignore any data entered by the user and return to the
+ * main menu, while Save/confirm will commit the changes to local storage 
+ * (and webservice if the user specifies public)
+ * 
+ *  * @author zturchan
+ *
+ */
 public class CreateTask extends Activity {
 
     private EditText editName;
@@ -25,6 +42,10 @@ public class CreateTask extends Activity {
     private RadioButton radioPublic;
     private RadioButton radioPrivate;
     @Override
+    /**
+     * Initialize all the UI elements for creating a new task and connect
+     * the appropriate listeners.
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
@@ -66,7 +87,16 @@ public class CreateTask extends Activity {
         getMenuInflater().inflate(R.menu.activity_create_task, menu);
         return true;
     }
-    
+    /**
+     * When the user is satisfied with their new task, they will click the 
+     * Save button and confirm their new task entry.  This method will get the
+     * values of the EditText fields and call the instance of the Taskmanager to
+     * create a new task with given input.  
+     * 
+     * When task creation is finished this activity finishes and returns to 
+     * the main screen
+     * @param view
+     */
     public void confirmTask(View view)
     {
         String name = editName.getText().toString();
@@ -77,7 +107,16 @@ public class CreateTask extends Activity {
         
     	finish();
     }
-    //Checkbox handler taken from http://developer.android.com/guide/topics/ui/controls/checkbox.html
+    
+    /**
+     * Checkbox handler taken from 
+     * http://developer.android.com/guide/topics/ui/controls/checkbox.html
+     * When the user clicks a checkbox to specify requirements for a task,
+     * set the appropriate boolean value for photo, audio and text
+     * requirements, which will be passed when the task object is 
+     * created via the TaskManager
+     * @param view
+     */
     public void onCheckBoxClicked(View view){
         boolean checked = ((CheckBox) view).isChecked();
         switch(view.getId()){
@@ -103,7 +142,15 @@ public class CreateTask extends Activity {
                 }
         }
     }
-    //RadioButton handler taken from http://developer.android.com/guide/topics/ui/controls/radiobutton.html
+    /**
+     * RadioButton handler taken from 
+     * http://developer.android.com/guide/topics/ui/controls/radiobutton.html
+     * This method is called whenever the suer click on the public/private radio 
+     * buttons.  Clicking a button will select it and deselect the other if 
+     * appropriate, as well as set a boolean variable ot be passed to the new
+     * Task object when it is created via the TaskManager.
+     * @param view
+     */
     public void onRadioButtonClicked(View view){
         boolean checked = ((RadioButton) view).isChecked();
         switch(view.getId()){
@@ -118,7 +165,7 @@ public class CreateTask extends Activity {
                 }
         }
     }
-    public void cancelTask(View view)
+    private void cancelTask(View view)
     {
     	finish();
     }

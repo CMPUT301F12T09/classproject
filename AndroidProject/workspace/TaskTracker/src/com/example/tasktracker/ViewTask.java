@@ -11,14 +11,29 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
+/**
+ * This class is an activity that allows a user to view a task
+ * before they decide to fulfill it.  If the user wants, they can
+ * access the fulfill activity directly from this view instead of having 
+ * to go via the main screen.
+ * 
+ * This class displays task name, description, scope, and requirements to the user
+ * 
+ * @author zturchan
+ *
+ */
 public class ViewTask extends Activity {
 
-	private ListView submissions;
+    private ListView submissions;
     private ArrayAdapter<Fulfillment> adapter;
     private ArrayList<Fulfillment> FulfillmentList;
     private Task task;
 	
+    /**
+     * Initialize appropriate UI components and connect listeners
+     * Also update text on screen with values from the task object 
+     * accessed via the Task Manager.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,13 +98,19 @@ public class ViewTask extends Activity {
         getMenuInflater().inflate(R.menu.activity_view_task, menu);
         return true;
     }
-    
+    /**
+     * access the fulfill activity as a shortcut
+     * @param view
+     */
     public void goToFulfill(View view){
     	Intent intent = new Intent(this,FulfillTask.class);
         intent.putExtra("task",task);
         startActivity(intent);
     }
-    
+    /**
+     * return to the main menu
+     * @param view
+     */
     public void returnToMain(View view){
     	finish();
     }

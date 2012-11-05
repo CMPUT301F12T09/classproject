@@ -4,7 +4,14 @@ import java.io.File;
 import java.util.ArrayList;
 import android.provider.Settings.Secure;
 import android.content.Context;
-
+/**
+ * This class manages all the tasks that the system needs to deal with
+ * both those stored locally and on the webservice.  This manager is 
+ * accessed via a getInstance() method from various points in the program 
+ * wherever tasks must be interacted with. 
+ * @author zturchan
+ *
+ */
 
 public class TaskManager{
 		
@@ -41,7 +48,8 @@ public class TaskManager{
 		
 		return ret;
 	}
-	//update name of task at index
+	/**update name of task at index
+	*/
 	public void updateName(int index, String name){
 		TaskList.get(index).setTaskName(name);
 		
@@ -54,7 +62,7 @@ public class TaskManager{
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
 	}
-	//update description of task at index
+	/**update description of task at index*/
 	public void updateDesc(int index, String desc){
 		TaskList.get(index).setTaskDescription(desc);
 		
@@ -65,7 +73,13 @@ public class TaskManager{
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
 	}
-	
+	/**
+	 * Update the requirements of a task (photo/audio/text)
+	 * @param index
+	 * @param text
+	 * @param photo
+	 * @param audio
+	 */
 	public void updateRequirements(int index, boolean text, boolean photo, boolean audio){
 		TaskList.get(index).setWantText(text);
 		TaskList.get(index).setWantPhoto(photo);
@@ -78,7 +92,11 @@ public class TaskManager{
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
 	}
-	
+	/**
+	 * Update whether or not the task is still accepting new fulfillments
+	 * @param index
+	 * @param open
+	 */
 	public void updateOpen(int index, boolean open){
 		TaskList.get(index).setIsOpen(open);
 		
@@ -89,7 +107,11 @@ public class TaskManager{
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
 	}
-	
+	/**
+	 * Update whether or not other users can see the task
+	 * @param index
+	 * @param pub
+	 */
 	public void updatePublic(int index, boolean pub){
 		TaskList.get(index).setIsPublic(pub);
 		
@@ -100,7 +122,15 @@ public class TaskManager{
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
 	}
-	
+	/**
+	 * Create a new task and add it to the master list.
+	 * @param name
+	 * @param desc
+	 * @param wantText
+	 * @param wantPhoto
+	 * @param wantAudio
+	 * @param isPublic
+	 */
 	public void createTask(String name, String desc, boolean wantText, boolean wantPhoto, boolean wantAudio, boolean isPublic){
 		Task newTask = new Task(userId, name, desc, wantText, wantPhoto, wantAudio, isPublic);
 		TaskList.add(newTask);
@@ -112,7 +142,10 @@ public class TaskManager{
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
 	}
-	
+	/**
+	 * Delete a task from the master list
+	 * @param index
+	 */
 	public void deleteTask(int index){
 		//find task to delete so we can check the public flag
 		Task toRemove = TaskList.get(index);
@@ -125,7 +158,13 @@ public class TaskManager{
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
 	}
-	
+	/**
+	 * Add a fulfillment to a given task
+	 * @param index
+	 * @param text
+	 * @param images
+	 * @param audio
+	 */
 	public void addSubmission(int index, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
 		TaskList.get(index).addSubmission(userId, text, images, audio);
 		//If public update via service manager
@@ -136,7 +175,11 @@ public class TaskManager{
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
 	}
-	
+	/**
+	 * Remove an unwanted fulfillment from a task
+	 * @param taskIndex
+	 * @param subIndex
+	 */
 	public void removeSubmission(int taskIndex, int subIndex){
 	        ArrayList<Fulfillment> sub = TaskList.get(taskIndex).getSubmissions();
 	        Fulfillment ful = sub.get(subIndex);
@@ -148,7 +191,7 @@ public class TaskManager{
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
 	}
-	
+		
 	public ArrayList<Task> getTaskList(){
 		//get a fresh copy of the TaskList
 	        this.TaskList = dbManager.loadTasks();

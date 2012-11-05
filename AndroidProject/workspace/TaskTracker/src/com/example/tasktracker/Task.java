@@ -6,7 +6,13 @@ import java.util.ArrayList;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
+/**
+ * This task represents a task that can be created, fulfilled, 
+ * edited and viewed.  Tasks are savableToService so they can be stored to the
+ * webservice via the ServiceManager
+ * @author zturchan
+ *
+ */
 
 
 public class Task extends SavableToService implements Serializable//, Parcelable.
@@ -66,7 +72,16 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	        return new Task[size];
 	    }
 	};
-	
+	/**
+	 * Constructor for a task given all the appropriate info as provided by the user
+	 * @param ownerId
+	 * @param name
+	 * @param desc
+	 * @param wantText
+	 * @param wantPhoto
+	 * @param wantAudio
+	 * @param isPublic
+	 */
 	//Create task and set fields
 	Task(String ownerId, String name, String desc, boolean wantText, boolean wantPhoto, boolean wantAudio, boolean isPublic){
 		this.taskName = name;
@@ -79,13 +94,22 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		this.userDeviceId = ownerId;
 		this.submissions = new ArrayList<Fulfillment>();
 	}
-	
+	/**
+	 * Add a new fulfillment from a given user to the task
+	 * @param ownerId
+	 * @param text
+	 * @param images
+	 * @param audio
+	 */
 	//add a new fulfillment to the submissions list
 	public void addSubmission(String ownerId, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
 		Fulfillment ful = new Fulfillment(ownerId, text,images, audio);
 		this.submissions.add(ful);
 	}
-	
+	/**
+	 * Remove a fulfillment from the list of existing reponses
+	 * @param index
+	 */
 	//remove a fulfillment from the submissions list
 	public void removeSubmission(int index){
 		this.submissions.remove(index);
@@ -205,7 +229,9 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	{
 		submissions.add(toAdd);
 	}
-	
+	/**
+	 * Encodes the task itself as a string for storage and loading
+	 */
 	@Override
 	public String toString() {  
 		String scope;
@@ -230,7 +256,9 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 										scope, requirements);
         return task;
 	}
-	
+	/**
+	 * Save the task itself as a String (called by Service Manager)
+	 */
 	//Called by the service manager to get the string to be sent to the service
 	public String saveToString()
 	{
@@ -243,6 +271,11 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	}
 	
 	//Called by the service manager when building the objects pulled from the server
+	/**
+	 * Build a new task from an encoded string (called by service manager)
+	 * @param data
+	 * @return
+	 */
 	public static Task buildFromString(String data)
 	{
 		//parse the string and get the required data

@@ -4,7 +4,16 @@ import java.io.File;
 
 import android.graphics.Bitmap;
 
-
+/**
+ * This class acts as a wrapper for an image file that can either be 
+ * recorded and submitted on the fly or read in from storage.
+ * 
+ * <p>This class extends SavableToService which means it has the necessary
+ * functionality to be saved (encoded/decoded via String) to the webservice.</p>
+ * 
+ * @author zturchan
+ *
+ */
 public class ImageFile extends SavableToService
 {
 	public File image;

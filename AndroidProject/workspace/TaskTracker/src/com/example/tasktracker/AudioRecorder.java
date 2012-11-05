@@ -4,7 +4,15 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
-
+/**
+ * This class will act as the activity where the user can record audio
+ * on the fly for task submissions.
+ * 
+ * We are currently unsure as to how this will be implemented and it
+ * will be delivered in part 4
+ * @author zturchan
+ *
+ */
 public class AudioRecorder extends Activity {
 
     @Override

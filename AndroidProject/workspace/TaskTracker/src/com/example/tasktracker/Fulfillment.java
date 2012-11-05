@@ -1,4 +1,3 @@
-
 /**
 *	Copyright 2012 Zak Turchansky, Evan Fauser, Gordon Lancop, Seth Davis
 *	
@@ -56,7 +55,7 @@ public class Fulfillment extends SavableToService implements Serializable{
 	private ArrayList<AudioFile> audioFiles;
 	
 	//Create new Fulfillment and set fields
-	Fulfillment(String ownerId, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
+	public Fulfillment(String ownerId, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
 		this.userDeviceId = ownerId;
 		this.textInput = text;
 		this.dateAdded = new Date();

@@ -88,7 +88,8 @@ public class MainScreen extends Activity {
                 startActivity(intent);
                 return true;
             case R.id.menu_view:
-                intent = new Intent(this,ViewTask.class);
+            	intent = new Intent(this,ViewTask.class);
+                intent.putExtra("Task", TaskList.get((int)info.id));
                 startActivity(intent);
                 return true;
             case R.id.menu_close:

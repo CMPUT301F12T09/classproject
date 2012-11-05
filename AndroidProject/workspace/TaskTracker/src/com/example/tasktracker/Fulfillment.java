@@ -83,6 +83,26 @@ public class Fulfillment extends SavableToService implements Serializable{
 		audioFiles.add(toAdd);
 	}
 	
+	@Override
+	public String toString() { 
+		String contents = "";
+		int pictures = imageFiles.size();
+		int sounds = audioFiles.size();
+		if (this.textInput != null){
+			contents += "Text";
+		}
+		if (pictures > 0){
+			contents += String.format("%d Photo", pictures);
+		}
+		if (sounds > 0){
+			contents += String.format("%d Audio", sounds);
+		}
+		
+		String task = String.format("User Id: %s\nDate: %d %d %d\nContents: %s \n",
+									  this.userDeviceId, this.dateAdded.getMonth(), this.dateAdded.getDate(), this.dateAdded.getYear(), contents);
+        return task;
+	}
+	
 	//Called by the service manager to get the string to be sent to the service
 	public String saveToString()
 	{

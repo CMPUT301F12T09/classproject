@@ -209,33 +209,25 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	@Override
 	public String toString() {  
 		String scope;
-		String text;
-		String audio;
-		String photo;
+		String requirements = "";
 		if(this.getIsPublic()){
 			scope = "public";
 		}else{
 			scope = "private";
 		}
 		if(this.getWantText()){
-			text = "Text";
-		}else{
-			text = "";
-		}
-		if(this.getWantAudio()){
-			audio = "Audio";
-		}else{
-			audio = "";
+			requirements += "Text";
 		}
 		if(this.getWantPhoto()){
-			photo = "Photo";
-		}else{
-			photo = "";
+			requirements += " Photo";
+		}else
+		if(this.getWantAudio()){
+			requirements += " Audio";
 		}
 		
 		String task = String.format("Task Name: %s\nDescription: %s\nScope: %s \n" +
-									 "Required: %s %s %s", this.taskName, this.taskDescription,
-										scope, text, photo, audio);
+									 "Required: %s", this.taskName, this.taskDescription,
+										scope, requirements);
         return task;
 	}
 	

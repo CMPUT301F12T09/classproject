@@ -1,3 +1,17 @@
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+	
+	<SurfaceView 
+	    android:id="@+id/surface_camera"
+		android:layout_width="fill_parent" 
+		android:layout_height="10dip"
+		android:layout_weight="1">
+	</SurfaceView>
+</LinearLayout>
+
+<!--  
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -5,6 +19,7 @@
     android:orientation="vertical" >
 
     <ImageButton
+        android:id="@+id/takePhoto"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="0.38"
@@ -25,3 +40,4 @@
         android:text="@string/button_photo_use" />
 
 </LinearLayout>
+-->

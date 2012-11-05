@@ -17,6 +17,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainScreen extends Activity {
 
@@ -56,15 +57,13 @@ public class MainScreen extends Activity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
-        AdapterView.AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-        
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        
         inflater.inflate(R.menu.activity_main_screen, menu);
     }
     
     //Context menu listener code from http://developer.android.com/guide/topics/ui/menus.html
+    //and http://mobile.dzone.com/news/context-menu-android-tutorial
     @Override
     public boolean onContextItemSelected(MenuItem item){
         Intent intent;
@@ -73,6 +72,10 @@ public class MainScreen extends Activity {
             case R.id.menu_fulfill:
                 intent = new Intent(this,FulfillTask.class);
                 startActivity(intent);
+                //Ideally this will toast the task name of the selected task, that way
+                //we know if we can access tasks in this manner and therefore do comparisons
+                //of who di what task, and populate fields for editing tasks etc
+                Toast.makeText(this, "selected task "+TaskList.get((int)info.id).getTaskName(),Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_public:
                 //Make task public

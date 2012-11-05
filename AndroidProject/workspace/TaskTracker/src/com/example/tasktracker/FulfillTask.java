@@ -112,7 +112,6 @@ public class FulfillTask extends Activity {
         intent.putExtra("task",curTask);
         intent.putExtra("images", photos);
     	startActivityForResult(intent,1); 
-    	finish();
     }
     
     public void recordAudio(View view)

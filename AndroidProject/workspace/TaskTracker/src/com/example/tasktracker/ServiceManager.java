@@ -436,9 +436,7 @@ public class ServiceManager
 		{
 			saveToService(currentTasks.get(i));
 		}
-		
-		
-		//create fulfillments/images/audio
+		//gets all data from webservice and sends tokens to be decoded into tasks, fulfillments, images and audio
 		try
 		{
 		        String jsonStringVersion = new String();
@@ -462,6 +460,15 @@ public class ServiceManager
 		    while(st.hasMoreTokens()){
 		        if (st.nextToken() == "TASK"){
 		            tasks.add(Task.buildFromString(st.nextToken()));
+		        }
+		        else if (st.nextToken() == "FULFILLMENT"){
+		            fulfillments.add(Fulfillment.buildFromString(st.nextToken()));
+		        }
+		        else if (st.nextToken() == "AUDIO"){
+		            audios.add(AudioFile.buildFromString(st.nextToken()));
+		        }
+		        else if (st.nextToken() == "IMAGE"){
+		            images.add(ImageFile.buildFromString(st.nextToken()));
 		        }
 		        st.nextToken();
 		    }

@@ -31,7 +31,7 @@ import android.graphics.Bitmap;
  * @author zturchan
  *
  */
-public class ImageFile extends SavableToService
+public class ImageFile extends SavableToService 
 {
 	public File image;
 	public Bitmap bitmap;

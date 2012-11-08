@@ -28,12 +28,16 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
+import android.os.AsyncTask;
+
 import com.google.gson.Gson;
 /**
  * This class acts as a manager that interfaces with the webservice 
@@ -50,10 +54,10 @@ import com.google.gson.Gson;
 public class ServiceManager
 {
 	//We need to keep a pool for all objects as we don't know who they belong to until after we build them all.
-	private ArrayList<Task> tasks;
-	private ArrayList<Fulfillment> fulfillments;
-	private ArrayList<ImageFile> images;
-	private ArrayList<AudioFile> audios;
+	private ArrayList<Task> tasks = new ArrayList<Task>();
+	private ArrayList<Fulfillment> fulfillments = new ArrayList<Fulfillment>();
+	private ArrayList<ImageFile> images = new ArrayList<ImageFile>();
+	private ArrayList<AudioFile> audios = new ArrayList<AudioFile>();
 	
 	private static ServiceManager instance = null;
 	
@@ -90,85 +94,132 @@ public class ServiceManager
 	 * Save a task to the webservice
 	 * @param toSend
 	 */
-	public void saveToService(Task toSend)
+	public void saveToService(final Task toSend)
 	{
+		toSend.saveToString();
 		try
 		{
-			if(toSend.id == "")
-			{
-				List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
-				nameValuePairs.add(new BasicNameValuePair("action", "post"));
-				nameValuePairs.add(new BasicNameValuePair("belongsTo", toSend.belongsTo));
-				nameValuePairs.add(new BasicNameValuePair("type", toSend.type));
-				nameValuePairs.add(new BasicNameValuePair("body", toSend.saveToString()));
-				
-				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-				HttpResponse response = httpclient.execute(httpPost);
-			    
-			    String status = response.getStatusLine().toString();
-			    System.out.println(status);
-			    
-			    //Get the updated object with proper id set
-			    
-			    SavableToService tempNew = new SavableToService();
-			    HttpEntity entity = response.getEntity();
-			    
-			    if (entity != null) {
-			        InputStream is = entity.getContent();
-			        String jsonStringVersion = convertStreamToString(is);
-			        Type taskType = SavableToService.class;     
-			        tempNew = gson.fromJson(jsonStringVersion, taskType);
-			    }
-			    entity.consumeContent();
-			    
-			    toSend.id = tempNew.id;
-			    toSend.belongsTo = tempNew.id; //Tasks should belong to themselves, or nothing if that seems weird
-			    
-			    ArrayList<Fulfillment> tempFulfillments = toSend.getSubmissions();
-			    for(int i = 0; i < tempFulfillments.size(); i++)
-			    {
-			    	tempFulfillments.get(i).belongsTo = toSend.id;
-			    	saveToService(tempFulfillments.get(i));
-			    }
+			if(toSend.id==null)
+			{		 
+				System.out.println("Sending new");
+				try
+		    	{							
+					List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+					nameValuePairs.add(new BasicNameValuePair("action", "post"));
+					nameValuePairs.add(new BasicNameValuePair("description", "TASK"));
+					nameValuePairs.add(new BasicNameValuePair("summary", "TASK"));
+					nameValuePairs.add(new BasicNameValuePair("content", gson.toJson(toSend)));
+					
+					httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					HttpResponse response = httpclient.execute(httpPost);
+				    
+				    String status = response.getStatusLine().toString();
+				    System.out.println(status);
+				    
+				    //Get the updated object with proper id set
+				    
+				    SavableToService tempNew = new SavableToService();
+				    HttpEntity entity = response.getEntity();
+					
+				    if (entity != null) {
+				        InputStream is = entity.getContent();
+				        String jsonStringVersion = convertStreamToString(is);
+				        Type taskType = SavableToService.class;     
+				        tempNew = gson.fromJson(jsonStringVersion, taskType);
+				    }
+				    entity.consumeContent();
+					
+				    toSend.id = tempNew.id;
+				    toSend.belongsTo = tempNew.id; //Tasks should belong to themselves, or nothing if that seems weird
+				    
+				    System.out.println("ADDING ID " + tempNew.id);
+					
+				    ArrayList<Fulfillment> tempFulfillments = toSend.getSubmissions();
+				    for(int i = 0; i < tempFulfillments.size(); i++)
+				    {
+						System.out.println(i);
+				    	tempFulfillments.get(i).belongsTo = toSend.id;
+				    	saveToService(tempFulfillments.get(i));
+				    }
+		    	}
+		    	catch(ClientProtocolException e)
+				{
+					System.out.println("ERROR-Protocol");
+					System.out.println(e);
+				}
+				catch(IOException e)
+				{
+					System.out.println("ERROR-IO");
+					System.out.println(e);
+				}
+				catch(Exception e)
+				{
+					System.out.println("ERROR-General");
+					System.out.println(e.getMessage());
+				}
 			}
 			else
-			{
-				List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
-				nameValuePairs.add(new BasicNameValuePair("action", "update"));
-				nameValuePairs.add(new BasicNameValuePair("id", toSend.id));
-				nameValuePairs.add(new BasicNameValuePair("belongsTo", toSend.belongsTo));
-				nameValuePairs.add(new BasicNameValuePair("type", toSend.type));
-				nameValuePairs.add(new BasicNameValuePair("body", toSend.saveToString()));
-				
-				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-				HttpResponse response = httpclient.execute(httpPost);
-			    
-			    String status = response.getStatusLine().toString();
-			    System.out.println(status);
-			    
-			    //Get the updated object with proper id set
-			    
-			    SavableToService tempNew = new SavableToService();
-			    HttpEntity entity = response.getEntity();
-			    
-			    if (entity != null) {
-			        InputStream is = entity.getContent();
-			        String jsonStringVersion = convertStreamToString(is);
-			        Type taskType = SavableToService.class;     
-			        tempNew = gson.fromJson(jsonStringVersion, taskType);
-			    }
-			    entity.consumeContent();
-			    
-				ArrayList<Fulfillment> tempFulfillments = toSend.getSubmissions();
-			    for(int i = 0; i < tempFulfillments.size(); i++)
-			    {
-			    	tempFulfillments.get(i).belongsTo = toSend.id;
-			    	saveToService(tempFulfillments.get(i));
-			    }
+			{		
+				System.out.println("Attempting to update");
+				try
+		    	{							
+					List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+					nameValuePairs.add(new BasicNameValuePair("action", "update"));
+					nameValuePairs.add(new BasicNameValuePair("id", toSend.id));
+					nameValuePairs.add(new BasicNameValuePair("description", "TASK"));
+					nameValuePairs.add(new BasicNameValuePair("summary", "TASK"));
+					nameValuePairs.add(new BasicNameValuePair("content", gson.toJson(toSend)));
+					
+			    	httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			    	HttpResponse response = httpclient.execute(httpPost);
+				    
+				    String status = response.getStatusLine().toString();
+				    System.out.println(status);
+			    	
+			    	//Get the updated object with proper id set
+				    
+				    SavableToService tempNew = new SavableToService();
+				    HttpEntity entity = response.getEntity();
+				    
+				    if (entity != null) {
+				        InputStream is = entity.getContent();
+				        String jsonStringVersion = convertStreamToString(is);
+				        Type taskType = SavableToService.class;     
+				        tempNew = gson.fromJson(jsonStringVersion, taskType);
+				    }
+				    else
+				    {
+				    	System.out.println("Update not found");
+				    }
+				    entity.consumeContent();
+				    
+					ArrayList<Fulfillment> tempFulfillments = toSend.getSubmissions();
+				    for(int i = 0; i < tempFulfillments.size(); i++)
+				    {
+				    	tempFulfillments.get(i).belongsTo = toSend.id;
+				    	saveToService(tempFulfillments.get(i));
+				    }
+		    	}
+		    	catch(ClientProtocolException e)
+				{
+					System.out.println("ERROR-Protocol");
+					System.out.println(e);
+				}
+				catch(IOException e)
+				{
+					System.out.println("ERROR-IO");
+					System.out.println(e);
+				}
+				catch(Exception e)
+				{
+					System.out.println("ERROR-General");
+					System.out.println(e);
+				}
 			}
 		}
 		catch(Exception e)
 		{
+			System.out.println("ERROR-General");
 			e.printStackTrace();
 		}
 	}
@@ -176,17 +227,19 @@ public class ServiceManager
 	 * Save a fulfillment to the webservice
 	 * @param toSend
 	 */
-	public void saveToService(Fulfillment toSend)
+	public void saveToService(final Fulfillment toSend)
 	{
-		try
-		{
-			if(toSend.id == "")
-			{
+		toSend.saveToString();
+
+		if(toSend.id.equals(null))
+		{		    
+			try
+	    	{				
 				List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
 				nameValuePairs.add(new BasicNameValuePair("action", "post"));
-				nameValuePairs.add(new BasicNameValuePair("belongsTo", toSend.belongsTo));
-				nameValuePairs.add(new BasicNameValuePair("type", toSend.type));
-				nameValuePairs.add(new BasicNameValuePair("body", toSend.saveToString()));
+				nameValuePairs.add(new BasicNameValuePair("description", "FULFILLMENT"));
+				nameValuePairs.add(new BasicNameValuePair("summary", "FULFILLMENT"));
+				nameValuePairs.add(new BasicNameValuePair("content", gson.toJson(toSend)));
 				
 				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				HttpResponse response = httpclient.execute(httpPost);
@@ -222,32 +275,45 @@ public class ServiceManager
 			    	tempImages.get(i).belongsTo = toSend.id;
 			    	saveToService(tempImages.get(i));
 			    }
-			}
-			else
+	    	}
+	    	catch(ClientProtocolException e)
 			{
-				//This already exists in the service and probably doesn't need to be updated
+				System.out.println("ERROR-Protocol");
+				System.out.println(e);
+			}
+			catch(IOException e)
+			{
+				System.out.println("ERROR-IO");
+				System.out.println(e);
+			}
+			catch(Exception e)
+			{
+				System.out.println("ERROR-General");
+				System.out.println(e);
 			}
 		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
+		else
+		{		
+			//We don't need to update fulfillments yet
 		}
 	}
 	/**
 	 * Save an image to the service
 	 * @param toSend
 	 */
-	public void saveToService(ImageFile toSend)
+	public void saveToService(final ImageFile toSend)
 	{
-		try
-		{
-			if(toSend.id == "")
-			{
+		toSend.saveToString();
+
+		if(toSend.id==null)
+		{		    
+			try
+	    	{
 				List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
 				nameValuePairs.add(new BasicNameValuePair("action", "post"));
-				nameValuePairs.add(new BasicNameValuePair("belongsTo", toSend.belongsTo));
-				nameValuePairs.add(new BasicNameValuePair("type", toSend.type));
-				nameValuePairs.add(new BasicNameValuePair("body", toSend.saveToString()));
+				nameValuePairs.add(new BasicNameValuePair("description", "IMAGE"));
+				nameValuePairs.add(new BasicNameValuePair("summary", "IMAGE"));
+				nameValuePairs.add(new BasicNameValuePair("content", gson.toJson(toSend)));
 				
 				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				HttpResponse response = httpclient.execute(httpPost);
@@ -269,15 +335,26 @@ public class ServiceManager
 			    entity.consumeContent();
 			    
 			    toSend.id = tempNew.id;
-			}
-			else
+	    	}
+	    	catch(ClientProtocolException e)
 			{
-				//This already exists in the service and probably doesn't need to be updated
+				System.out.println("ERROR-Protocol");
+				System.out.println(e);
+			}
+			catch(IOException e)
+			{
+				System.out.println("ERROR-IO");
+				System.out.println(e);
+			}
+			catch(Exception e)
+			{
+				System.out.println("ERROR-General");
+				System.out.println(e);
 			}
 		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
+		else
+		{		
+			//We don't need to update fulfillments yet
 		}
 	}
 	/**
@@ -288,7 +365,7 @@ public class ServiceManager
 	{
 		try
 		{
-			if(toSend.id == "")
+			if(toSend.id==null)
 			{
 				List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
 				nameValuePairs.add(new BasicNameValuePair("action", "post"));
@@ -339,7 +416,7 @@ public class ServiceManager
 	 */
 	public void removeFromService(Task toRemove)
 	{
-		if(toRemove.id == "")
+		if(toRemove.id==null)
 		{
 			//throw an error and leave
 			return;
@@ -377,7 +454,7 @@ public class ServiceManager
 	 */
 	public void removeFromService(Fulfillment toRemove)
 	{
-		if(toRemove.id == "")
+		if(toRemove.id==null)
 		{
 			//throw an error and leave
 			return;
@@ -421,7 +498,7 @@ public class ServiceManager
 	 */
 	public void removeFromService(ImageFile toRemove)
 	{
-		if(toRemove.id == "")
+		if(toRemove.id==null)
 		{
 			//throw an error and leave
 			return;
@@ -453,7 +530,7 @@ public class ServiceManager
 	 */
 	public void removeFromService(AudioFile toRemove)
 	{
-		if(toRemove.id == "")
+		if(toRemove.id==null)
 		{
 			//throw an error and leave
 			return;
@@ -479,111 +556,407 @@ public class ServiceManager
 			e.printStackTrace();
 		}
 	}
+	
 	/**
-	 * Update the taskmanager with new data from the webservice
-	 * @param requester
+	 * Get an task from the service, construct it and return it
+	 * @param id
 	 */
-	public void requestUpdate(TaskManager requester)
-	{
-		//Save all current data out to the service
-		ArrayList<Task> currentTasks = requester.getTaskList();
-		for(int i = 0; i < currentTasks.size(); i++)
-		{
-			saveToService(currentTasks.get(i));
-		}
-		//gets all data from webservice and sends tokens to be decoded into tasks, fulfillments, images and audio
+	public Task retreiveTaskFromService(String id)
+	{	
+		Task responseTask = null;
 		try
 		{
-		        String jsonStringVersion = new String();
-		        List <BasicNameValuePair> nvps = new ArrayList <BasicNameValuePair>();
-		        nvps.add(new BasicNameValuePair("action", "list"));
-		
-		        httpPost.setEntity(new UrlEncodedFormEntity(nvps));
-		        HttpResponse response = httpclient.execute(httpPost);
-		
+			responseTask = new Task();
+			List <BasicNameValuePair> nvps = new ArrayList <BasicNameValuePair>();
+			nvps.add(new BasicNameValuePair("action", "get"));
+			nvps.add(new BasicNameValuePair("id", id));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+			HttpResponse response = httpclient.execute(httpPost);
+		    
 		    String status = response.getStatusLine().toString();
 		    HttpEntity entity = response.getEntity();
-
+		    
 		    System.out.println(status);
+		    String jsonStringVersion = "";
 		    
 		    if (entity != null) {
 		        InputStream is = entity.getContent();
 		        jsonStringVersion = convertStreamToString(is);
+		        Type taskType = Task.class;     
+		        responseTask = gson.fromJson(jsonStringVersion, taskType);
 		    }
-		    
-		    StringTokenizer st = new StringTokenizer(jsonStringVersion);
-		    while(st.hasMoreTokens()){
-		        if (st.nextToken() == "TASK"){
-		            tasks.add(Task.buildFromString(st.nextToken()));
-		        }
-		        else if (st.nextToken() == "FULFILLMENT"){
-		            fulfillments.add(Fulfillment.buildFromString(st.nextToken()));
-		        }
-		        else if (st.nextToken() == "AUDIO"){
-		            audios.add(AudioFile.buildFromString(st.nextToken()));
-		        }
-		        else if (st.nextToken() == "IMAGE"){
-		            images.add(ImageFile.buildFromString(st.nextToken()));
-		        }
-		        st.nextToken();
-		    }
-		    
 		    entity.consumeContent();
+		    
+		    String temp = jsonStringVersion.substring(1, jsonStringVersion.length()-2);
+		    temp = temp.substring(temp.indexOf("{")+1, temp.indexOf("}"));
+		    String delims = "[:,]+";
+		    String[] tokens = temp.split(delims);
+		    
+		    for(int i = 0; i < tokens.length; i++)
+		    {	    	
+		    	if(i == 1)
+		    	{
+		    		String data = tokens[i].substring(1, tokens[i].length()-1);
+		    		responseTask = Task.buildFromString(data);
+		    	}
+		    }
 		}
-		catch (Exception e){
-		        e.printStackTrace();
-		}
-		//Add all image files to the fulfillments that own them
-		for(int i = 0; i < images.size(); i++)
+		catch(Exception e)
 		{
-			ImageFile tempI = images.get(i);
-			for(int j = 0; j < fulfillments.size(); j++)
-			{
-				Fulfillment tempF = fulfillments.get(j);
-				if(tempF.id == tempI.belongsTo)
-				{
-					tempF.addImage(tempI);
-					break;
-				}
-			}
+			e.printStackTrace();
 		}
+		return responseTask;
+	}
+	
+	/**
+	 * Get an task from the service, construct it and return it
+	 * @param id
+	 */
+	public Fulfillment retreiveFulfillmentFromService(String id)
+	{	
+		Fulfillment responseTask = null;
+		try
+		{
+			responseTask = new Fulfillment();
+			List <BasicNameValuePair> nvps = new ArrayList <BasicNameValuePair>();
+			nvps.add(new BasicNameValuePair("action", "get"));
+			nvps.add(new BasicNameValuePair("id", id));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+			HttpResponse response = httpclient.execute(httpPost);
+		    
+		    String status = response.getStatusLine().toString();
+		    HttpEntity entity = response.getEntity();
+		    
+		    System.out.println(status);
+		    
+		    if (entity != null) {
+		        InputStream is = entity.getContent();
+		        String jsonStringVersion = convertStreamToString(is);
+		        Type taskType = Fulfillment.class;     
+		        responseTask = gson.fromJson(jsonStringVersion, taskType);
+		    }
+		    entity.consumeContent();
+		    
+		    String temp = jsonStringVersion.substring(1, jsonStringVersion.length()-2);
+		    temp = temp.substring(temp.indexOf("{")+1, temp.indexOf("}"));
+		    String delims = "[:,]+";
+		    String[] tokens = temp.split(delims);
+		    
+		    for(int i = 0; i < tokens.length; i++)
+		    {	    	
+		    	if(i == 1)
+		    	{
+		    		String data = tokens[i].substring(1, tokens[i].length()-1);
+		    		responseTask = Fulfillment.buildFromString(data);
+		    	}
+		    }
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return responseTask;
+	}
+	
+	/**
+	 * Get an task from the service, construct it and return it
+	 * @param id
+	 */
+	public ImageFile retreiveImageFromService(String id)
+	{	
+		ImageFile responseTask = null;
+		try
+		{
+			responseTask = new ImageFile();
+			List <BasicNameValuePair> nvps = new ArrayList <BasicNameValuePair>();
+			nvps.add(new BasicNameValuePair("action", "get"));
+			nvps.add(new BasicNameValuePair("id", id));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+			HttpResponse response = httpclient.execute(httpPost);
+		    
+		    String status = response.getStatusLine().toString();
+		    HttpEntity entity = response.getEntity();
+		    
+		    System.out.println(status);
+		    
+		    if (entity != null) {
+		        InputStream is = entity.getContent();
+		        String jsonStringVersion = convertStreamToString(is);
+		        Type taskType = ImageFile.class;     
+		        responseTask = gson.fromJson(jsonStringVersion, taskType);
+		    }
+		    entity.consumeContent();
+		    
+		    String temp = jsonStringVersion.substring(1, jsonStringVersion.length()-2);
+		    temp = temp.substring(temp.indexOf("{")+1, temp.indexOf("}"));
+		    String delims = "[:,]+";
+		    String[] tokens = temp.split(delims);
+		    
+		    for(int i = 0; i < tokens.length; i++)
+		    {	    	
+		    	if(i == 1)
+		    	{
+		    		String data = tokens[i].substring(1, tokens[i].length()-1);
+		    		responseTask = ImageFile.buildFromString(data);
+		    	}
+		    }
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return responseTask;
+	}
+	
+	/**
+	 * Get an task from the service, construct it and return it
+	 * @param id
+	 */
+	public AudioFile retreiveAudioFromService(String id)
+	{	
+		AudioFile responseTask = null;
+		try
+		{
+			responseTask = new AudioFile();
+			List <BasicNameValuePair> nvps = new ArrayList <BasicNameValuePair>();
+			nvps.add(new BasicNameValuePair("action", "get"));
+			nvps.add(new BasicNameValuePair("id", id));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+			HttpResponse response = httpclient.execute(httpPost);
+		    
+		    String status = response.getStatusLine().toString();
+		    HttpEntity entity = response.getEntity();
+		    
+		    System.out.println(status);
+		    
+		    if (entity != null) {
+		        InputStream is = entity.getContent();
+		        String jsonStringVersion = convertStreamToString(is);
+		        Type taskType = AudioFile.class;     
+		        responseTask = gson.fromJson(jsonStringVersion, taskType);
+		    }
+		    entity.consumeContent();
+		    
+		    String temp = jsonStringVersion.substring(1, jsonStringVersion.length()-2);
+		    temp = temp.substring(temp.indexOf("{")+1, temp.indexOf("}"));
+		    String delims = "[:,]+";
+		    String[] tokens = temp.split(delims);
+		    
+		    for(int i = 0; i < tokens.length; i++)
+		    {	    	
+		    	if(i == 1)
+		    	{
+		    		String data = tokens[i].substring(1, tokens[i].length()-1);
+		    		responseTask = AudioFile.buildFromString(data);
+		    	}
+		    }
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return responseTask;
+	}
+	
+	/**
+	 * Update the taskmanager with new data from the webservice
+	 * @param requester
+	 */
+	public void requestUpdate(final TaskManager requester)
+	{
+		tasks.clear();
+		fulfillments.clear();
+		audios.clear();
+		images.clear();
 		
-		//Add all audio files to the fulfillments that own them
-		for(int i = 0; i < audios.size(); i++)
+		new AsyncTask<Void, Void, Void>()
 		{
-			AudioFile tempA = audios.get(i);
-			for(int j = 0; j < fulfillments.size(); j++)
-			{
-				Fulfillment tempF = fulfillments.get(j);
-				if(tempF.id == tempA.belongsTo)
+			String status;
+			HttpResponse response;
+			
+		    @Override
+		    protected Void doInBackground(Void... params)
+		    {
+		    	try
+		    	{
+		    		System.out.println("Trying to update");
+		    		
+		    		//Save all current data out to the service
+		    		ArrayList<Task> currentTasks = requester.getTaskList();
+		    		for(int i = 0; i < currentTasks.size(); i++)
+		    		{
+		    			saveToService(currentTasks.get(i));
+		    		}
+		    		
+		    		System.out.println("Pulling data");
+		    		//gets all data from webservice and sends tokens to be decoded into tasks, fulfillments, images and audio
+		    		try
+		    		{
+		    		        String jsonStringVersion = new String();
+		    		        List <BasicNameValuePair> nvps = new ArrayList <BasicNameValuePair>();
+		    		        nvps.add(new BasicNameValuePair("action", "list"));
+		    		
+		    		        httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+		    		        HttpResponse response = httpclient.execute(httpPost);
+		    		
+		    		    String status = response.getStatusLine().toString();
+		    		    HttpEntity entity = response.getEntity();
+
+		    		    System.out.println(status);
+		    		    
+		    		    if (entity != null) {
+		    		        InputStream is = entity.getContent();
+		    		        jsonStringVersion = convertStreamToString(is);
+		    		    }
+		    		    
+		    		    String temp = jsonStringVersion.substring(1, jsonStringVersion.length()-2);
+		    		    String delims = "[{}]+";
+		    		    String[] tokens = temp.split(delims);
+		    		    
+		    		    for(int i = 0; i < tokens.length; i++)
+		    		    {
+		    		    	String type = "";
+		    		    	String id = "";
+		    		    	
+		    		    	if(tokens[i].equals(","))
+		    		    	{
+		    		    		continue;
+		    		    	}
+		    		    	
+		    		    	String delims2 = "[:,]+";
+			    		    String[] tokens2 = tokens[i].split(delims2);
+			    		    
+			    		    for(int j = 0; j < tokens2.length; j++)
+			    		    {		    		    	
+			    		    	if(j == 1)
+			    		    	{
+			    		    		type = tokens2[j].substring(1, tokens2[j].length()-1);
+			    		    	}
+			    		    	else if(j == 3)
+			    		    	{
+			    		    		id = tokens2[j].substring(1, tokens2[j].length()-1);
+			    		    	}
+			    		    }
+			    		    
+			    		    if(type.equals("TASK"))
+			    		    {
+			    		    	Task tempTask = retreiveTaskFromService(id);
+			    		    	tempTask.id = id;
+			    		    	tasks.add(tempTask);
+			    		    }
+			    		    else if(type.equals("FULFILLMENT"))
+			    		    {
+			    		    	Fulfillment tempFulfillment = retreiveFulfillmentFromService(id);
+			    		    	tempFulfillment.id = id;
+			    		    	fulfillments.add(tempFulfillment);
+			    		    }
+			    		    else if(type.equals("AUDIO"))
+			    		    {
+			    		    	AudioFile tempAudio = retreiveAudioFromService(id);
+			    		    	tempAudio.id = id;
+			    		    	audios.add(tempAudio);
+			    		    }
+			    		    else if(type.equals("IMAGE"))
+			    		    {
+			    		    	ImageFile tempImage = retreiveImageFromService(id);
+			    		    	tempImage.id = id;
+			    		    	images.add(tempImage);
+			    		    }
+		    		    }
+		    		    
+		    		    entity.consumeContent();
+		    		}
+		    		catch (Exception e){
+		    		        System.out.println("Error pulling data");
+		    		        e.printStackTrace();
+		    		}
+		    		
+		    		System.out.println("Finished pulling data");
+		    		
+		    		System.out.println("Adding images to fulfillments");
+		    		
+		    		//Add all image files to the fulfillments that own them
+		    		for(int i = 0; i < images.size(); i++)
+		    		{
+		    			ImageFile tempI = images.get(i);
+		    			for(int j = 0; j < fulfillments.size(); j++)
+		    			{
+		    				Fulfillment tempF = fulfillments.get(j);
+		    				if(tempF.id == tempI.belongsTo)
+		    				{
+		    					tempF.addImage(tempI);
+		    					break;
+		    				}
+		    			}
+		    		}
+		    		
+		    		System.out.println("Finished adding images to fulfillments");
+		    		
+		    		System.out.println("Adding audio to fulfillments");
+		    		
+		    		//Add all audio files to the fulfillments that own them
+		    		for(int i = 0; i < audios.size(); i++)
+		    		{
+		    			AudioFile tempA = audios.get(i);
+		    			for(int j = 0; j < fulfillments.size(); j++)
+		    			{
+		    				Fulfillment tempF = fulfillments.get(j);
+		    				if(tempF.id == tempA.belongsTo)
+		    				{
+		    					tempF.addAudio(tempA);
+		    					break;
+		    				}
+		    			}
+		    		}
+		    		
+		    		System.out.println("Finished adding audio to fulfillments");
+		    		
+		    		System.out.println("Adding fulfillments to tasks");
+		    		
+		    		//Add all fulfillments to the tasks that own them
+		    		for(int i = 0; i < fulfillments.size(); i++)
+		    		{
+		    			Fulfillment tempF = fulfillments.get(i);
+		    			for(int j = 0; j < tasks.size(); j++)
+		    			{
+		    				Task tempT = tasks.get(j);
+		    				if(tempT.id == tempF.belongsTo)
+		    				{
+		    					tempT.addFulfillment(tempF);
+		    					break;
+		    				}
+		    			}
+		    		}
+		    		
+		    		System.out.println("Finished adding fulfillments to tasks");
+		    		
+		    		System.out.println("Giving task manager the new list " + tasks.size());
+		    		
+		    		//Clear out the task list of the requester and populate it with the new tasks
+		    		requester.clearTasks();
+		    		for(int i = 0; i < tasks.size(); i++)
+		    		{
+		    			requester.addTask(tasks.get(i));
+		    		}
+		    		
+		    		System.out.println("Finished the method");
+		    	}
+				catch(Exception e)
 				{
-					tempF.addAudio(tempA);
-					break;
+					System.out.println("ERROR-General");
+					System.out.println(e);
 				}
-			}
-		}
-		
-		//Add all fulfillments to the tasks that own them
-		for(int i = 0; i < fulfillments.size(); i++)
-		{
-			Fulfillment tempF = fulfillments.get(i);
-			for(int j = 0; j < tasks.size(); j++)
-			{
-				Task tempT = tasks.get(j);
-				if(tempT.id == tempF.belongsTo)
-				{
-					tempT.addFulfillment(tempF);
-					break;
-				}
-			}
-		}
-		
-		//Clear out the task list of the requester and populate it with the new tasks
-		currentTasks.clear();
-		for(int i = 0; i < tasks.size(); i++)
-		{
-			requester.addTask(tasks.get(i));
-		}
+		    	
+		    	return null;
+		    }
+
+		    @Override
+		    protected void onPostExecute(Void result){}
+		}.execute();
 	}
 	
 	private  String convertStreamToString(InputStream is) 

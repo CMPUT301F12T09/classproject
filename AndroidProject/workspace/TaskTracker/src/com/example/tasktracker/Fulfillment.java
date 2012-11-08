@@ -63,6 +63,10 @@ public class Fulfillment extends SavableToService implements Serializable{
 		this.audioFiles = audio;
 	}
 	
+	public Fulfillment()
+	{
+	}
+
 	//remaining methods are simple getters and setters for the data
 	public String getUserDeviceId(){
 		return userDeviceId;

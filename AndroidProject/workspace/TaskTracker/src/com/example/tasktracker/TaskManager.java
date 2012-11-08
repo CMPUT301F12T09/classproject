@@ -219,5 +219,12 @@ public class TaskManager{
 	public void addTask(Task toAdd)
 	{
 		TaskList.add(toAdd);
+		dbManager.saveTasks(this.TaskList);
+	}
+	
+	public void clearTasks()
+	{
+		this.TaskList.clear();
+		dbManager.saveTasks(this.TaskList);
 	}
 }

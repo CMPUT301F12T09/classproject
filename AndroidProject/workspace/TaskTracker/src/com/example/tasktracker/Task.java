@@ -110,6 +110,10 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		this.userDeviceId = ownerId;
 		this.submissions = new ArrayList<Fulfillment>();
 	}
+	public Task()
+	{
+	}
+
 	/**
 	 * Add a new fulfillment from a given user to the task
 	 * @param ownerId
@@ -303,11 +307,11 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		String ownerId = tokens[0]; 
 		String name = tokens[1];
 		String desc = tokens[2];
-		boolean wantText = Boolean.getBoolean(tokens[3]);
-		boolean wantPhoto = Boolean.getBoolean(tokens[4]);
-		boolean wantAudio = Boolean.getBoolean(tokens[5]);
-		boolean isPublic = Boolean.getBoolean(tokens[6]);
-		boolean isOpen = Boolean.getBoolean(tokens[7]);
+		boolean wantText = tokens[3].equals("true");
+		boolean wantPhoto = tokens[4].equals("true");
+		boolean wantAudio = tokens[5].equals("true");
+		boolean isPublic = tokens[6].equals("true");
+		boolean isOpen = tokens[7].equals("true");
 		
 		Task ret = new Task(ownerId, name, desc, wantText, wantPhoto, wantAudio, isPublic);
 		ret.setIsOpen(isOpen);

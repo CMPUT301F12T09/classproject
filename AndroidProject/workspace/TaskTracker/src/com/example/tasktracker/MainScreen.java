@@ -181,6 +181,7 @@ public class MainScreen extends Activity {
     	TaskList = tManager.getTaskList();
     	adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
     	tasks.setAdapter(adapter);
+    	ServiceManager.getInstance(1).requestUpdate(tManager);
     }
     /**
      * Initiate the activity for teh user to create a new task.  

@@ -155,7 +155,7 @@ public class ServiceManager
 				catch(Exception e)
 				{
 					System.out.println("ERROR-General");
-					System.out.println(e.getMessage());
+					System.out.println(e);
 				}
 			}
 			else
@@ -766,16 +766,169 @@ public class ServiceManager
 		return responseTask;
 	}
 	
+	private void clearTempStorage()
+	{
+		tasks.clear();
+		fulfillments.clear();
+		audios.clear();
+		images.clear();
+	}
+	
+	private void saveOutData(final TaskManager requester)
+	{
+		ArrayList<Task> currentTasks = requester.getTaskList();
+		System.out.println(currentTasks.size());
+		for(int i = 0; i < currentTasks.size(); i++)
+		{
+			saveToService(currentTasks.get(i));
+		}
+	}
+	
+	private String getServiceContents()
+	{
+		String jsonStringVersion = new String();
+		
+		try
+		{
+		    List <BasicNameValuePair> nvps = new ArrayList <BasicNameValuePair>();
+		    nvps.add(new BasicNameValuePair("action", "list"));
+		
+		    httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+		    HttpResponse response = httpclient.execute(httpPost);
+		
+		    String status = response.getStatusLine().toString();
+		    HttpEntity entity = response.getEntity();
+	
+		    System.out.println(status);
+		    
+		    if (entity != null) {
+		        InputStream is = entity.getContent();
+		        jsonStringVersion = convertStreamToString(is);
+		    }
+		    
+		    entity.consumeContent();
+		}
+		catch (Exception e){
+	        System.out.println("Error pulling data");
+	        e.printStackTrace();
+		}
+		
+		return jsonStringVersion;
+	}
+	
+	private void decodeObjects(String jsonStringVersion)
+	{
+		String temp = jsonStringVersion.substring(1, jsonStringVersion.length()-2);
+	    String delims = "[{}]+";
+	    String[] tokens = temp.split(delims);
+	    
+	    for(int i = 0; i < tokens.length; i++)
+	    {
+	    	String type = "";
+	    	String id = "";
+	    	
+	    	if(tokens[i].equals(","))
+	    	{
+	    		continue;
+	    	}
+	    	
+	    	String delims2 = "[:,]+";
+		    String[] tokens2 = tokens[i].split(delims2);
+		    
+		    for(int j = 0; j < tokens2.length; j++)
+		    {		    		    	
+		    	if(j == 1)
+		    	{
+		    		type = tokens2[j].substring(1, tokens2[j].length()-1);
+		    	}
+		    	else if(j == 3)
+		    	{
+		    		id = tokens2[j].substring(1, tokens2[j].length()-1);
+		    	}
+		    }
+		    
+		    if(type.equals("TASK"))
+		    {
+		    	Task tempTask = retreiveTaskFromService(id);
+		    	tempTask.id = id;
+		    	tasks.add(tempTask);
+		    }
+		    else if(type.equals("FULFILLMENT"))
+		    {
+		    	Fulfillment tempFulfillment = retreiveFulfillmentFromService(id);
+		    	tempFulfillment.id = id;
+		    	fulfillments.add(tempFulfillment);
+		    }
+		    else if(type.equals("AUDIO"))
+		    {
+		    	AudioFile tempAudio = retreiveAudioFromService(id);
+		    	tempAudio.id = id;
+		    	audios.add(tempAudio);
+		    }
+		    else if(type.equals("IMAGE"))
+		    {
+		    	ImageFile tempImage = retreiveImageFromService(id);
+		    	tempImage.id = id;
+		    	images.add(tempImage);
+		    }
+	    }
+	}
+	
+	private void createOwnershipStructure()
+	{
+		//Add all image files to the fulfillments that own them
+		for(int i = 0; i < images.size(); i++)
+		{
+			ImageFile tempI = images.get(i);
+			for(int j = 0; j < fulfillments.size(); j++)
+			{
+				Fulfillment tempF = fulfillments.get(j);
+				if(tempF.id == tempI.belongsTo)
+				{
+					tempF.addImage(tempI);
+					break;
+				}
+			}
+		}
+		
+		//Add all audio files to the fulfillments that own them
+		for(int i = 0; i < audios.size(); i++)
+		{
+			AudioFile tempA = audios.get(i);
+			for(int j = 0; j < fulfillments.size(); j++)
+			{
+				Fulfillment tempF = fulfillments.get(j);
+				if(tempF.id == tempA.belongsTo)
+				{
+					tempF.addAudio(tempA);
+					break;
+				}
+			}
+		}
+		
+		//Add all fulfillments to the tasks that own them
+		for(int i = 0; i < fulfillments.size(); i++)
+		{
+			Fulfillment tempF = fulfillments.get(i);
+			for(int j = 0; j < tasks.size(); j++)
+			{
+				Task tempT = tasks.get(j);
+				if(tempT.id == tempF.belongsTo)
+				{
+					tempT.addFulfillment(tempF);
+					break;
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Update the taskmanager with new data from the webservice
 	 * @param requester
 	 */
 	public void requestUpdate(final TaskManager requester)
 	{
-		tasks.clear();
-		fulfillments.clear();
-		audios.clear();
-		images.clear();
+		clearTempStorage();
 		
 		new AsyncTask<Void, Void, Void>()
 		{
@@ -786,159 +939,18 @@ public class ServiceManager
 		    protected Void doInBackground(Void... params)
 		    {
 		    	try
-		    	{
-		    		System.out.println("Trying to update");
-		    		
+		    	{    		
 		    		//Save all current data out to the service
-		    		ArrayList<Task> currentTasks = requester.getTaskList();
-		    		for(int i = 0; i < currentTasks.size(); i++)
-		    		{
-		    			saveToService(currentTasks.get(i));
-		    		}
+		    		System.out.println("StartingSave");
+		    		saveOutData(requester);
+		    		System.out.println("FinishingSave");
 		    		
-		    		System.out.println("Pulling data");
 		    		//gets all data from webservice and sends tokens to be decoded into tasks, fulfillments, images and audio
-		    		try
-		    		{
-		    		        String jsonStringVersion = new String();
-		    		        List <BasicNameValuePair> nvps = new ArrayList <BasicNameValuePair>();
-		    		        nvps.add(new BasicNameValuePair("action", "list"));
-		    		
-		    		        httpPost.setEntity(new UrlEncodedFormEntity(nvps));
-		    		        HttpResponse response = httpclient.execute(httpPost);
-		    		
-		    		    String status = response.getStatusLine().toString();
-		    		    HttpEntity entity = response.getEntity();
-
-		    		    System.out.println(status);
-		    		    
-		    		    if (entity != null) {
-		    		        InputStream is = entity.getContent();
-		    		        jsonStringVersion = convertStreamToString(is);
-		    		    }
-		    		    
-		    		    String temp = jsonStringVersion.substring(1, jsonStringVersion.length()-2);
-		    		    String delims = "[{}]+";
-		    		    String[] tokens = temp.split(delims);
-		    		    
-		    		    for(int i = 0; i < tokens.length; i++)
-		    		    {
-		    		    	String type = "";
-		    		    	String id = "";
-		    		    	
-		    		    	if(tokens[i].equals(","))
-		    		    	{
-		    		    		continue;
-		    		    	}
-		    		    	
-		    		    	String delims2 = "[:,]+";
-			    		    String[] tokens2 = tokens[i].split(delims2);
-			    		    
-			    		    for(int j = 0; j < tokens2.length; j++)
-			    		    {		    		    	
-			    		    	if(j == 1)
-			    		    	{
-			    		    		type = tokens2[j].substring(1, tokens2[j].length()-1);
-			    		    	}
-			    		    	else if(j == 3)
-			    		    	{
-			    		    		id = tokens2[j].substring(1, tokens2[j].length()-1);
-			    		    	}
-			    		    }
-			    		    
-			    		    if(type.equals("TASK"))
-			    		    {
-			    		    	Task tempTask = retreiveTaskFromService(id);
-			    		    	tempTask.id = id;
-			    		    	tasks.add(tempTask);
-			    		    }
-			    		    else if(type.equals("FULFILLMENT"))
-			    		    {
-			    		    	Fulfillment tempFulfillment = retreiveFulfillmentFromService(id);
-			    		    	tempFulfillment.id = id;
-			    		    	fulfillments.add(tempFulfillment);
-			    		    }
-			    		    else if(type.equals("AUDIO"))
-			    		    {
-			    		    	AudioFile tempAudio = retreiveAudioFromService(id);
-			    		    	tempAudio.id = id;
-			    		    	audios.add(tempAudio);
-			    		    }
-			    		    else if(type.equals("IMAGE"))
-			    		    {
-			    		    	ImageFile tempImage = retreiveImageFromService(id);
-			    		    	tempImage.id = id;
-			    		    	images.add(tempImage);
-			    		    }
-		    		    }
-		    		    
-		    		    entity.consumeContent();
-		    		}
-		    		catch (Exception e){
-		    		        System.out.println("Error pulling data");
-		    		        e.printStackTrace();
-		    		}
-		    		
-		    		System.out.println("Finished pulling data");
-		    		
-		    		System.out.println("Adding images to fulfillments");
-		    		
-		    		//Add all image files to the fulfillments that own them
-		    		for(int i = 0; i < images.size(); i++)
-		    		{
-		    			ImageFile tempI = images.get(i);
-		    			for(int j = 0; j < fulfillments.size(); j++)
-		    			{
-		    				Fulfillment tempF = fulfillments.get(j);
-		    				if(tempF.id == tempI.belongsTo)
-		    				{
-		    					tempF.addImage(tempI);
-		    					break;
-		    				}
-		    			}
-		    		}
-		    		
-		    		System.out.println("Finished adding images to fulfillments");
-		    		
-		    		System.out.println("Adding audio to fulfillments");
-		    		
-		    		//Add all audio files to the fulfillments that own them
-		    		for(int i = 0; i < audios.size(); i++)
-		    		{
-		    			AudioFile tempA = audios.get(i);
-		    			for(int j = 0; j < fulfillments.size(); j++)
-		    			{
-		    				Fulfillment tempF = fulfillments.get(j);
-		    				if(tempF.id == tempA.belongsTo)
-		    				{
-		    					tempF.addAudio(tempA);
-		    					break;
-		    				}
-		    			}
-		    		}
-		    		
-		    		System.out.println("Finished adding audio to fulfillments");
-		    		
-		    		System.out.println("Adding fulfillments to tasks");
-		    		
-		    		//Add all fulfillments to the tasks that own them
-		    		for(int i = 0; i < fulfillments.size(); i++)
-		    		{
-		    			Fulfillment tempF = fulfillments.get(i);
-		    			for(int j = 0; j < tasks.size(); j++)
-		    			{
-		    				Task tempT = tasks.get(j);
-		    				if(tempT.id == tempF.belongsTo)
-		    				{
-		    					tempT.addFulfillment(tempF);
-		    					break;
-		    				}
-		    			}
-		    		}
-		    		
-		    		System.out.println("Finished adding fulfillments to tasks");
-		    		
-		    		System.out.println("Giving task manager the new list " + tasks.size());
+	    			String jsonStringVersion = getServiceContents();
+	    		    decodeObjects(jsonStringVersion);
+	    		    
+	    		    //joins the objects to their owners
+	    		    createOwnershipStructure();
 		    		
 		    		//Clear out the task list of the requester and populate it with the new tasks
 		    		requester.clearTasks();
@@ -946,8 +958,6 @@ public class ServiceManager
 		    		{
 		    			requester.addTask(tasks.get(i));
 		    		}
-		    		
-		    		System.out.println("Finished the method");
 		    	}
 				catch(Exception e)
 				{

@@ -501,7 +501,7 @@ public class ServiceManager
 	 * will also remove the attached fulfillments
 	 * @param toRemove
 	 */
-	public void removeFromService(Task toRemove)
+	public void removeFromService(final Task toRemove)
 	{
 		if(toRemove.id==null)
 		{
@@ -509,31 +509,45 @@ public class ServiceManager
 			return;
 		}
 		
-		try
-		{	
-			ArrayList<Fulfillment> tempFulfillments = toRemove.getSubmissions(); 
-			for(int i = 0; i < tempFulfillments.size(); i++)
-			{
-				removeFromService(tempFulfillments.get(i));
-			}
-			
-			List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("action", "remove"));
-			nameValuePairs.add(new BasicNameValuePair("id", toRemove.id));
-			
-			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			HttpResponse response = httpclient.execute(httpPost);
-		    
-		    String status = response.getStatusLine().toString();
-		    System.out.println(status);
-		    
-		    HttpEntity entity = response.getEntity();
-		    entity.consumeContent();
-		}
-		catch(Exception e)
+		new AsyncTask<Void, Void, Void>()
 		{
-			e.printStackTrace();
-		}
+    		@Override
+		    protected Void doInBackground(Void... params)
+		    {   			
+    			try
+    			{	
+    				ArrayList<Fulfillment> tempFulfillments = toRemove.getSubmissions(); 
+    				for(int i = 0; i < tempFulfillments.size(); i++)
+    				{
+    					removeFromService(tempFulfillments.get(i));
+    				}
+    				
+    				List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+    				nameValuePairs.add(new BasicNameValuePair("action", "remove"));
+    				nameValuePairs.add(new BasicNameValuePair("id", toRemove.id));
+    				
+    				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+    				HttpResponse response = httpclient.execute(httpPost);
+    			    
+    			    String status = response.getStatusLine().toString();
+    			    System.out.println(status);
+    			    
+    			    HttpEntity entity = response.getEntity();
+    			    entity.consumeContent();
+    			}
+    			catch(Exception e)
+    			{
+    				e.printStackTrace();
+    			}
+    			
+    			return null;
+		    }
+    		
+    		 @Override
+ 		    protected void onPostExecute(Void result)
+    		{
+    		}
+ 		}.execute();
 	}
 	
 	/**
@@ -542,7 +556,7 @@ public class ServiceManager
 	 * will also remove the attached images and audio
 	 * @param toRemove
 	 */
-	public void removeFromService(Fulfillment toRemove)
+	public void removeFromService(final Fulfillment toRemove)
 	{
 		if(toRemove.id==null)
 		{
@@ -550,37 +564,51 @@ public class ServiceManager
 			return;
 		}
 		
-		try
+		new AsyncTask<Void, Void, Void>()
 		{
-			ArrayList<AudioFile> tempAudio = toRemove.getAudioFiles(); 
-			for(int i = 0; i < tempAudio.size(); i++)
-			{
-				removeFromService(tempAudio.get(i));
-			}
-			
-			ArrayList<ImageFile> tempImages = toRemove.getImageFiles(); 
-			for(int i = 0; i < tempImages.size(); i++)
-			{
-				removeFromService(tempImages.get(i));
-			}
-			
-			List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("action", "remove"));
-			nameValuePairs.add(new BasicNameValuePair("id", toRemove.id));
-			
-			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			HttpResponse response = httpclient.execute(httpPost);
-		    
-		    String status = response.getStatusLine().toString();
-		    System.out.println(status);
-		    
-		    HttpEntity entity = response.getEntity();
-		    entity.consumeContent();
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+    		@Override
+		    protected Void doInBackground(Void... params)
+		    {   			
+    			try
+    			{
+    				ArrayList<AudioFile> tempAudio = toRemove.getAudioFiles(); 
+    				for(int i = 0; i < tempAudio.size(); i++)
+    				{
+    					removeFromService(tempAudio.get(i));
+    				}
+    				
+    				ArrayList<ImageFile> tempImages = toRemove.getImageFiles(); 
+    				for(int i = 0; i < tempImages.size(); i++)
+    				{
+    					removeFromService(tempImages.get(i));
+    				}
+    				
+    				List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+    				nameValuePairs.add(new BasicNameValuePair("action", "remove"));
+    				nameValuePairs.add(new BasicNameValuePair("id", toRemove.id));
+    				
+    				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+    				HttpResponse response = httpclient.execute(httpPost);
+    			    
+    			    String status = response.getStatusLine().toString();
+    			    System.out.println(status);
+    			    
+    			    HttpEntity entity = response.getEntity();
+    			    entity.consumeContent();
+    			}
+    			catch(Exception e)
+    			{
+    				e.printStackTrace();
+    			}
+    			
+    			return null;
+		    }
+    		
+    		 @Override
+ 		    protected void onPostExecute(Void result)
+    		{
+    		}
+ 		}.execute();
 	}
 	
 	/**
@@ -588,7 +616,7 @@ public class ServiceManager
 	 * must have a service id
 	 * @param toRemove
 	 */
-	public void removeFromService(ImageFile toRemove)
+	public void removeFromService(final ImageFile toRemove)
 	{
 		if(toRemove.id==null)
 		{
@@ -596,25 +624,39 @@ public class ServiceManager
 			return;
 		}
 		
-		try
+		new AsyncTask<Void, Void, Void>()
 		{
-			List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("action", "remove"));
-			nameValuePairs.add(new BasicNameValuePair("id", toRemove.id));
-			
-			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			HttpResponse response = httpclient.execute(httpPost);
-		    
-		    String status = response.getStatusLine().toString();
-		    System.out.println(status);
-		    
-		    HttpEntity entity = response.getEntity();
-		    entity.consumeContent();
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+    		@Override
+		    protected Void doInBackground(Void... params)
+		    {   			
+    			try
+    			{
+    				List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+    				nameValuePairs.add(new BasicNameValuePair("action", "remove"));
+    				nameValuePairs.add(new BasicNameValuePair("id", toRemove.id));
+    				
+    				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+    				HttpResponse response = httpclient.execute(httpPost);
+    			    
+    			    String status = response.getStatusLine().toString();
+    			    System.out.println(status);
+    			    
+    			    HttpEntity entity = response.getEntity();
+    			    entity.consumeContent();
+    			}
+    			catch(Exception e)
+    			{
+    				e.printStackTrace();
+    			}
+    			
+    			return null;
+		    }
+    		
+    		 @Override
+ 		    protected void onPostExecute(Void result)
+    		{
+    		}
+ 		}.execute();
 	}
 	
 	/**
@@ -622,7 +664,7 @@ public class ServiceManager
 	 * must have a service id
 	 * @param toRemove
 	 */
-	public void removeFromService(AudioFile toRemove)
+	public void removeFromService(final AudioFile toRemove)
 	{
 		if(toRemove.id==null)
 		{
@@ -630,25 +672,39 @@ public class ServiceManager
 			return;
 		}
 		
-		try
+		new AsyncTask<Void, Void, Void>()
 		{
-			List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("action", "remove"));
-			nameValuePairs.add(new BasicNameValuePair("id", toRemove.id));
-			
-			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			HttpResponse response = httpclient.execute(httpPost);
-		    
-		    String status = response.getStatusLine().toString();
-		    System.out.println(status);
-		    
-		    HttpEntity entity = response.getEntity();
-		    entity.consumeContent();
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+    		@Override
+		    protected Void doInBackground(Void... params)
+		    {   			
+    			try
+    			{
+    				List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+    				nameValuePairs.add(new BasicNameValuePair("action", "remove"));
+    				nameValuePairs.add(new BasicNameValuePair("id", toRemove.id));
+    				
+    				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+    				HttpResponse response = httpclient.execute(httpPost);
+    			    
+    			    String status = response.getStatusLine().toString();
+    			    System.out.println(status);
+    			    
+    			    HttpEntity entity = response.getEntity();
+    			    entity.consumeContent();
+    			}
+    			catch(Exception e)
+    			{
+    				e.printStackTrace();
+    			}
+    			
+    			return null;
+		    }
+    		
+    		 @Override
+ 		    protected void onPostExecute(Void result)
+    		{
+    		}
+ 		}.execute();
 	}
 	
 	/**

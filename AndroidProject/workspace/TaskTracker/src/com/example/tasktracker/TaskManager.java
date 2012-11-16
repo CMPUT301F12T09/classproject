@@ -165,11 +165,9 @@ public class TaskManager{
 		Task toRemove = TaskList.get(index);
 		//remove task
 		TaskList.remove(toRemove);
-		//If public update via service manager
-		if(TaskList.get(index).getIsPublic()){
-		        sManager.removeFromService(toRemove);
-		}
-		//Either way update local storage;
+		
+		sManager.removeFromService(toRemove);
+		
 		dbManager.saveTasks(TaskList);
 	}
 	/**

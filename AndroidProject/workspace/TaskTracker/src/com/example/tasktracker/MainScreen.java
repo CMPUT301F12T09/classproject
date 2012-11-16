@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.ContextMenu;
@@ -59,6 +60,7 @@ public class MainScreen extends Activity {
     private ArrayAdapter<Task> adapter;
     private ArrayList<Task> TaskList;
     private TaskManager tManager;
+    private boolean isUpdating = false;
     
     @Override
     /**
@@ -97,7 +99,7 @@ public class MainScreen extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        updateData();
+        updateListContents();
     }
 
     /**
@@ -172,24 +174,57 @@ public class MainScreen extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+    
     /**
      * Send a request to the webservice to update the local database manager
      * with any new tasks or edits that have been made since last update, 
      * provided they are public
      */
-    public void updateData(){
-    	TaskList = tManager.getTaskList();
-    	adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
-    	tasks.setAdapter(adapter);
-    	ServiceManager.getInstance(1).requestUpdate(tManager);
+    public void updateData()
+    {  	
+    	if(isUpdating)
+    	{
+    		return;
+    	}
+    	
+    	isUpdating = true;
+    	
+    	Button updateData = (Button) findViewById(R.id.updateData);
+    	updateData.setText(R.string.button_main_updating_data);
+    	new AsyncTask<Void, Void, Void>()
+		{
+    		@Override
+		    protected Void doInBackground(Void... params)
+		    {
+    			ServiceManager.getInstance(1).requestUpdate(tManager);
+    			
+    			return null;
+		    }
+    		
+    		 @Override
+ 		    protected void onPostExecute(Void result)
+    		{
+    			updateListContents();
+    		}
+ 		}.execute();
     }
     /**
-     * Initiate the activity for teh user to create a new task.  
+     * Initiate the activity for the user to create a new task.  
      * @param view
      */
     public void goToCreateTask(View view){
         Intent intent = new Intent(MainScreen.this, CreateTask.class);
         startActivity(intent);
+    }
+    
+    public void updateListContents()
+    {
+    	TaskList = tManager.getTaskList();
+	    adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
+	    tasks.setAdapter(adapter);
+	    Button updateData = (Button) findViewById(R.id.updateData);
+    	updateData.setText(R.string.button_main_update_data);
+    	isUpdating = false;
     }
 
 }

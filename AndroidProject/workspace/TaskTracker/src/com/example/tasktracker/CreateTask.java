@@ -122,8 +122,6 @@ public class CreateTask extends Activity {
         TaskManager manager = TaskManager.getInstance(1, this);
         manager.createTask(name, desc, wantText, wantPhoto, wantAudio, isPublic);
         
-        ServiceManager.getInstance(1).requestUpdate(manager);
-        
     	finish();
     }
     

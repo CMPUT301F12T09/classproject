@@ -938,47 +938,35 @@ public class ServiceManager
 		userId = requester.getUserId();
 		clearTempStorage();
 		
-		new AsyncTask<Void, Void, Void>()
-		{
-			String status;
-			HttpResponse response;
-			
-		    @Override
-		    protected Void doInBackground(Void... params)
-		    {
-		    	try
-		    	{    		
-		    		//Save all current data out to the service
-		    		System.out.println("StartingSave");
-		    		saveOutData(requester);
-		    		System.out.println("FinishingSave");
-		    		
-		    		//gets all data from webservice and sends tokens to be decoded into tasks, fulfillments, images and audio
-	    			String jsonStringVersion = getServiceContents();
-	    		    decodeObjects(jsonStringVersion);
-	    		    
-	    		    //joins the objects to their owners
-	    		    createOwnershipStructure();
-		    		
-		    		//Clear out the task list of the requester and populate it with the new tasks
-		    		requester.clearTasks();
-		    		for(int i = 0; i < tasks.size(); i++)
-		    		{
-		    			requester.addTask(tasks.get(i));
-		    		}
-		    	}
-				catch(Exception e)
-				{
-					System.out.println("ERROR-General");
-					System.out.println(e);
-				}
-		    	
-		    	return null;
-		    }
+		String status;
+		HttpResponse response;
 
-		    @Override
-		    protected void onPostExecute(Void result){}
-		}.execute();
+		try
+		{    		
+    		//Save all current data out to the service
+    		System.out.println("StartingSave");
+    		saveOutData(requester);
+    		System.out.println("FinishingSave");
+    		
+    		//gets all data from webservice and sends tokens to be decoded into tasks, fulfillments, images and audio
+			String jsonStringVersion = getServiceContents();
+		    decodeObjects(jsonStringVersion);
+		    
+		    //joins the objects to their owners
+		    createOwnershipStructure();
+    		
+    		//Clear out the task list of the requester and populate it with the new tasks
+    		requester.clearTasks();
+    		for(int i = 0; i < tasks.size(); i++)
+    		{
+    			requester.addTask(tasks.get(i));
+    		}
+    	}
+		catch(Exception e)
+		{
+			System.out.println("ERROR-General");
+			System.out.println(e);
+		}
 	}
 	
 	private  String convertStreamToString(InputStream is) 

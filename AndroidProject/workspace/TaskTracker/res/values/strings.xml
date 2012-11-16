@@ -7,6 +7,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="button_main_create_task">Create A Task</string>
     <string name="button_main_update_data">Update Data</string>
+    <string name="button_main_updating_data">Updating...</string>
     <string name="button_create_save">Save</string>
     <string name="button_create_cancel">Cancel</string>
     <string name="text_create_taskname">Task Name: </string>

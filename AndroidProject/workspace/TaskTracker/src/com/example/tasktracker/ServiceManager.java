@@ -37,6 +37,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import android.os.AsyncTask;
+import android.provider.Settings.Secure;
 
 import com.google.gson.Gson;
 /**
@@ -103,36 +104,40 @@ public class ServiceManager
 			{		 
 				System.out.println("Sending new");
 				try
-		    	{							
-					List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
-					nameValuePairs.add(new BasicNameValuePair("action", "post"));
-					nameValuePairs.add(new BasicNameValuePair("description", "TASK"));
-					nameValuePairs.add(new BasicNameValuePair("summary", "TASK"));
-					nameValuePairs.add(new BasicNameValuePair("content", gson.toJson(toSend)));
-					
-					httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-					HttpResponse response = httpclient.execute(httpPost);
-				    
-				    String status = response.getStatusLine().toString();
-				    System.out.println(status);
-				    
-				    //Get the updated object with proper id set
-				    
-				    SavableToService tempNew = new SavableToService();
-				    HttpEntity entity = response.getEntity();
-					
-				    if (entity != null) {
-				        InputStream is = entity.getContent();
-				        String jsonStringVersion = convertStreamToString(is);
-				        Type taskType = SavableToService.class;     
-				        tempNew = gson.fromJson(jsonStringVersion, taskType);
-				    }
-				    entity.consumeContent();
-					
-				    toSend.id = tempNew.id;
-				    toSend.belongsTo = tempNew.id; //Tasks should belong to themselves, or nothing if that seems weird
-				    
-				    System.out.println("ADDING ID " + tempNew.id);
+		    	{
+					//It's fine to send out private tasks if you are the author, but don't send any task if you aren't
+					if(toSend.getUserDeviceId() == Secure.getString(context.getContentResolver(), Secure.ANDROID_ID))
+					{
+						List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+						nameValuePairs.add(new BasicNameValuePair("action", "post"));
+						nameValuePairs.add(new BasicNameValuePair("description", "TASK"));
+						nameValuePairs.add(new BasicNameValuePair("summary", "TASK"));
+						nameValuePairs.add(new BasicNameValuePair("content", gson.toJson(toSend)));
+						
+						httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+						HttpResponse response = httpclient.execute(httpPost);
+					    
+					    String status = response.getStatusLine().toString();
+					    System.out.println(status);
+					    
+					    //Get the updated object with proper id set
+					    
+					    SavableToService tempNew = new SavableToService();
+					    HttpEntity entity = response.getEntity();
+						
+					    if (entity != null) {
+					        InputStream is = entity.getContent();
+					        String jsonStringVersion = convertStreamToString(is);
+					        Type taskType = SavableToService.class;     
+					        tempNew = gson.fromJson(jsonStringVersion, taskType);
+					    }
+					    entity.consumeContent();
+						
+					    toSend.id = tempNew.id;
+					    toSend.belongsTo = tempNew.id; //Tasks should belong to themselves, or nothing if that seems weird
+					    
+					    System.out.println("ADDING ID " + tempNew.id);
+					}
 					
 				    ArrayList<Fulfillment> tempFulfillments = toSend.getSubmissions();
 				    for(int i = 0; i < tempFulfillments.size(); i++)

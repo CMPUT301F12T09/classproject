@@ -631,9 +631,11 @@ public class ServiceManager
 		    
 		    System.out.println(status);
 		    
+		    String jsonStringVersion = "";
+		    
 		    if (entity != null) {
 		        InputStream is = entity.getContent();
-		        String jsonStringVersion = convertStreamToString(is);
+		        jsonStringVersion = convertStreamToString(is);
 		        Type taskType = Fulfillment.class;     
 		        responseTask = gson.fromJson(jsonStringVersion, taskType);
 		    }
@@ -682,9 +684,10 @@ public class ServiceManager
 		    
 		    System.out.println(status);
 		    
+		    String jsonStringVersion = "";
 		    if (entity != null) {
 		        InputStream is = entity.getContent();
-		        String jsonStringVersion = convertStreamToString(is);
+		        jsonStringVersion = convertStreamToString(is);
 		        Type taskType = ImageFile.class;     
 		        responseTask = gson.fromJson(jsonStringVersion, taskType);
 		    }
@@ -733,9 +736,10 @@ public class ServiceManager
 		    
 		    System.out.println(status);
 		    
+		    String jsonStringVersion = "";
 		    if (entity != null) {
 		        InputStream is = entity.getContent();
-		        String jsonStringVersion = convertStreamToString(is);
+		        jsonStringVersion = convertStreamToString(is);
 		        Type taskType = AudioFile.class;     
 		        responseTask = gson.fromJson(jsonStringVersion, taskType);
 		    }

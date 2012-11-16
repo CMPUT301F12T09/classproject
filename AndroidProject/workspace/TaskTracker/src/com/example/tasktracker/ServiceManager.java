@@ -72,6 +72,10 @@ public class ServiceManager
 	{
 	}
 	
+	/**
+	 * Request an instance of the service manager singleton of the specified type: 1 for the current service
+	 * @param type
+	 */
 	public static ServiceManager getInstance(int type)
 	{
 		ServiceManager ret = null;
@@ -88,6 +92,12 @@ public class ServiceManager
 		return ret;
 	}
 	
+	/**
+	 * Used to send out a newly created object. Should not be used to update existing objects.
+	 * Must include the type ("TASK" "FULLFILMENT" "IMAGE" "AUDIO")
+	 * @param toSend
+	 * @param type
+	 */
 	public void requestSaveOut(final SavableToService toSend, final String type)
 	{	
 		new AsyncTask<Void, Void, Void>()
@@ -157,6 +167,10 @@ public class ServiceManager
 	
 	/**
 	 * Save a task to the webservice
+	 * Will also savout out all of it's attached fulfillments
+	 * If the task already has a service id it will update instead of add
+	 * Does not save out the task if you are not the author
+	 * Still saves out the fulfillments if you are not the author
 	 * @param toSend
 	 */
 	public void saveToService(final Task toSend)
@@ -292,8 +306,11 @@ public class ServiceManager
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * Save a fulfillment to the webservice
+	 * It will also save out its attached images and audio
+	 * Does nothing if the fulfillment already has a service id 
 	 * @param toSend
 	 */
 	public void saveToService(final Fulfillment toSend)
@@ -366,8 +383,10 @@ public class ServiceManager
 			//We don't need to update fulfillments yet
 		}
 	}
+	
 	/**
 	 * Save an image to the service
+	 * Does nothing if it already has a service id
 	 * @param toSend
 	 */
 	public void saveToService(final ImageFile toSend)
@@ -426,8 +445,10 @@ public class ServiceManager
 			//We don't need to update fulfillments yet
 		}
 	}
+	
 	/**
 	 * Save an audio file to the webservice
+	 * Does nothing if it already has a service id
 	 * @param toSend
 	 */
 	public void saveToService(AudioFile toSend)
@@ -474,13 +495,10 @@ public class ServiceManager
 		}
 	}
 	
-	//====================================================================================================================================================
-	// To be called when before deleting an object.
-	// Will require a connection to the internet in order to properly delete.
-	// Unless we come up with a storage system for pseudo deleted objects.
-	//====================================================================================================================================================
 	/**
 	 * remove a task from the webservice
+	 * must have a service id
+	 * will also remove the attached fulfillments
 	 * @param toRemove
 	 */
 	public void removeFromService(Task toRemove)
@@ -517,8 +535,11 @@ public class ServiceManager
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * remove a fulfillment from the service
+	 * must have a service id
+	 * will also remove the attached images and audio
 	 * @param toRemove
 	 */
 	public void removeFromService(Fulfillment toRemove)
@@ -561,8 +582,10 @@ public class ServiceManager
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * remove an image from the webservice
+	 * must have a service id
 	 * @param toRemove
 	 */
 	public void removeFromService(ImageFile toRemove)
@@ -593,8 +616,10 @@ public class ServiceManager
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * remove an audio file from the service
+	 * must have a service id
 	 * @param toRemove
 	 */
 	public void removeFromService(AudioFile toRemove)
@@ -627,7 +652,7 @@ public class ServiceManager
 	}
 	
 	/**
-	 * Get an task from the service, construct it and return it
+	 * Get a specified task from the service, construct it and return it
 	 * @param id
 	 */
 	public Task retreiveTaskFromService(String id)
@@ -679,7 +704,7 @@ public class ServiceManager
 	}
 	
 	/**
-	 * Get an task from the service, construct it and return it
+	 * Get a specified task from the service, construct it and return it
 	 * @param id
 	 */
 	public Fulfillment retreiveFulfillmentFromService(String id)
@@ -732,7 +757,7 @@ public class ServiceManager
 	}
 	
 	/**
-	 * Get an task from the service, construct it and return it
+	 * Get a specified image file from the service, construct it and return it
 	 * @param id
 	 */
 	public ImageFile retreiveImageFromService(String id)
@@ -784,7 +809,7 @@ public class ServiceManager
 	}
 	
 	/**
-	 * Get an task from the service, construct it and return it
+	 * Get a specified audio file from the service, construct it and return it
 	 * @param id
 	 */
 	public AudioFile retreiveAudioFromService(String id)
@@ -835,6 +860,9 @@ public class ServiceManager
 		return responseTask;
 	}
 	
+	/**
+	 * Clears out the storage arrays used to construct the ownership relations
+	 */
 	private void clearTempStorage()
 	{
 		tasks.clear();
@@ -843,6 +871,10 @@ public class ServiceManager
 		images.clear();
 	}
 	
+	/**
+	 * Save out all of the data inside the give task manger
+	 * @param requester
+	 */
 	private void saveOutData(final TaskManager requester)
 	{
 		ArrayList<Task> currentTasks = requester.getTaskList();
@@ -853,6 +885,9 @@ public class ServiceManager
 		}
 	}
 	
+	/**
+	 * Pull the contents of the service in string form and return it
+	 */
 	private String getServiceContents()
 	{
 		String jsonStringVersion = new String();
@@ -885,6 +920,10 @@ public class ServiceManager
 		return jsonStringVersion;
 	}
 	
+	/**
+	 * Parse the given string for different objects and build them
+	 * @param jsonStringVersion
+	 */
 	private void decodeObjects(String jsonStringVersion)
 	{
 		String temp = jsonStringVersion.substring(1, jsonStringVersion.length()-2);
@@ -943,6 +982,9 @@ public class ServiceManager
 	    }
 	}
 	
+	/**
+	 * Go through the storage arrays and attach the lower level objects to the higher level objects that match their ownedBy id
+	 */
 	private void createOwnershipStructure()
 	{
 		//Add all image files to the fulfillments that own them
@@ -992,7 +1034,12 @@ public class ServiceManager
 	}
 	
 	/**
-	 * Update the taskmanager with new data from the webservice
+	 * Save out the data from the task manager
+	 * Pull in the data from the service
+	 * Build all of the objects in the service
+	 * Construct the relationships
+	 * Clear the task managers data
+	 * Give the task manager the new list
 	 * @param requester
 	 */
 	public void requestUpdate(final TaskManager requester)
@@ -1031,6 +1078,10 @@ public class ServiceManager
 		}
 	}
 	
+	/**
+	 * Take a stream of data and construct a readable string from it
+	 * @param is
+	 */
 	private  String convertStreamToString(InputStream is) 
 	{		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));

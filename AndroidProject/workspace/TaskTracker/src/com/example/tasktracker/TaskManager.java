@@ -227,4 +227,9 @@ public class TaskManager{
 		this.TaskList.clear();
 		dbManager.saveTasks(this.TaskList);
 	}
+	
+	public String getUserId()
+	{
+		return userId;
+	}
 }

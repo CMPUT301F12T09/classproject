@@ -66,6 +66,8 @@ public class ServiceManager
 	private Gson gson = new Gson();
 	private HttpPost httpPost = new HttpPost("http://crowdsourcer.softwareprocess.es/F12/CMPUT301F12T09/");
 	
+	private String userId; 
+	
 	protected ServiceManager(String path)
 	{
 	}
@@ -106,7 +108,7 @@ public class ServiceManager
 				try
 		    	{
 					//It's fine to send out private tasks if you are the author, but don't send any task if you aren't
-					if(toSend.getUserDeviceId() == Secure.getString(context.getContentResolver(), Secure.ANDROID_ID))
+					if(toSend.getUserDeviceId() == userId)
 					{
 						List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
 						nameValuePairs.add(new BasicNameValuePair("action", "post"));
@@ -933,6 +935,7 @@ public class ServiceManager
 	 */
 	public void requestUpdate(final TaskManager requester)
 	{
+		userId = requester.getUserId();
 		clearTempStorage();
 		
 		new AsyncTask<Void, Void, Void>()

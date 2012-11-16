@@ -19,6 +19,8 @@ package com.example.tasktracker;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
+
 import android.provider.Settings.Secure;
 import android.content.Context;
 /**
@@ -33,6 +35,7 @@ import android.content.Context;
 public class TaskManager{
 		
 	private ArrayList<Task> TaskList;
+	private ArrayList<Task> ViewedList;
 	
 	private String userId; 
 	
@@ -210,6 +213,28 @@ public class TaskManager{
 		
 		return TaskList;
 	}	
+	
+	public ArrayList<Task> getRandomizedList()
+	{
+		ViewedList.clear();
+		Random generator = new Random(System.currentTimeMillis());
+		
+		for(int i = 0; i < TaskList.size(); i++)
+		{
+			Task temp = TaskList.get(i);
+			
+			if(temp.getIsPublic() == false && temp.getUserDeviceId() != userId)
+			{
+				continue;
+			}
+			
+			int index = generator.nextInt() % (ViewedList.size()+1);
+			
+			ViewedList.add(index, temp);
+		}
+		
+		return ViewedList;
+	}
 	
 	public void addTask(Task toAdd)
 	{

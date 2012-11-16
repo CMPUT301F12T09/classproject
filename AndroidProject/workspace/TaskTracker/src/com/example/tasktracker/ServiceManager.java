@@ -88,11 +88,73 @@ public class ServiceManager
 		return ret;
 	}
 	
-	//====================================================================================================================================================
-	// To be called when before deleting an object.
-	// Will require a connection to the internet in order to properly delete.
-	// Unless we come up with a storage system for pseudo deleted objects.
-	//====================================================================================================================================================
+	public void requestSaveOut(final SavableToService toSend, final String type)
+	{	
+		new AsyncTask<Void, Void, Void>()
+		{
+    		@Override
+		    protected Void doInBackground(Void... params)
+		    {
+    			System.out.println("Sending new");
+    			toSend.saveToString();
+				try
+		    	{
+					List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
+					nameValuePairs.add(new BasicNameValuePair("action", "post"));
+					nameValuePairs.add(new BasicNameValuePair("description", type));
+					nameValuePairs.add(new BasicNameValuePair("summary", type));
+					nameValuePairs.add(new BasicNameValuePair("content", gson.toJson(toSend)));
+					
+					httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					HttpResponse response = httpclient.execute(httpPost);
+				    
+				    String status = response.getStatusLine().toString();
+				    System.out.println(status);
+				    
+				    //Get the updated object with proper id set
+				    
+				    SavableToService tempNew = new SavableToService();
+				    HttpEntity entity = response.getEntity();
+					
+				    if (entity != null) {
+				        InputStream is = entity.getContent();
+				        String jsonStringVersion = convertStreamToString(is);
+				        Type taskType = SavableToService.class;     
+				        tempNew = gson.fromJson(jsonStringVersion, taskType);
+				    }
+				    entity.consumeContent();
+					
+				    toSend.id = tempNew.id;
+				    toSend.belongsTo = tempNew.id; //Tasks should belong to themselves, or nothing if that seems weird
+				    
+				    System.out.println("ADDING ID " + tempNew.id);
+		    	}
+		    	catch(ClientProtocolException e)
+				{
+					System.out.println("ERROR-Protocol");
+					System.out.println(e);
+				}
+				catch(IOException e)
+				{
+					System.out.println("ERROR-IO");
+					System.out.println(e);
+				}
+				catch(Exception e)
+				{
+					System.out.println("ERROR-General");
+					System.out.println(e);
+				}
+    			
+    			return null;
+		    }
+    		
+    		 @Override
+ 		    protected void onPostExecute(Void result)
+    		{
+    		}
+ 		}.execute();
+	}
+	
 	/**
 	 * Save a task to the webservice
 	 * @param toSend

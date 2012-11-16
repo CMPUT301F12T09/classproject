@@ -301,6 +301,8 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		//parse the string and get the required data
 		//We should get the body string from the saveToString method
 		
+		System.out.println(data);
+		
 		String deliminator = "[ ]+";
 		String[] tokens = data.split(deliminator);
 		

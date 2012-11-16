@@ -152,11 +152,8 @@ public class TaskManager{
 		Task newTask = new Task(userId, name, desc, wantText, wantPhoto, wantAudio, isPublic);
 		TaskList.add(newTask);
 		
-		//If public update via service manager
-		if(isPublic){
-		        sManager.saveToService(newTask);
-		}
-		//Either way update local storage;
+		sManager.requestSaveOut(newTask, "TASK");
+		
 		dbManager.saveTasks(TaskList);
 	}
 	/**

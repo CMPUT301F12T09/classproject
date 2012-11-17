@@ -29,6 +29,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageButton;
+
 /**
  * This class handles the taking of photos on-the-fly for task
  * fulfillment submissions.  The user may take as many photos as they
@@ -77,7 +89,7 @@ public class PhotoTaker extends Activity //implements SurfaceHolder.Callback
         takePhoto.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 setResult(RESULT_OK);
-                takePhoto(v);
+                setBogoPic();
             }
         });
         
@@ -149,4 +161,11 @@ public class PhotoTaker extends Activity //implements SurfaceHolder.Callback
         setResult(RESULT_OK,returnIntent);  
         finish();
     }
+    
+    private Bitmap ourBMP;
+	protected void setBogoPic() {
+		ImageButton button = (ImageButton) findViewById(R.id.takePhoto);
+		ourBMP = PictureGenerator.generateBitmap(400,400);
+		button.setImageBitmap(ourBMP);
+	}
 }

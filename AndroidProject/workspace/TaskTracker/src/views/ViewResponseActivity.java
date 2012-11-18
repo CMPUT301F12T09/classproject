@@ -17,14 +17,19 @@
 
 package views;
 
+import java.util.ArrayList;
+
 import model.Fulfillment;
+import model.SavableToService;
 import model.Task;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.tasktracker.R;
@@ -32,8 +37,11 @@ import com.example.tasktracker.R;
 public class ViewResponseActivity extends Activity {
 	private Task curTask;
 	private int index;
+	private ListView attachments;
 	private Fulfillment ful;
 	private TextView taskName, taskDesc, textResponse;
+	private ArrayList<SavableToService> list;
+	private ArrayAdapter<SavableToService> adapter;
     /**
      * Will initialize UI components and display info about the fulfillment
      * Also will implement appropriate listeners.
@@ -73,6 +81,17 @@ public class ViewResponseActivity extends Activity {
         taskDesc.setText("Description: " + curTask.getTaskDescription());
         textResponse = (TextView) findViewById(R.id.response_textresponse); 
         textResponse.setText("Text Response: " + ful.getTextInput());        
+        
+        attachments = (ListView) findViewById(R.id.attachments);
+        list = new ArrayList<SavableToService>();
+        for(SavableToService item: ful.getImageFiles()){
+        	list.add(item);
+        }
+        for(SavableToService item: ful.getAudioFiles()){
+        	list.add(item);
+        }
+    	adapter = new ArrayAdapter<SavableToService>(this, R.layout.task_display, list);
+    	attachments.setAdapter(adapter);
     }
 
     @Override

@@ -17,15 +17,13 @@
 
 package controllers;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
 import model.Fulfillment;
 import model.Task;
-
-import android.provider.Settings.Secure;
 import android.content.Context;
+import android.provider.Settings.Secure;
 /**
  * This class manages all the tasks that the system needs to deal with
  * both those stored locally and on the webservice.  This manager is 
@@ -195,6 +193,15 @@ public class TaskManager{
 		dbManager.saveTasks(TaskList);
 	}*/
 	public void addSubmission(int index, Fulfillment ful){
+		for (int i = 0; i < ful.getImageFiles().size(); i++) {
+			ful.getImageFiles().get(i).setId(Integer.toString(1+i));
+			ful.getImageFiles().get(i).setType("Photo");
+		}
+		for (int i = 0; i < ful.getAudioFiles().size(); i++) {
+			ful.getAudioFiles().get(i).setId(Integer.toString(1+i));
+			ful.getAudioFiles().get(i).setType("Audio");
+		
+		}
 		TaskList.get(index).addSubmission(ful);
 		//If public update via service manager
 		if(TaskList.get(index).getIsPublic()){

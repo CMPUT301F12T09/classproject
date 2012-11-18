@@ -32,7 +32,23 @@ public class SavableToService implements Serializable
 	{
 		return "";
 	}
-	
+	public String toString()
+	{
+		return type + ": " + id;
+	}
+	public String getId(){
+		return id;
+	}
+	public void setId(String inId){
+		id = inId;
+	}
+	public String getType(){
+		return type;
+	}
+	public void setType(String inType){
+		type = inType;
+	}
+		
 	public String id;
 	public String belongsTo;
 	public String type;

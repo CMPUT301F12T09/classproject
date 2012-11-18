@@ -1,64 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
    	<TextView
-   	    android:id="@+id/text_view_name"
-   	    android:layout_width="wrap_content"
+   	    android:id="@+id/response_taskname"
+   	    android:layout_width="fill_parent"
    	    android:layout_height="wrap_content"
-   	    android:text="@string/text_fulfill_name"
-   	    android:textStyle="bold" />
-   	   	
-   	<TextView
-   	    android:id="@+id/text_view_taskdesc"
-   	    android:layout_width="wrap_content"
-   	    android:layout_height="wrap_content"
-   	    android:text="@string/text_fulfill_desc"
+   	    android:text="@string/text_create_taskname"
    	    android:textStyle="bold" />
    	<TextView
-   	    android:id="@+id/text_viewresponse_textresponsec"
+   	    android:id="@+id/response_desc"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_create_taskdesc"
+   	    android:textStyle="bold" 
+   	    android:layout_below="@id/response_taskname"
+   	    android:layout_alignParentLeft="true" />  	
+   	<TextView
+   	    android:id="@+id/response_textresponse"
    	    android:layout_width="wrap_content"
    	    android:layout_height="wrap_content"
    	    android:text="@string/text_viewresponse_textresponse"
-   	    android:textStyle="bold" />
-   	<TextView
-   	    android:id="@+id/text_viewresponse_attatch"
+   	    android:textStyle="bold" 
+   	    android:layout_below="@id/response_desc"
+   	    android:layout_alignParentLeft="true" /> 
+   	 <TextView
+   	    android:id="@+id/response_attachments"
    	    android:layout_width="wrap_content"
    	    android:layout_height="wrap_content"
    	    android:text="@string/text_viewresponse_attach"
-   	    android:textStyle="bold" />
-        
-    <ListView
-    android:id="@+id/oldLogs"
-    android:layout_width="fill_parent"
-    android:layout_height="335dp" 
-    android:scrollbars="vertical">
-    </ListView>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
-
-     <Button
-         android:id="@+id/button_view_fulfill"
-         android:layout_weight="0.5"
-         android:layout_width="0px"
-         android:layout_height="match_parent"
-         android:text="@string/button_view_fulfill" />
-     <Button
-         android:id="@+id/button_view_cancel"
-         android:layout_weight="0.5"
-         android:layout_width="0px"
-         android:layout_height="match_parent"
-         android:text="@string/button_view_cancel" />
-
+   	    android:textStyle="bold" 
+   	    android:layout_below="@id/response_textresponse"
+   	    android:layout_alignParentLeft="true" />
+   	 <ListView
+        android:id="@+id/attachments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/response_attachments"
+        android:scrollbars="vertical" />
+   	 
+   	 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ 	    xmlns:tools="http://schemas.android.com/tools"
+    	android:id="@+id/response_buttons"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@id/attachments"
+    	android:orientation="horizontal" >
+	     <Button
+    	     android:id="@+id/button_view_fulfill"
+        	 android:layout_width="0dp"
+             android:layout_weight="0.5"
+        	 android:layout_height="wrap_content"
+             android:text="@string/button_view_fulfill" />
+     	 <Button
+         	android:id="@+id/button_view_cancel"
+         	android:layout_width="0dp"
+         	android:layout_weight="0.5"
+         	android:layout_height="wrap_content"
+   	        android:text="@string/button_create_cancel" />    
     
-    </LinearLayout>
+    </LinearLayout> 
+   	 
+   	 
 
-</LinearLayout>    
+</RelativeLayout>

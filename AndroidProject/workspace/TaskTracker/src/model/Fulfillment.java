@@ -137,10 +137,10 @@ public class Fulfillment extends SavableToService implements Serializable{
 			contents += "Text";
 		}
 		if (pictures > 0){
-			contents += String.format("%d Photo", pictures);
+			contents += String.format(" %d Photo", pictures);
 		}
-		if (sounds > 0){
-			contents += String.format("%d Audio", sounds);
+		if (sounds > 0){ 
+			contents += String.format(" %d Audio", sounds);
 		}
 		
 		String task = String.format("User Id: %s\nDate: %d %d %d\nContents: %s \n",

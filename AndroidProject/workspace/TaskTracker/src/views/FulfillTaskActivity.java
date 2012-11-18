@@ -22,23 +22,19 @@ import java.util.ArrayList;
 import model.AudioFile;
 import model.Fulfillment;
 import model.Task;
-
-import com.example.tasktracker.R;
-import com.example.tasktracker.R.id;
-import com.example.tasktracker.R.layout;
-import com.example.tasktracker.R.menu;
-
-import controllers.TaskManager;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.provider.Settings.Secure;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.tasktracker.R;
+
+import controllers.TaskManager;
 /**
  * This class is an activity which allows the user to perform the actions
  *  requested by a task author.  
@@ -60,7 +56,7 @@ public class FulfillTaskActivity extends Activity {
     private Task curTask;
     public static Fulfillment fulfillment;
     private EditText textResponse;
-    
+    private String android_id;
     /**
      * When the activity is created, initialize appropriate UI components
      * and connect the appropriate listeners.  We also set the text of the 
@@ -79,9 +75,10 @@ public class FulfillTaskActivity extends Activity {
         index = data.getInt("index");
         
         //Initialize a fulfillment with default values
-        fulfillment = new Fulfillment("",""/*,new ArrayList<ImageFile>(),new ArrayList<AudioFile>()*/);
+        android_id = Secure.getString(getBaseContext().getContentResolver(),Secure.ANDROID_ID);
+        fulfillment = new Fulfillment(android_id,""/*,new ArrayList<ImageFile>(),new ArrayList<AudioFile>()*/);
         //	public Fulfillment(String ownerId, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
-
+        
         nameView = (TextView) findViewById(R.id.text_fulfill_name);
         nameView.setText("Task Name: "+curTask.getTaskName());
         

@@ -17,21 +17,23 @@
 
 package views;
 
-import com.example.tasktracker.R;
-import com.example.tasktracker.R.layout;
-import com.example.tasktracker.R.menu;
-
-import android.os.Bundle;
+import model.Fulfillment;
+import model.Task;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-/**
- * When implemented, will allow a user to view the existing 
- * responses to a given task
- * @author zturchan
- *
- */
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.example.tasktracker.R;
+
 public class ViewResponseActivity extends Activity {
+	private Task curTask;
+	private int index;
+	private Fulfillment ful;
+	private TextView taskName, taskDesc, textResponse;
     /**
      * Will initialize UI components and display info about the fulfillment
      * Also will implement appropriate listeners.
@@ -40,6 +42,37 @@ public class ViewResponseActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_response);
+        
+        Bundle data = getIntent().getExtras();
+        //curTask =(Task) data.getParcelable("task");
+        curTask = (Task) getIntent().getSerializableExtra("task");
+        //photos = (ArrayList<ImageFile>) getIntent().getSerializableExtra("images");
+        index = data.getInt("index");
+        ful = (Fulfillment) getIntent().getSerializableExtra("response");
+       
+        Button fulfillTask = (Button) findViewById(R.id.button_view_fulfill);
+        Button mainMenu = (Button) findViewById(R.id.button_view_cancel);
+        fulfillTask.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                setResult(RESULT_OK);
+                goToFulfill(v);
+            }
+        });
+        
+        mainMenu.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                setResult(RESULT_OK);
+                cancel(v);
+            }
+        });
+        
+        
+        taskName = (TextView) findViewById(R.id.response_taskname); 
+        taskName.setText("Task Name: " + curTask.getTaskName());
+        taskDesc = (TextView) findViewById(R.id.response_desc); 
+        taskDesc.setText("Description: " + curTask.getTaskDescription());
+        textResponse = (TextView) findViewById(R.id.response_textresponse); 
+        textResponse.setText("Text Response: " + ful.getTextInput());        
     }
 
     @Override
@@ -47,9 +80,20 @@ public class ViewResponseActivity extends Activity {
         getMenuInflater().inflate(R.menu.activity_view_response, menu);
         return true;
     }
-    
-    public void cancelViewResponse(View view)
-    {
+    /**
+     * access the fulfill activity as a shortcut
+     * @param view
+     */
+    public void goToFulfill(View view){
+    	Intent intent = new Intent(this,FulfillTaskActivity.class);
+        intent.putExtra("task",curTask);
+        startActivity(intent);
+    }
+    /**
+     * return to the main menu
+     * @param view
+     */
+    public void cancel(View view){
     	finish();
     }
 }

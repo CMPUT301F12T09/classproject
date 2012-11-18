@@ -21,21 +21,19 @@ import java.util.ArrayList;
 
 import model.Fulfillment;
 import model.Task;
-
-import com.example.tasktracker.R;
-import com.example.tasktracker.R.id;
-import com.example.tasktracker.R.layout;
-import com.example.tasktracker.R.menu;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.tasktracker.R;
 /**
  * This class is an activity that allows a user to view a task
  * before they decide to fulfill it.  If the user wants, they can
@@ -53,7 +51,7 @@ public class ViewTaskActivity extends Activity {
     private ArrayAdapter<Fulfillment> adapter;
     private ArrayList<Fulfillment> FulfillmentList;
     private Task task;
-	
+	private int index;
     /**
      * Initialize appropriate UI components and connect listeners
      * Also update text on screen with values from the task object 
@@ -83,6 +81,8 @@ public class ViewTaskActivity extends Activity {
         
         Bundle bundle = getIntent().getExtras();
         task = (Task) bundle.get("Task");
+        index = bundle.getInt("index");
+
         TextView name = (TextView) findViewById(R.id.text_view_name); 
         name.setText("Task Name: " + task.getTaskName());
         TextView description = (TextView) findViewById(R.id.text_view_taskdesc); 
@@ -115,6 +115,20 @@ public class ViewTaskActivity extends Activity {
         FulfillmentList = task.getSubmissions();
     	adapter = new ArrayAdapter<Fulfillment>(this, R.layout.task_display, FulfillmentList);
     	submissions.setAdapter(adapter);
+    	
+    	submissions.setOnItemClickListener(new OnItemClickListener(){
+    		@Override
+    		public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+    			Intent intent = new Intent(ViewTaskActivity.this, ViewResponseActivity.class);
+                intent.putExtra("task",task);
+                intent.putExtra("taskindex",index);
+                Fulfillment ful = (Fulfillment)submissions.getItemAtPosition(position);
+                intent.putExtra("response", ful);
+                startActivity(intent);
+    			
+    			startActivity(intent);
+    		}
+    	});
         
     }
 

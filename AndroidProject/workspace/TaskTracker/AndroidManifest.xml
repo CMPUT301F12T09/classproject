@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="activites.MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,42 +24,40 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainScreen"
+            androactivites.MainScreenActivitynActivity"
             android:label="@string/title_activity_main_screen" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cameratest.MainActivity" />
         </activity>
         <activity
-            android:name=".CreateTask"
+            androactivites.CreateTaskActivitykActivity"
             android:label="@string/title_activity_create_task" >
         </activity>
         <activity
-            android:name=".EditTask"
+            android:name="activites.EditTaskActivity"
             android:label="@string/title_activity_edit_task" >
         </activity>
-        <activity
-            android:name=".FulfillTask"
+        activites.FulfillTaskActivity  android:name=".FulfillTaskActivity"
             android:label="@string/title_activity_fulfill_task" >
         </activity>
         <activity
-            android:name=".PhotoTaker"
+        activites.PhotoTakerActivityPhotoTakerActivity"
             android:label="@string/title_activity_photo_taker" >
-        </activity>
-        <activity
-            android:name=".AudioRecorder"
+        </activites.AudioRecorderActivityivity
+            android:name=".AudioRecorderActivity"
             android:label="@string/title_activity_audio_recorder" >
         </activity>
         <activity
-            android:name=".MemoryCheck"
+            androactivites.MemoryCheckActivitykActivity"
             android:label="@string/title_activity_memory_check" >
         </activity>
         <activity
-            android:name=".ViewTask"
+            android:name="activites.ViewTaskActivity"
             android:label="@string/title_activity_view_task" >
         </activity>
         <activity
-            android:name=".ViewResponse"
+            androactivites.ViewResponseActivityeActivity"
             android:label="@string/title_activity_view_response" >
         </activity>
     </application>

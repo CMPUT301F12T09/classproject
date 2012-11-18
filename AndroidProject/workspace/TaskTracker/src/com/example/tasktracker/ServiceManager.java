@@ -317,7 +317,7 @@ public class ServiceManager
 	{
 		toSend.saveToString();
 
-		if(toSend.id.equals(null))
+		if(toSend.id==null)
 		{		    
 			try
 	    	{				

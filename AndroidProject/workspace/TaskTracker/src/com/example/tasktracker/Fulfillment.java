@@ -173,13 +173,16 @@ public class Fulfillment extends SavableToService implements Serializable{
 		
 		//audio and image files will be added by the service manager later
 		Fulfillment ret = new Fulfillment(ownerId, text, null, null);
+		
+		//System.out.printf("%s %s %s %s %s %s %s\n", tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8]);
+		
 		ret.dateAdded.setDate(Integer.decode(tokens[2]));
 		ret.dateAdded.setHours(Integer.decode(tokens[3]));
 		ret.dateAdded.setMinutes(Integer.decode(tokens[4]));
 		ret.dateAdded.setMonth(Integer.decode(tokens[5]));
 		ret.dateAdded.setSeconds(Integer.decode(tokens[6]));
 		ret.dateAdded.setTime(Integer.decode(tokens[7]));
-		ret.dateAdded.setYear(Integer.decode(tokens[8]));
+		//ret.dateAdded.setYear(Integer.decode(tokens[8]));
 		
 		return ret;
 	}

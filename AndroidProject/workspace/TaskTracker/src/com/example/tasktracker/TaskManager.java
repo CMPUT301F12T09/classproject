@@ -185,6 +185,7 @@ public class TaskManager{
 		//If public update via service manager
 		if(TaskList.get(index).getIsPublic()){
 		        Fulfillment ful = new Fulfillment(userId, text,images, audio);
+		        ful.belongsTo = TaskList.get(index).id;
 		        sManager.saveToService(ful);
 		}
 		//Either way update local storage;

@@ -124,6 +124,7 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	//add a new fulfillment to the submissions list
 	public void addSubmission(String ownerId, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
 		Fulfillment ful = new Fulfillment(ownerId, text,images, audio);
+		ful.belongsTo = this.id;
 		this.submissions.add(ful);
 	}
 	/**

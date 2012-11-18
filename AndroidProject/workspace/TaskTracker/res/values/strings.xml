@@ -9,6 +9,13 @@
     <string name="button_main_update_data">Update Data</string>
     <string name="button_main_updating_data">Updating...</string>
     <string name="button_main_sort_by">Sort By...</string>
+    <string name="button_main_search_menu_cancel">Cancel</string>
+    <string name="button_main_search_menu_keyword">Search By Keyword</string>
+    <string name="button_main_search_menu_id">Search By ID</string>
+    <string name="button_main_sort_menu_cancel">Cancel</string>
+    <string name="button_main_sort_menu_date">Sort By Date</string>
+    <string name="button_main_sort_menu_random">Sort Randomly</string>
+    <string name="button_main_sort_menu_alphabetic">Sort Alphabetically</string>
     <string name="button_main_search_by">Search By...</string>
     <string name="button_create_save">Save</string>
     <string name="button_create_cancel">Cancel</string>

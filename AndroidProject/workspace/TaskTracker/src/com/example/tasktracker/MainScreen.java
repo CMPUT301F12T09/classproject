@@ -20,6 +20,7 @@ package com.example.tasktracker;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,12 +31,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 /**
  * This is the main screen of the app.  It contains a scrollable
  * list of tasks that are visible to the user, as well as buttons to create
@@ -226,5 +227,85 @@ public class MainScreen extends Activity {
     	updateData.setText(R.string.button_main_update_data);
     	isUpdating = false;
     }
+    
+    public void showSearchMethods(View view)
+    {
+    	final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.menu_search);
+		dialog.setTitle("Searching Methods");
 
+		Button idButton = (Button) dialog.findViewById(R.id.searchDialogButtonID);
+		// if button is clicked, close the custom dialog
+		idButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		
+		Button keywordButton = (Button) dialog.findViewById(R.id.searchDialogButtonKeyword);
+		// if button is clicked, close the custom dialog
+		keywordButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		
+		Button cancelButton = (Button) dialog.findViewById(R.id.searchDialogButtonCancel);
+		// if button is clicked, close the custom dialog
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
+    }
+
+    public void showSortMethods(View view)
+    {
+    	final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.menu_sort);
+		dialog.setTitle("Sorting Methods");
+
+		Button dateButton = (Button) dialog.findViewById(R.id.sortDialogButtonDate);
+		// if button is clicked, close the custom dialog
+		dateButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		
+		Button randomButton = (Button) dialog.findViewById(R.id.sortDialogButtonRandom);
+		// if button is clicked, close the custom dialog
+		randomButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		
+		Button alphabeticButton = (Button) dialog.findViewById(R.id.sortDialogButtonAlphabetic);
+		// if button is clicked, close the custom dialog
+		alphabeticButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		
+		Button cancelButton = (Button) dialog.findViewById(R.id.sortDialogButtonCancel);
+		// if button is clicked, close the custom dialog
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
+    }
 }

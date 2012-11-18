@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+ 
+     <Button
+        android:id="@+id/sortDialogButtonAlphabetic"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_main_sort_menu_alphabetic"
+        />
+     
+     <Button
+        android:id="@+id/sortDialogButtonDate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_main_sort_menu_date"
+        android:layout_below="@id/sortDialogButtonAlphabetic"
+        />
+     
+     <Button
+        android:id="@+id/sortDialogButtonRandom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_main_sort_menu_random"
+        android:layout_below="@id/sortDialogButtonDate"
+        />
+     
+     <Button
+        android:id="@+id/sortDialogButtonCancel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_main_sort_menu_cancel"
+        android:layout_below="@id/sortDialogButtonRandom"
+        />
+ 
+</RelativeLayout>

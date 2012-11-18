@@ -148,6 +148,7 @@ public class MainScreen extends Activity {
             case R.id.menu_view:
             	intent = new Intent(this,ViewTask.class);
                 intent.putExtra("Task", TaskList.get((int)info.id));
+                intent.putExtra("index",(int)info.id);
                 startActivity(intent);
                 return true;
             case R.id.menu_close:
@@ -183,6 +184,12 @@ public class MainScreen extends Activity {
      */
     public void updateData()
     {  	
+    	//Test code
+    	//Toast toast = Toast.makeText(this, "Test1", 5);
+        //toast.show();
+    	
+    	//end test code
+    	
     	if(isUpdating)
     	{
     		return;

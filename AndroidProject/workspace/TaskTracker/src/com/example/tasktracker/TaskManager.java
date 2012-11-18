@@ -180,12 +180,21 @@ public class TaskManager{
 	 * @param images
 	 * @param audio
 	 */
-	public void addSubmission(int index, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
+/*	public void addSubmission(int index, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
 		TaskList.get(index).addSubmission(userId, text, images, audio);
 		//If public update via service manager
 		if(TaskList.get(index).getIsPublic()){
 		        Fulfillment ful = new Fulfillment(userId, text,images, audio);
 		        ful.belongsTo = TaskList.get(index).id;
+		        sManager.saveToService(ful);
+		}
+		//Either way update local storage;
+		dbManager.saveTasks(TaskList);
+	}*/
+	public void addSubmission(int index, Fulfillment ful){
+		TaskList.get(index).addSubmission(ful);
+		//If public update via service manager
+		if(TaskList.get(index).getIsPublic()){
 		        sManager.saveToService(ful);
 		}
 		//Either way update local storage;

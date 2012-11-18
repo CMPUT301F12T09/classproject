@@ -143,8 +143,9 @@ public class PhotoTaker extends Activity //implements SurfaceHolder.Callback
      * @param view
      */
     public void usePhoto(View view){
-        photos.add(new ImageFile(thumbnail));
-        Toast toast = Toast.makeText(this, "Image saved", 5);
+        //photos.add(new ImageFile(thumbnail));
+        FulfillTask.fulfillment.addImage(new ImageFile(thumbnail));
+    	Toast toast = Toast.makeText(this, "Image saved", 5);
         toast.show();
     }
     
@@ -157,7 +158,7 @@ public class PhotoTaker extends Activity //implements SurfaceHolder.Callback
     {
         Intent returnIntent = new Intent(PhotoTaker.this,FulfillTask.class);
         returnIntent.putExtra("task",curTask);
-        returnIntent.putExtra("images", photos);
+        //returnIntent.putExtra("images", photos);
         setResult(RESULT_OK,returnIntent);  
         finish();
     }

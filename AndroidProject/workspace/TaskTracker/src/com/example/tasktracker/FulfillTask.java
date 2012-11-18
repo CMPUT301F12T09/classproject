@@ -43,10 +43,11 @@ public class FulfillTask extends Activity {
     
     private final static int PIC_REQUEST = 1;
     private TextView nameView, descView, responseView, scopeView;
-    private ArrayList<ImageFile> photos;
+  //  private ArrayList<ImageFile> photos;
     private ArrayList<AudioFile> audio;
     private int index;
     private Task curTask;
+    public static Fulfillment fulfillment;
     private EditText textResponse;
     
     /**
@@ -63,9 +64,13 @@ public class FulfillTask extends Activity {
         Bundle data = getIntent().getExtras();
         //curTask =(Task) data.getParcelable("task");
         curTask = (Task) getIntent().getSerializableExtra("task");
-        photos = (ArrayList<ImageFile>) getIntent().getSerializableExtra("images");
+        //photos = (ArrayList<ImageFile>) getIntent().getSerializableExtra("images");
         index = data.getInt("index");
         
+        //Initialize a fulfillment with default values
+        fulfillment = new Fulfillment("",""/*,new ArrayList<ImageFile>(),new ArrayList<AudioFile>()*/);
+        //	public Fulfillment(String ownerId, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
+
         nameView = (TextView) findViewById(R.id.text_fulfill_name);
         nameView.setText("Task Name: "+curTask.getTaskName());
         
@@ -89,7 +94,7 @@ public class FulfillTask extends Activity {
         Button save = (Button) findViewById(R.id.button_fulfill_save);
         
         audio = new ArrayList<AudioFile>();
-        photos = new ArrayList<ImageFile>();
+ //     photos = new ArrayList<ImageFile>();
         
         takePhoto.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -150,7 +155,7 @@ public class FulfillTask extends Activity {
     {
     	Intent intent = new Intent(FulfillTask.this, PhotoTaker.class);
         intent.putExtra("task",curTask);
-        intent.putExtra("images", photos);
+        //intent.putExtra("images", photos);
     	startActivityForResult(intent,1); 
     }
     /**
@@ -208,12 +213,17 @@ public class FulfillTask extends Activity {
      */
     public void saveFulfill(View view)
     {
+    	//update the fulfillment with the current text from the text box
+    	fulfillment.setTextInput(textResponse.getText().toString().trim());
     	//Ask for confirmation
     	//Send fulfillment to task manager
         TaskManager manage = TaskManager.getInstance(1, this);
-        manage.addSubmission(index, textResponse.getText().toString(),photos,audio);
+        manage.addSubmission(index, fulfillment);
        	finish();
     }
+    //With the new dynamically built fulfillment, this code might be unnecessary
+    //because he task is not updated by the photo taker and the photos
+    //are added to this class's static fulfillment
     /**
      * This method is called when the activity we called with a result request 
      * returns to us.  Currently it only checks for picture request, but 
@@ -225,7 +235,7 @@ public class FulfillTask extends Activity {
         if(requestCode == PIC_REQUEST) {
             if(resultCode == RESULT_OK){
                 curTask=(Task)data.getSerializableExtra("task");
-                photos=(ArrayList<ImageFile>)data.getSerializableExtra("images");
+                //photos=(ArrayList<ImageFile>)data.getSerializableExtra("images");
             }
         }
     }

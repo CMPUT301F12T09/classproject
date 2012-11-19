@@ -9,6 +9,7 @@
     
    	<TextView
    	    android:id="@+id/text_create_taskname"
+   	    android:layout_weight="1"
    	    android:layout_width="wrap_content"
    	    android:layout_height="wrap_content"
    	    android:text="@string/text_create_taskname"
@@ -17,11 +18,18 @@
   	<EditText xmlns:android="http://schemas.android.com/apk/res/android"
     	android:id="@+id/text_edit_name"
        	android:hint="@string/text_create_namehint"
+       	android:layout_weight="20"
        	android:layout_width="match_parent"
-       	android:layout_height="wrap_content"/>    
+       	android:layout_height="wrap_content"
+       	android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine|textNoSuggestions"
+        android:imeOptions="actionSend|flagNoEnterAction"
+        android:maxLines="4"
+        android:maxLength="2000"
+       	/>    
    	
    	<TextView
    	    android:id="@+id/text_create_taskdesc"
+   	    android:layout_weight="1"
    	    android:layout_width="wrap_content"
    	    android:layout_height="wrap_content"
    	    android:text="@string/text_create_taskdesc"
@@ -30,17 +38,25 @@
   	<EditText xmlns:android="http://schemas.android.com/apk/res/android"
     	android:id="@+id/text_edit_desc"
        	android:hint="@string/text_create_deschint"
+       	android:layout_weight="20"
        	android:layout_width="match_parent"
-       	android:layout_height="wrap_content"/>  
+       	android:layout_height="wrap_content"
+       	android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine|textNoSuggestions"
+        android:imeOptions="actionSend|flagNoEnterAction"
+        android:maxLines="4"
+        android:maxLength="2000"
+       	/>  
        	
   	<TextView
    	    android:id="@+id/text_create_scope"
+   	    android:layout_weight="1"
    	    android:layout_width="wrap_content"
    	    android:layout_height="wrap_content"
    	    android:text="@string/text_create_scope"
    	    android:textStyle="bold" />	
 
 	<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_weight="100"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal">
@@ -58,14 +74,16 @@
 	
   	<TextView
    	    android:id="@+id/text_create_responses"
+   	    android:layout_weight="1"
    	    android:layout_width="wrap_content"
    	    android:layout_height="wrap_content"
    	    android:text="@string/text_create_responses"
    	    android:textStyle="bold" />	
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_weight="100"
     android:layout_width="match_parent"
-    android:layout_height="225dp"
+    android:layout_height="wrap_content"
     android:orientation="horizontal" >  	
         
     <CheckBox android:id="@+id/checkbox_photo"
@@ -88,6 +106,7 @@
         
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_weight="1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
@@ -96,7 +115,7 @@
          android:id="@+id/button_create_save"
          android:layout_weight="0.5"
          android:layout_width="0px"
-         android:layout_height="wrap_content"
+         android:layout_height="60px"
          android:text="@string/button_create_save" 
          android:onClick="confirmTask" />
 
@@ -104,10 +123,11 @@
           android:id="@+id/button_create_cancel"
           android:layout_weight="0.5"
           android:layout_width="0px"
-          android:layout_height="wrap_content"
+          android:layout_height="60px"
           android:text="@string/button_create_cancel" 
           android:onClick="cancelTask" />
     
     </LinearLayout>
 
-</LinearLayout>
+</LinearLayout>    
+

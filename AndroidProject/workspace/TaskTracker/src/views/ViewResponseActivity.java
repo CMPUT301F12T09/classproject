@@ -56,24 +56,7 @@ public class ViewResponseActivity extends Activity {
         curTask = (Task) getIntent().getSerializableExtra("task");
         //photos = (ArrayList<ImageFile>) getIntent().getSerializableExtra("images");
         index = data.getInt("index");
-        ful = (Fulfillment) getIntent().getSerializableExtra("response");
-       
-        Button fulfillTask = (Button) findViewById(R.id.button_view_fulfill);
-        Button mainMenu = (Button) findViewById(R.id.button_view_cancel);
-        fulfillTask.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                goToFulfill(v);
-            }
-        });
-        
-        mainMenu.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                cancel(v);
-            }
-        });
-        
+        ful = (Fulfillment) getIntent().getSerializableExtra("response");       
         
         taskName = (TextView) findViewById(R.id.response_taskname); 
         taskName.setText("Task Name: " + curTask.getTaskName());
@@ -104,6 +87,7 @@ public class ViewResponseActivity extends Activity {
      * @param view
      */
     public void goToFulfill(View view){
+    	setResult(RESULT_OK);
     	Intent intent = new Intent(this,FulfillTaskActivity.class);
         intent.putExtra("task",curTask);
         startActivity(intent);
@@ -113,6 +97,7 @@ public class ViewResponseActivity extends Activity {
      * @param view
      */
     public void cancel(View view){
+    	setResult(RESULT_OK);
     	finish();
     }
 }

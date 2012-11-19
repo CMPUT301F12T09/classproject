@@ -51,12 +51,14 @@
         	 android:layout_width="0dp"
              android:layout_weight="0.5"
         	 android:layout_height="wrap_content"
+        	 android:onClick="goToFulfill"
              android:text="@string/button_view_fulfill" />
      	 <Button
          	android:id="@+id/button_view_cancel"
          	android:layout_width="0dp"
          	android:layout_weight="0.5"
          	android:layout_height="wrap_content"
+         	android:onClick="cancel"
    	        android:text="@string/button_create_cancel" />    
     
     </LinearLayout> 

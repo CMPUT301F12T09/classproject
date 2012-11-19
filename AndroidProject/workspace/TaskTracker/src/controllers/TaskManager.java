@@ -198,17 +198,17 @@ public class TaskManager{
 		if(TaskList.get(index).id != null)
 		{
 			sManager.requestSaveOut(ful, "FULLFILMENT");
-		}
-		
-		for (int i = 0; i < ful.getImageFiles().size(); i++) {
-			ful.getImageFiles().get(i).belongsTo = ful.id;
-			sManager.requestSaveOut(ful.getImageFiles().get(i),"IMAGE");
-			ful.getImageFiles().get(i).setType("Image");
-		}
-		for (int i = 0; i < ful.getAudioFiles().size(); i++) {
-			ful.getAudioFiles().get(i).belongsTo = ful.id;
-			sManager.requestSaveOut(ful.getAudioFiles().get(i),"AUDIO");
-			ful.getImageFiles().get(i).setType("Audio");
+			
+			for (int i = 0; i < ful.getImageFiles().size(); i++) {
+				ful.getImageFiles().get(i).belongsTo = ful.id;
+				sManager.requestSaveOut(ful.getImageFiles().get(i),"IMAGE");
+				ful.getImageFiles().get(i).setType("Image");
+			}
+			for (int i = 0; i < ful.getAudioFiles().size(); i++) {
+				ful.getAudioFiles().get(i).belongsTo = ful.id;
+				sManager.requestSaveOut(ful.getAudioFiles().get(i),"AUDIO");
+				ful.getImageFiles().get(i).setType("Audio");
+			}
 		}
 		
 		dbManager.saveTasks(TaskList);

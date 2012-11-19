@@ -62,12 +62,14 @@
          android:layout_weight="0.5"
          android:layout_width="0px"
          android:layout_height="match_parent"
+         android:onClick="goToFulfill"
          android:text="@string/button_view_fulfill" />
      <Button
          android:id="@+id/button_view_cancel"
          android:layout_weight="0.5"
          android:layout_width="0px"
          android:layout_height="match_parent"
+         android:onClick="returnToMain"
          android:text="@string/button_view_cancel" />
 
     

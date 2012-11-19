@@ -62,23 +62,6 @@ public class ViewTaskActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_task);
         
-        Button fulfillTask = (Button) findViewById(R.id.button_view_fulfill);
-        Button mainMenu = (Button) findViewById(R.id.button_view_cancel);
-        
-        fulfillTask.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                goToFulfill(v);
-            }
-        });
-        
-        mainMenu.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                returnToMain(v);
-            }
-        });
-        
         Bundle bundle = getIntent().getExtras();
         task = (Task) bundle.get("Task");
         index = bundle.getInt("index");
@@ -142,6 +125,7 @@ public class ViewTaskActivity extends Activity {
      * @param view
      */
     public void goToFulfill(View view){
+    	setResult(RESULT_OK);
     	Intent intent = new Intent(this,FulfillTaskActivity.class);
         intent.putExtra("task",task);
         startActivity(intent);
@@ -151,6 +135,7 @@ public class ViewTaskActivity extends Activity {
      * @param view
      */
     public void returnToMain(View view){
+    	setResult(RESULT_OK);
     	finish();
     }
 }

@@ -92,21 +92,6 @@ public class MainScreenActivity extends Activity {
         tManager = TaskManager.getInstance(1, this);
         
         registerForContextMenu(tasks);
-        
-        
-        createTask.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                goToCreateTask(v);
-            }
-        });
-        
-        updateData.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                updateData();
-            }
-        });
     }
     @Override
     public void onResume() {
@@ -193,13 +178,15 @@ public class MainScreenActivity extends Activity {
      * with any new tasks or edits that have been made since last update, 
      * provided they are public
      */
-    public void updateData()
+    public void updateData(View view)
     {  	
     	//Test code
     	//Toast toast = Toast.makeText(this, "Test1", 5);
         //toast.show();
     	
     	//end test code
+    	
+    	setResult(RESULT_OK);
     	
     	if(isUpdating)
     	{
@@ -232,6 +219,7 @@ public class MainScreenActivity extends Activity {
      * @param view
      */
     public void goToCreateTask(View view){
+    	setResult(RESULT_OK);
         Intent intent = new Intent(MainScreenActivity.this, CreateTaskActivity.class);
         startActivity(intent);
     }

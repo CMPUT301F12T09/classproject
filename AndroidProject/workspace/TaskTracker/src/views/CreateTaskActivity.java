@@ -91,19 +91,6 @@ public class CreateTaskActivity extends Activity {
         wantAudio = false;
         wantPhoto = false;
         isPublic = true;
-        
-        save.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                confirmTask(v);
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                cancelTask(v);
-            }
-        });
     }
 
     @Override
@@ -123,6 +110,8 @@ public class CreateTaskActivity extends Activity {
      */
     public void confirmTask(View view)
     {
+    	setResult(RESULT_OK);
+    	
         String name = editName.getText().toString();
         String desc = editDesc.getText().toString();
         
@@ -189,8 +178,10 @@ public class CreateTaskActivity extends Activity {
                 }
         }
     }
-    private void cancelTask(View view)
+    public void cancelTask(View view)
     {
+    	setResult(RESULT_OK);
+    	
     	finish();
     }
 }

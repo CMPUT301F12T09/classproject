@@ -83,31 +83,6 @@ public class PhotoTakerActivity extends Activity //implements SurfaceHolder.Call
 
         curTask = (Task) getIntent().getSerializableExtra("task");
         photos = (ArrayList<ImageFile>) getIntent().getSerializableExtra("images");
-
-        Button usePhoto = (Button) findViewById(R.id.button_photo_use);
-        Button takePhoto = (Button) findViewById(R.id.button_photo_take);
-        Button done = (Button) findViewById(R.id.photo_done);
-        
-        done.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                donePhoto(v);
-            }
-        });
-        
-        takePhoto.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                setBogoPic();
-            }
-        });
-        
-        usePhoto.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                usePhoto(v);
-            }
-        });
     }
         
     @Override
@@ -173,7 +148,7 @@ public class PhotoTakerActivity extends Activity //implements SurfaceHolder.Call
     }
     
     private Bitmap ourBMP;
-	protected void setBogoPic() {
+	public void setBogoPic(View view) {
 		ImageButton button = (ImageButton) findViewById(R.id.takePhoto);
 		ourBMP = PictureGenerator.generateBitmap(400,400);
 		button.setImageBitmap(ourBMP);

@@ -14,7 +14,7 @@
         android:id="@+id/button_photo_take"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="retakePhoto"
+        android:onClick="setBogoPic"
         android:text="@string/text_photo_take" />
 
     <Button
@@ -27,7 +27,7 @@
         android:id="@+id/photo_done"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="usePhoto"
+        android:onClick="donePhoto"
         android:text="@string/photo_done" />
 
 </LinearLayout>

@@ -193,21 +193,24 @@ public class TaskManager{
 		dbManager.saveTasks(TaskList);
 	}*/
 	public void addSubmission(int index, Fulfillment ful){
+		TaskList.get(index).addSubmission(ful);
+		
+		if(TaskList.get(index).id != null)
+		{
+			sManager.requestSaveOut(ful, "FULLFILMENT");
+		}
+		
 		for (int i = 0; i < ful.getImageFiles().size(); i++) {
-			ful.getImageFiles().get(i).setId(Integer.toString(1+i));
-			ful.getImageFiles().get(i).setType("Photo");
+			ful.getImageFiles().get(i).belongsTo = ful.id;
+			sManager.requestSaveOut(ful.getImageFiles().get(i),"IMAGE");
+			ful.getImageFiles().get(i).setType("Image");
 		}
 		for (int i = 0; i < ful.getAudioFiles().size(); i++) {
-			ful.getAudioFiles().get(i).setId(Integer.toString(1+i));
-			ful.getAudioFiles().get(i).setType("Audio");
+			ful.getAudioFiles().get(i).belongsTo = ful.id;
+			sManager.requestSaveOut(ful.getAudioFiles().get(i),"AUDIO");
+			ful.getImageFiles().get(i).setType("Audio");
+		}
 		
-		}
-		TaskList.get(index).addSubmission(ful);
-		//If public update via service manager
-		if(TaskList.get(index).getIsPublic()){
-		        sManager.saveToService(ful);
-		}
-		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
 	}
 	/**

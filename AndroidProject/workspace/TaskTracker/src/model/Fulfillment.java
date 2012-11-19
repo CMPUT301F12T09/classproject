@@ -155,6 +155,11 @@ public class Fulfillment extends SavableToService implements Serializable{
 	public String saveToString()
 	{
 		//Format of (service given id) (service given id of owner) (type of object) (body string)
+		if(textInput.equals(""))
+		{
+			textInput = "No Text Input";
+		}
+		
 		String ret;
 		body = String.format("%s %s %d %d %d %d %d %d %d", userDeviceId, textInput, dateAdded.getDate(), dateAdded.getHours(), dateAdded.getMinutes(), dateAdded.getMonth(), dateAdded.getSeconds(), dateAdded.getTime(), dateAdded.getYear());
 		
@@ -179,19 +184,17 @@ public class Fulfillment extends SavableToService implements Serializable{
 		String text = tokens[1];
 		
 		//audio and image files will be added by the service manager later
-
+		System.out.println(data);
+		System.out.printf("%s %s %s %s %s %s %s\n", tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8]);
 		
-		//System.out.printf("%s %s %s %s %s %s %s\n", tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8]);
-		
-
 		Fulfillment ret = new Fulfillment(ownerId, text/*, null, null*/);
 		ret.dateAdded.setDate(Integer.decode(tokens[2]));
 		ret.dateAdded.setHours(Integer.decode(tokens[3]));
 		ret.dateAdded.setMinutes(Integer.decode(tokens[4]));
 		ret.dateAdded.setMonth(Integer.decode(tokens[5]));
 		ret.dateAdded.setSeconds(Integer.decode(tokens[6]));
-		ret.dateAdded.setTime(Integer.decode(tokens[7]));
-		//ret.dateAdded.setYear(Integer.decode(tokens[8]));
+		//ret.dateAdded.setTime(Integer.decode(tokens[7]));
+		ret.dateAdded.setYear(Integer.decode(tokens[8]));
 		
 		return ret;
 	}

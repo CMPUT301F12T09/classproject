@@ -226,6 +226,7 @@ public class FulfillTaskActivity extends Activity {
     	//Ask for confirmation
     	//Send fulfillment to task manager
         TaskManager manage = TaskManager.getInstance(1, this);
+        fulfillment.belongsTo = manage.getTaskList().get(index).id;
         manage.addSubmission(index, fulfillment);
        	finish();
     }

@@ -32,6 +32,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 /**
  * This class is an activity where the suer will enter relevant information
  * for creating a new class.
@@ -110,6 +111,11 @@ public class CreateTaskActivity extends Activity {
      */
     public void confirmTask(View view)
     {
+    	if(validateText() == false)
+    	{           
+    		return;
+    	}
+    	
     	setResult(RESULT_OK);
     	
         String name = editName.getText().toString();
@@ -120,6 +126,33 @@ public class CreateTaskActivity extends Activity {
         
     	finish();
     }
+    
+    private boolean validateText()
+    {
+    	if(editName.getText().length() == 0)
+    	{
+    		Toast toast = Toast.makeText(this, "Task name cannot be empty", 10);
+            toast.show();
+            
+    		return false;
+    	}
+    	else if(editDesc.getText().length() == 0)
+    	{
+    		Toast toast = Toast.makeText(this, "Task description cannot be empty", 10);
+            toast.show();
+            
+    		return false;
+    	}
+    	else if(editName.getText().toString().matches("[a-zA-Z0-9]+") == false)
+    	{
+    		Toast toast = Toast.makeText(this, "Text contains illegal characters", 10);
+            toast.show();
+            
+    		return false;
+    	}
+    	
+    	return true;
+    } 
     
     /**
      * Checkbox handler taken from 

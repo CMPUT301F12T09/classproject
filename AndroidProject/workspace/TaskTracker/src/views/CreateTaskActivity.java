@@ -136,14 +136,14 @@ public class CreateTaskActivity extends Activity {
             
     		return false;
     	}
-    	else if(editDesc.getText().length() == 0)
+    	if(editDesc.getText().length() == 0)
     	{
     		Toast toast = Toast.makeText(this, "Task description cannot be empty", 10);
             toast.show();
             
     		return false;
     	}
-    	else if(editName.getText().toString().matches("[a-zA-Z0-9]+") == false)
+    	if(editName.getText().toString().matches("[a-zA-Z0-9]+") == false)
     	{
     		Toast toast = Toast.makeText(this, "Text contains illegal characters", 10);
             toast.show();

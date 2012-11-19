@@ -103,48 +103,6 @@ public class FulfillTaskActivity extends Activity {
         
         audio = new ArrayList<AudioFile>();
  //     photos = new ArrayList<ImageFile>();
-        
-        takePhoto.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                takePhoto(v);
-            }
-        });
-        
-        photoMem.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                findPhoto(v);
-            }
-        });
-        
-        recordAudio.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                recordAudio(v);
-            }
-        });
-        
-        audioMem.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                findAudio(v);
-            }
-        });
-        
-        save.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                saveFulfill(v);
-            }
-        });
-        
-        cancel.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                setResult(RESULT_OK);
-                cancelFulfill(v);
-            }
-        });
     }
 
     @Override
@@ -161,6 +119,7 @@ public class FulfillTaskActivity extends Activity {
      */
     public void takePhoto(View view)
     {
+    	setResult(RESULT_OK);
     	Intent intent = new Intent(FulfillTaskActivity.this, PhotoTakerActivity.class);
         intent.putExtra("task",curTask);
         //intent.putExtra("images", photos);
@@ -174,6 +133,7 @@ public class FulfillTaskActivity extends Activity {
      */
     public void recordAudio(View view)
     {
+    	setResult(RESULT_OK);
     	Intent intent = new Intent(FulfillTaskActivity.this, AudioRecorderActivity.class);
     	startActivity(intent); //change to require return
     	//get returned audio
@@ -186,6 +146,7 @@ public class FulfillTaskActivity extends Activity {
      */
     public void findPhoto(View view)
     {
+    	setResult(RESULT_OK);
     	Intent intent = new Intent(FulfillTaskActivity.this, MemoryCheckActivity.class);
     	//set extra for type
     	startActivity(intent); //change to require return
@@ -199,6 +160,7 @@ public class FulfillTaskActivity extends Activity {
      */
     public void findAudio(View view)
     {
+    	setResult(RESULT_OK);
     	Intent intent = new Intent(FulfillTaskActivity.this, MemoryCheckActivity.class);
     	//set extra for type
     	startActivity(intent); //change to require return
@@ -208,6 +170,7 @@ public class FulfillTaskActivity extends Activity {
     
     public void cancelFulfill(View view)
     {
+    	setResult(RESULT_OK);
     	finish();
     }
     
@@ -221,6 +184,7 @@ public class FulfillTaskActivity extends Activity {
      */
     public void saveFulfill(View view)
     {
+    	setResult(RESULT_OK);
     	//update the fulfillment with the current text from the text box
     	fulfillment.setTextInput(textResponse.getText().toString().trim());
     	//Ask for confirmation

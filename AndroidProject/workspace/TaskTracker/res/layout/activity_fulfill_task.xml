@@ -63,13 +63,15 @@
          android:layout_weight="0.33"
          android:layout_width="0px"
          android:layout_height="match_parent"
-         android:text="@string/button_fulfill_photo" />
+         android:text="@string/button_fulfill_photo" 
+         android:onClick="takePhoto"/>
     <Button
          android:id="@+id/button_fulfill_recordAudio"
          android:layout_weight="0.33"
          android:layout_width="0px"
          android:layout_height="match_parent"
-         android:text="@string/button_fulfill_audio" />
+         android:text="@string/button_fulfill_audio"  
+         android:onClick="recordAudio"/>
     
     </LinearLayout>
 	
@@ -85,13 +87,15 @@
          android:layout_weight="0.33"
          android:layout_width="0px"
          android:layout_height="match_parent"
-         android:text="@string/button_fulfill_photoMem" />
+         android:text="@string/button_fulfill_photoMem"  
+         android:onClick="findPhoto"/>
     <Button
          android:id="@+id/button_fulfill_audioMem"
          android:layout_weight="0.33"
          android:layout_width="0px"
          android:layout_height="match_parent"
-         android:text="@string/button_fulfill_audioMem" />
+         android:text="@string/button_fulfill_audioMem"  
+         android:onClick="findAudio"/>
     
     </LinearLayout>	
 	<View
@@ -109,13 +113,15 @@
          android:layout_weight="0.33"
          android:layout_width="0px"
          android:layout_height="match_parent"
-         android:text="@string/button_create_save" />
+         android:text="@string/button_create_save"  
+         android:onClick="saveFulfill"/>
       <Button
           android:id="@+id/button_fulfill_cancel"
           android:layout_weight="0.33"
           android:layout_width="0px"
           android:layout_height="match_parent"
-          android:text="@string/button_edit_cancel" />
+          android:text="@string/button_edit_cancel"  
+         android:onClick="cancelFulfill"/>
     
     </LinearLayout>
 

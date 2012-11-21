@@ -54,6 +54,9 @@ public class Fulfillment extends SavableToService implements Serializable{
 	private ArrayList<ImageFile> imageFiles;
 	private ArrayList<AudioFile> audioFiles;
 	
+	//id for sql database storage
+	private long db_Id;
+	
 	//Create new Fulfillment and set fields
 	public Fulfillment(String ownerId, String text/*, ArrayList<ImageFile> images, ArrayList<AudioFile> audio*/){
 		this.userDeviceId = ownerId;
@@ -122,6 +125,14 @@ public class Fulfillment extends SavableToService implements Serializable{
 		audioFiles.add(toAdd);
 	}
 	
+	public long getDbId(){
+		return db_Id;
+	}
+	
+	public void setDbId(long id){
+		this.db_Id = id;
+	}
+	
 	/**
 	 * Encodes the submission as a string for storage on webservice
 	 */
@@ -134,17 +145,19 @@ public class Fulfillment extends SavableToService implements Serializable{
 		int pictures = imageFiles.size();
 		int sounds = audioFiles.size();
 		if (this.textInput != null){
-			contents += "Text";
+			contents += "Text ";
 		}
 		if (pictures > 0){
-			contents += String.format(" %d Photo", pictures);
+			contents += String.format(" Photo: %d", pictures);
 		}
 		if (sounds > 0){ 
-			contents += String.format(" %d Audio", sounds);
+			contents += String.format(" Audio: %d", sounds);
 		}
 		
-		String task = String.format("User Id: %s\nDate: %d %d %d\nContents: %s \n",
-									  this.userDeviceId, this.dateAdded.getMonth(), this.dateAdded.getDate(), this.dateAdded.getYear(), contents);
+		String task = String.format("User Id: %s\nContents: %s \n",this.userDeviceId,contents);
+		
+		//String task = String.format("User Id: %s\nDate: %d %d %d\nContents: %s \n",
+		//							  this.userDeviceId, this.dateAdded.getMonth(), this.dateAdded.getDate(), this.dateAdded.getYear(), contents);
         return task;
 	}
 	

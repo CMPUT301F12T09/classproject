@@ -20,8 +20,8 @@ public final class R {
         public static final int CeateUpdate=0x7f070027;
         public static final int SortSearch=0x7f070023;
         public static final int attachments=0x7f070033;
-        public static final int button_audio_cancel=0x7f070001;
-        public static final int button_audio_record=0x7f070000;
+        public static final int button_audio_cancel=0x7f070000;
+        public static final int button_audio_record=0x7f070001;
         public static final int button_create_cancel=0x7f07000e;
         public static final int button_create_save=0x7f07000d;
         public static final int button_edit_cancel=0x7f070015;

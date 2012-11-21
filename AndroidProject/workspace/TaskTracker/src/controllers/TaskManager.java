@@ -49,6 +49,7 @@ public class TaskManager{
 	protected TaskManager(Context context){
 		this.TaskList = new ArrayList<Task>();
 		this.dbManager = DatabaseManager.getInstance(1, context);
+		dbManager.open();
 		this.sManager = ServiceManager.getInstance(1);
 		this.userId = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID); 
 		
@@ -81,7 +82,7 @@ public class TaskManager{
 		    
 		}
 		//Either way update local storage;
-		dbManager.saveTasks(TaskList);
+		dbManager.updateTask(TaskList.get(index));
 	}
 	/**update description of task at index*/
 	public void updateDesc(int index, String desc){
@@ -92,7 +93,7 @@ public class TaskManager{
 			//TODO update public storage via service manager;
 		}
 		//Either way update local storage;
-		dbManager.saveTasks(TaskList);
+		dbManager.updateTask(TaskList.get(index));
 	}
 	/**
 	 * Update the requirements of a task (photo/audio/text)
@@ -111,7 +112,7 @@ public class TaskManager{
 			//TODO update public storage via service manager;
 		}
 		//Either way update local storage;
-		dbManager.saveTasks(TaskList);
+		dbManager.updateTask(TaskList.get(index));
 	}
 	/**
 	 * Update whether or not the task is still accepting new fulfillments
@@ -126,7 +127,7 @@ public class TaskManager{
 			//TODO update public storage via service manager;
 		}
 		//Either way update local storage;
-		dbManager.saveTasks(TaskList);
+		dbManager.updateTask(TaskList.get(index));
 	}
 	/**
 	 * Update whether or not other users can see the task
@@ -141,7 +142,7 @@ public class TaskManager{
 			//TODO update public storage via service manager;
 		}
 		//Either way update local storage;
-		dbManager.saveTasks(TaskList);
+		dbManager.updateTask(TaskList.get(index));
 	}
 	/**
 	 * Create a new task and add it to the master list.
@@ -158,7 +159,7 @@ public class TaskManager{
 		
 		sManager.requestSaveOut(newTask, "TASK");
 		
-		dbManager.saveTasks(TaskList);
+		dbManager.newTask(newTask);
 	}
 	/**
 	 * Delete a task from the master list
@@ -172,7 +173,7 @@ public class TaskManager{
 		
 		sManager.removeFromService(toRemove);
 		
-		dbManager.saveTasks(TaskList);
+		dbManager.removeTask(toRemove);
 	}
 	/**
 	 * Add a fulfillment to a given task
@@ -211,7 +212,7 @@ public class TaskManager{
 			}
 		}
 		
-		dbManager.saveTasks(TaskList);
+		dbManager.addFulfillment(TaskList.get(index), ful);
 	}
 	/**
 	 * Remove an unwanted fulfillment from a task
@@ -227,7 +228,7 @@ public class TaskManager{
 		        sManager.removeFromService(ful);
 		}
 		//Either way update local storage;
-		dbManager.saveTasks(TaskList);
+		dbManager.removeFulfillment(ful);
 	}
 		
 	public ArrayList<Task> getTaskList(){
@@ -262,13 +263,13 @@ public class TaskManager{
 	public void addTask(Task toAdd)
 	{
 		TaskList.add(toAdd);
-		dbManager.saveTasks(this.TaskList);
+		dbManager.newTask(toAdd);
 	}
 	
 	public void clearTasks()
 	{
 		this.TaskList.clear();
-		dbManager.saveTasks(this.TaskList);
+		//dbManager.saveTasks(this.TaskList);
 	}
 	
 	public String getUserId()

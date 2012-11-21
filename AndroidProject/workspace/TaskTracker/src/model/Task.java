@@ -52,6 +52,9 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	//List of fulfillments attached to this task;
 	private ArrayList<Fulfillment> submissions;
 	
+	//id for sql database storage
+	private long db_Id;
+	
 	//Parcelable Constructor 
 	//code from techdroid.kbeanie.com/2010/06/parcelable-how-to-do-that-in-android.html 
 	public Task(Parcel in){
@@ -112,6 +115,7 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	}
 	public Task()
 	{
+		this.submissions = new ArrayList<Fulfillment>();
 	}
 
 	/**
@@ -172,8 +176,8 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		}
 	}
 	
-	public void setWantPhoto(boolean text){
-		if (text){
+	public void setWantPhoto(boolean photo){
+		if (photo){
 			this.flags = (byte) (flags | (1 << 7));
 		}else{
 			this.flags = (byte) (flags & ~(1 << 7));
@@ -253,6 +257,15 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	{
 		submissions.add(toAdd);
 	}
+	
+	public long getDbId(){
+		return db_Id;
+	}
+	
+	public void setDbId(long id){
+		this.db_Id = id;
+	}
+	
 	/**
 	 * Encodes the task itself as a string for storage and loading
 	 */
@@ -261,9 +274,9 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		String scope;
 		String requirements = "";
 		if(this.getIsPublic()){
-			scope = "public";
+			scope = "Public";
 		}else{
-			scope = "private";
+			scope = "Private";
 		}
 		if(this.getWantText()){
 			requirements += "Text";

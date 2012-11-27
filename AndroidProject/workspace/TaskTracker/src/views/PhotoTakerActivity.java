@@ -135,7 +135,7 @@ public class PhotoTakerActivity extends Activity //implements SurfaceHolder.Call
     public void usePhoto(View view){
         //photos.add(new ImageFile(thumbnail));
         FulfillTaskActivity.fulfillment.addImage(new ImageFile(ourBMP));
-    	Toast toast = Toast.makeText(this, "Image saved", 5);
+    	Toast toast = Toast.makeText(this, "Image saved: " + FulfillTaskActivity.fulfillment.getImageFiles().size(), 5);
         toast.show();
     }
     

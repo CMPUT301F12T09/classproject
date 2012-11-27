@@ -273,7 +273,7 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	public String toString() {  
 		String scope;
 		String requirements = "";
-		if(this.getIsPublic()){
+/*		if(this.getIsPublic()){
 			scope = "Public";
 		}else{
 			scope = "Private";
@@ -290,8 +290,11 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		
 		String task = String.format("Task Name: %s\nDescription: %s\nScope: %s \n" +
 									 "Required: %s", this.taskName, this.taskDescription,
-										scope, requirements);
-        return task;
+										scope, requirements);*/
+		//As per Victor's request - only display task name.  
+		
+		return this.taskName;
+        //return task;
 	}
 	/**
 	 * Save the task itself as a String (called by Service Manager)

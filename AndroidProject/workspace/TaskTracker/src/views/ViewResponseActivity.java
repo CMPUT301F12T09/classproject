@@ -58,6 +58,7 @@ public class ViewResponseActivity extends Activity {
         index = data.getInt("index");
         ful = (Fulfillment) getIntent().getSerializableExtra("response");       
         
+        
         taskName = (TextView) findViewById(R.id.response_taskname); 
         taskName.setText("Task Name: " + curTask.getTaskName());
         taskDesc = (TextView) findViewById(R.id.response_desc); 

@@ -70,6 +70,7 @@ public class Fulfillment extends SavableToService implements Serializable{
 	
 	public Fulfillment()
 	{
+		this.dateAdded = new Date();
 		this.imageFiles = new ArrayList<ImageFile>();
 		this.audioFiles = new ArrayList<AudioFile>();
 	}
@@ -210,5 +211,25 @@ public class Fulfillment extends SavableToService implements Serializable{
 		ret.dateAdded.setYear(Integer.decode(tokens[8]));
 		
 		return ret;
+	}
+	
+	public String saveDateToString()
+	{
+		String ret = String.format("%d %d %d %d %d %d", dateAdded.getDate(), dateAdded.getHours(), dateAdded.getMinutes(), dateAdded.getMonth(), dateAdded.getSeconds(), dateAdded.getYear());
+		return ret;
+	}
+	
+	public void readDateFromString(String data)
+	{
+		System.out.println(data);
+		String deliminator = "[ ]+";
+		String[] tokens = data.split(deliminator);
+
+		dateAdded.setDate(Integer.decode(tokens[0]));
+		dateAdded.setHours(Integer.decode(tokens[1]));
+		dateAdded.setMinutes(Integer.decode(tokens[2]));
+		dateAdded.setMonth(Integer.decode(tokens[3]));
+		dateAdded.setSeconds(Integer.decode(tokens[4]));
+		dateAdded.setYear(Integer.decode(tokens[5]));
 	}
 }

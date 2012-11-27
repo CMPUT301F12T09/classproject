@@ -95,7 +95,9 @@ public class DatabaseManager{
 		val.put("is_public", task.getIsPublic());
 		val.put("is_open", task.getIsOpen());
 		val.put("user_device_id", task.getUserDeviceId());
-		db.insert("tasks", null, val);
+		val.put("belongs_to_id", task.belongsTo);
+		val.put("body", task.body);
+		task.setDbId(db.insert("tasks", null, val));
 		ArrayList<Fulfillment> submissions = task.getSubmissions();
 		for(Fulfillment f : submissions){
 			
@@ -105,10 +107,15 @@ public class DatabaseManager{
 	public void addFulfillment(Task task, Fulfillment ful){
 		long t_id = task.getDbId();
 		ContentValues val = new ContentValues();
+		val.put("service_id", ful.getId());
+		val.put("service_type", ful.type);
 		val.put("user_device_id", ful.getUserDeviceId());
 		val.put("text_response", ful.getTextInput());
 		val.put("date_added", ful.getDateAdded().toString());
 		val.put("parent_task", t_id);
+		val.put("belongs_to_id", ful.belongsTo);
+		val.put("body", ful.body);
+		val.put("date_added", ful.saveDateToString());
 		long f_id = db.insert("fulfillments", null, val);
 		ArrayList<ImageFile> images = ful.getImageFiles();
 		for(ImageFile i : images){
@@ -143,6 +150,8 @@ public class DatabaseManager{
 	public void updateTask(Task task){
 		long t_id = task.getDbId();
 		ContentValues val = new ContentValues();
+		val.put("service_id", task.getId());
+		val.put("service_type", task.type);
 		val.put("task_name", task.getTaskName());
 		val.put("task_description", task.getTaskDescription());
 		val.put("want_text", task.getWantText());
@@ -151,7 +160,21 @@ public class DatabaseManager{
 		val.put("is_public", task.getIsPublic());
 		val.put("is_open", task.getIsOpen());
 		val.put("user_device_id", task.getUserDeviceId());
+		val.put("belongs_to_id", task.belongsTo);
+		val.put("body", task.body);
 		db.update("tasks", val, "task_id = "+ t_id, null);
+	}
+	
+	public void updateFulfillment(Fulfillment ful){
+		long f_id = ful.getDbId();
+		ContentValues val = new ContentValues();
+		val.put("service_id", ful.getId());
+		val.put("service_type", ful.type);
+		val.put("user_device_id", ful.getUserDeviceId());
+		val.put("belongs_to_id", ful.belongsTo);
+		val.put("body", ful.body);
+		val.put("date_added", ful.saveDateToString());
+		db.update("fulfillments", val, "fulfill_id = "+ f_id, null);
 	}
 	
 	public void removeTask(Task task){
@@ -165,7 +188,6 @@ public class DatabaseManager{
 	
 	public ArrayList<Task> loadTasks(){
 		ArrayList<Task> tasks = new ArrayList<Task>();
-		
 		Cursor cursorTask = db.query("tasks", null, null, null, null, null, null);
 		
 		cursorTask.moveToFirst();
@@ -176,10 +198,35 @@ public class DatabaseManager{
 		}
 		cursorTask.close();
 		
+		ArrayList<Fulfillment> fuls = new ArrayList<Fulfillment>();
+		Cursor cursorFulfillments = db.query("fulfillments", null, null, null, null, null, null);
+		
+		cursorFulfillments.moveToFirst();
+		while(!cursorFulfillments.isAfterLast()){
+			Fulfillment ful = rebuildFulfillment(cursorFulfillments);
+			fuls.add(ful);
+			cursorFulfillments.moveToNext();
+		}
+		cursorFulfillments.close();
+		
+		for(int i = 0; i < fuls.size(); i++)
+		{
+			Fulfillment ful = fuls.get(i);
+			for(int j = 0; j < tasks.size(); j++)
+			{
+				if(tasks.get(j).id == ful.belongsTo)
+				{
+					tasks.get(j).addFulfillment(ful);
+					break;
+				}
+			}
+		}
+		
 		return tasks;
 	}
 	
 	private Task rebuildTask(Cursor c){
+		System.out.println(c.getColumnCount());
 		Task task = new Task();
 		long t_id = c.getLong(0);
 		task.setDbId(t_id);
@@ -213,6 +260,8 @@ public class DatabaseManager{
 			task.setIsOpen(false);
 		}
 		task.setUserDeviceId(c.getString(10));
+		task.belongsTo = c.getString(11);
+		task.body = c.getString(12);
 		
 		
 		Cursor cursorFulfill  = db.query("fulfillments", null, "parent_task = "+t_id, null, null, null, null);
@@ -235,12 +284,10 @@ public class DatabaseManager{
 		ful.setType(c.getString(2));
 		ful.setUserDeviceId(c.getString(3));
 		ful.setTextInput(c.getString(4));
-		try{
-			Date date = new SimpleDateFormat().parse(c.getString(5));
-			ful.setDateAdded(date);
-		}catch(Exception e){
-			
-		}
+		ful.readDateFromString(c.getString(5));
+		ful.belongsTo = c.getString(7);
+		ful.type = c.getString(8);
+
 		ArrayList<ImageFile> newImages = new ArrayList<ImageFile>();
 		Cursor cursorPhotos  = db.query("photos", null, "parent_fulfill = "+f_id, null, null, null, null);
 		cursorPhotos.moveToFirst();
@@ -283,5 +330,13 @@ public class DatabaseManager{
 		audio.setType(c.getString(2));
 		
 		return audio;
+	}
+	
+	public void emptyDatabase()
+	{
+		db.delete("tasks", null, null);
+		db.delete("fulfillments", null, null);
+		//db.delete("images", null, null);
+		//db.delete("audio", null, null);
 	}
 }

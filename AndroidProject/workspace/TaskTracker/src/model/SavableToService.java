@@ -48,6 +48,10 @@ public class SavableToService implements Serializable
 	public void setType(String inType){
 		type = inType;
 	}
+	public long getDbId()
+	{
+		return -1;
+	}
 		
 	public String id;
 	public String belongsTo;

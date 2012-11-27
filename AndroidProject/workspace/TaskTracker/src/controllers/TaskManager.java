@@ -157,9 +157,9 @@ public class TaskManager{
 		Task newTask = new Task(userId, name, desc, wantText, wantPhoto, wantAudio, isPublic);
 		TaskList.add(newTask);
 		
-		sManager.requestSaveOut(newTask, "TASK");
-		
 		dbManager.newTask(newTask);
+		
+		sManager.requestSaveOut(newTask, "TASK", this);
 	}
 	/**
 	 * Delete a task from the master list
@@ -193,21 +193,23 @@ public class TaskManager{
 		//Either way update local storage;
 		dbManager.saveTasks(TaskList);
 	}*/
-	public void addSubmission(int index, Fulfillment ful){
+	public void addSubmission(int index, Fulfillment ful){	
+    	this.TaskList = dbManager.loadTasks();
 		TaskList.get(index).addSubmission(ful);
 		
 		if(TaskList.get(index).id != null)
 		{
-			sManager.requestSaveOut(ful, "FULLFILMENT");
+			System.out.println("Request");
+			sManager.requestSaveOut(ful, "FULLFILMENT", this);
 			
 			for (int i = 0; i < ful.getImageFiles().size(); i++) {
 				ful.getImageFiles().get(i).belongsTo = ful.id;
-				sManager.requestSaveOut(ful.getImageFiles().get(i),"IMAGE");
+				sManager.requestSaveOut(ful.getImageFiles().get(i),"IMAGE", this);
 				ful.getImageFiles().get(i).setType("Image");
 			}
 			for (int i = 0; i < ful.getAudioFiles().size(); i++) {
 				ful.getAudioFiles().get(i).belongsTo = ful.id;
-				sManager.requestSaveOut(ful.getAudioFiles().get(i),"AUDIO");
+				sManager.requestSaveOut(ful.getAudioFiles().get(i),"AUDIO", this);
 				ful.getImageFiles().get(i).setType("Audio");
 			}
 		}
@@ -269,11 +271,48 @@ public class TaskManager{
 	public void clearTasks()
 	{
 		this.TaskList.clear();
-		//dbManager.saveTasks(this.TaskList);
+		dbManager.emptyDatabase();
 	}
 	
 	public String getUserId()
 	{
 		return userId;
+	}
+	
+	public void refresh(Task toRefresh)
+	{
+		dbManager.updateTask(toRefresh);
+		for(int i = 0; i < TaskList.size(); i++)
+		{
+			if(TaskList.get(i).getDbId() == toRefresh.getDbId())
+			{
+				TaskList.get(i).setId(toRefresh.getId());
+				break;
+			}
+		}
+	}
+	
+	public void refresh(Fulfillment toRefresh)
+	{
+		int breaking = 0;
+		dbManager.updateFulfillment(toRefresh);
+		for(int i = 0; i < TaskList.size(); i++)
+		{
+			ArrayList<Fulfillment> temp = TaskList.get(i).getSubmissions();
+			for(int j = 0; j < temp.size(); j++)
+			{
+				if(temp.get(i).getDbId() == toRefresh.getDbId())
+				{
+					TaskList.get(i).setId(toRefresh.getId());
+					breaking = 1;
+					break;
+				}
+			}
+		
+			if(breaking == 1)
+			{
+				break;
+			}
+		}
 	}
 }

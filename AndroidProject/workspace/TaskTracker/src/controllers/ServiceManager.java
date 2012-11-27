@@ -105,7 +105,7 @@ public class ServiceManager
 	 * @param toSend
 	 * @param type
 	 */
-	public void requestSaveOut(final SavableToService toSend, final String type)
+	public void requestSaveOut(final SavableToService toSend, final String type, final TaskManager requester)
 	{	
 		new AsyncTask<Void, Void, Void>()
 		{
@@ -145,21 +145,30 @@ public class ServiceManager
 				    toSend.belongsTo = tempNew.id; //Tasks should belong to themselves, or nothing if that seems weird
 				    
 				    System.out.println("ADDING ID " + tempNew.id);
+
+				    if(type.equals("TASK"))
+				    {
+				    	requester.refresh((Task)toSend);
+				    }
+				    else if(type.equals("FULFILLMENT"))
+				    {
+				    	requester.refresh((Fulfillment)toSend);
+				    }
 		    	}
 		    	catch(ClientProtocolException e)
 				{
 					System.out.println("ERROR-Protocol");
-					System.out.println(e);
+					e.printStackTrace();
 				}
 				catch(IOException e)
 				{
 					System.out.println("ERROR-IO");
-					System.out.println(e);
+					e.printStackTrace();
 				}
 				catch(Exception e)
 				{
 					System.out.println("ERROR-General");
-					System.out.println(e);
+					e.printStackTrace();
 				}
     			
     			return null;
@@ -235,17 +244,17 @@ public class ServiceManager
 		    	catch(ClientProtocolException e)
 				{
 					System.out.println("ERROR-Protocol");
-					System.out.println(e);
+					e.printStackTrace();
 				}
 				catch(IOException e)
 				{
 					System.out.println("ERROR-IO");
-					System.out.println(e);
+					e.printStackTrace();
 				}
 				catch(Exception e)
 				{
 					System.out.println("ERROR-General");
-					System.out.println(e);
+					e.printStackTrace();
 				}
 			}
 			else
@@ -293,17 +302,17 @@ public class ServiceManager
 		    	catch(ClientProtocolException e)
 				{
 					System.out.println("ERROR-Protocol");
-					System.out.println(e);
+					e.printStackTrace();
 				}
 				catch(IOException e)
 				{
 					System.out.println("ERROR-IO");
-					System.out.println(e);
+					e.printStackTrace();
 				}
 				catch(Exception e)
 				{
 					System.out.println("ERROR-General");
-					System.out.println(e);
+					e.printStackTrace();
 				}
 			}
 		}
@@ -372,17 +381,17 @@ public class ServiceManager
 	    	catch(ClientProtocolException e)
 			{
 				System.out.println("ERROR-Protocol");
-				System.out.println(e);
+				e.printStackTrace();
 			}
 			catch(IOException e)
 			{
 				System.out.println("ERROR-IO");
-				System.out.println(e);
+				e.printStackTrace();
 			}
 			catch(Exception e)
 			{
 				System.out.println("ERROR-General");
-				System.out.println(e);
+				e.printStackTrace();
 			}
 		}
 		else
@@ -434,17 +443,17 @@ public class ServiceManager
 	    	catch(ClientProtocolException e)
 			{
 				System.out.println("ERROR-Protocol");
-				System.out.println(e);
+				e.printStackTrace();
 			}
 			catch(IOException e)
 			{
 				System.out.println("ERROR-IO");
-				System.out.println(e);
+				e.printStackTrace();
 			}
 			catch(Exception e)
 			{
 				System.out.println("ERROR-General");
-				System.out.println(e);
+				e.printStackTrace();
 			}
 		}
 		else

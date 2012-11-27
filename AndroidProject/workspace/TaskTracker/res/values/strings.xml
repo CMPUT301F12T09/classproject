@@ -52,7 +52,7 @@
     <string name="photo_done">Done taking Photos</string>
     <string name="menu_delete">Delete Response</string>    
     <string name="email_hint">Your email here</string>
-    <string name="text_email">Email Address (Optional)</string>
+    <string name="text_email">Email Address (Optional):</string>
     
     
     
@@ -61,8 +61,8 @@
     <string name="button_edit_delete">Delete Task</string>
     <string name="button_fulfill_photo">Take Picture(s)</string>
     <string name="button_fulfill_audio">Record Audio</string>
-    <string name="button_fulfill_photoMem">Photo(s) From Memory</string>
-    <string name="button_fulfill_audioMem">Audio From Memory</string>
+    <string name="button_fulfill_photoMem">My Photos</string>
+    <string name="button_fulfill_audioMem">My Sounds</string>
     <string name="button_fulfill_save">Save</string>
     <string name="button_fulfill_cancel">Cancel</string>
     <string name="button_photo_retake">Retake Photo</string>

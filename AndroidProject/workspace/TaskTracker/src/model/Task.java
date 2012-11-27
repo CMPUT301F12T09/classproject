@@ -172,6 +172,13 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		this.taskDescription = desc;
 	}
 	
+	public void setEmail(String email){
+		this.email = email;
+	}
+	public String getEmail(){
+		return email;
+	}
+	
 	public boolean getWantPhoto(){
 		if(((flags >>> 7) & 1) == 1){
 			return true;

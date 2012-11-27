@@ -138,7 +138,9 @@ public class MainScreenActivity extends Activity {
                 //Make task public
                 return true;
             case R.id.menu_edit:
-                intent = new Intent(this,EditTaskActivity.class);
+            	intent = new Intent(this,EditTaskActivity.class);
+                intent.putExtra("Task", TaskList.get((int)info.id));
+                intent.putExtra("index",(int)info.id);
                 startActivity(intent);
                 return true;
             case R.id.menu_view:

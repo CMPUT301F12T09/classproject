@@ -17,14 +17,17 @@
 
 package views;
 
-import com.example.tasktracker.R;
-import com.example.tasktracker.R.layout;
-import com.example.tasktracker.R.menu;
-
-import android.os.Bundle;
+import model.Task;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
+import com.example.tasktracker.R;
 /**
  * This class is an activity which allows the author of a task to edit
  * relevant information
@@ -41,6 +44,21 @@ import android.view.View;
  */
 public class EditTaskActivity extends Activity {
 
+	private EditText email, desc, name;
+    private CheckBox text;
+    private CheckBox photo;
+    private CheckBox audio;
+    private boolean wantText;
+    private boolean wantAudio;
+    private boolean wantPhoto;
+    private boolean isPublic;
+    private boolean isOpen;
+    private RadioButton radioPublic;
+    private RadioButton radioPrivate;
+    private RadioButton radioOpen;
+    private RadioButton radioClosed;
+	private Task task;
+	private int index;
     @Override
     /**
      * When implemented, this method will initiate the UI components and 
@@ -49,8 +67,55 @@ public class EditTaskActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
+        
+        Bundle bundle = getIntent().getExtras();
+        task = (Task) bundle.get("Task");
+        index = bundle.getInt("index");
+        
+        email = (EditText) findViewById(R.id.edit_email_edit);
+        desc = (EditText) findViewById(R.id.text_edit_desc);
+        name = (EditText) findViewById(R.id.text_edit_name);
+        email.setText(task.getEmail());
+        desc.setText(task.getTaskDescription());
+        name.setText(task.getTaskName());
+        
+        text = (CheckBox) findViewById(R.id.checkbox_text);
+        audio = (CheckBox) findViewById(R.id.checkbox_audio);
+        photo = (CheckBox) findViewById(R.id.checkbox_photo);
+        
+        if(task.getWantAudio()){
+        	audio.setChecked(true);
+        }
+        if(task.getWantPhoto()){
+        	photo.setChecked(true);
+        }
+        if(task.getWantText()){
+        	text.setChecked(true);
+        }
+        
+        radioPublic = (RadioButton) findViewById(R.id.radio_public);
+        radioPrivate = (RadioButton) findViewById(R.id.radio_private);
+
+        if (task.getIsPublic()){
+        	radioPublic.setChecked(true);
+        	isPublic = true;
+        }else{
+        	isPublic = false;
+        	radioPrivate.setChecked(false);
+        }
+        radioOpen = (RadioButton) findViewById(R.id.radio_open);
+        radioClosed = (RadioButton) findViewById(R.id.radio_close);
+        if(task.getIsOpen()){
+        	isOpen = true;
+        	radioOpen.setChecked(true);
+        }else{
+        	isOpen = false;
+        	radioClosed.setChecked(true);
+        }
+
     }
 
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_edit_task, menu);
@@ -81,4 +146,56 @@ public class EditTaskActivity extends Activity {
     	//Tell task manager to remove
     	finish();
     }
+    public void onCheckBoxClicked(View view){
+        boolean checked = ((CheckBox) view).isChecked();
+        switch(view.getId()){
+            case R.id.checkbox_text:
+                if(checked){
+                    wantText = true;
+                }else{
+                    wantText = false;
+                }
+                break;
+            case R.id.checkbox_photo:
+                if(checked){
+                    wantPhoto = true;
+                }else{
+                    wantPhoto = false;
+                }
+                break;
+            case R.id.checkbox_audio:
+                if(checked){
+                    wantAudio = true;
+                }else{
+                    wantAudio = false;
+                }
+        }
+    }
+    public void onRadioButtonClicked(View view){
+        boolean checked = ((RadioButton) view).isChecked();
+        switch(view.getId()){
+            case R.id.radio_public:
+                if(checked){
+                    isPublic = true;
+                }
+                break;
+            case R.id.radio_private:
+                if(checked){
+                    isPublic = false;
+                }
+                break;
+            case R.id.radio_open:
+            	if(checked){
+            		isOpen = true;
+            	}
+            	break;
+            case R.id.radio_close:
+            	if(checked){
+            		isOpen = false;
+            	}
+            		
+        }
+    }
+    
+    
 }

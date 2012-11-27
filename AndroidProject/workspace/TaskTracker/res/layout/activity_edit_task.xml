@@ -33,6 +33,25 @@
        	android:layout_width="match_parent"
        	android:layout_height="wrap_content"/>  
        	
+  	<TextView
+   	    android:id="@+id/edit_text_email"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_email"
+   	    android:textStyle="bold" />		
+    	
+  	<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:id="@+id/edit_email_edit"
+       	android:hint="@string/email_hint"
+       	android:layout_width="match_parent"
+       	android:layout_height="wrap_content"
+       	android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textNoSuggestions"
+        android:imeOptions="actionSend|flagNoEnterAction"
+        android:maxLines="1"
+        android:maxLength="2000"
+       	/>        	
+  	
+       	
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -112,17 +131,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/text_create_photo"
-        android:onClick="onCheckboxClicked"/>   	    
+        />   	    
     <CheckBox android:id="@+id/checkbox_audio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/text_create_audio"
-        android:onClick="onCheckboxClicked"/> 	
+        /> 	
     <CheckBox android:id="@+id/checkbox_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/text_create_text"
-        android:onClick="onCheckboxClicked"/> 	
+        /> 	
         
 </LinearLayout>    
         
@@ -144,18 +163,21 @@
          android:layout_weight="0.33"
          android:layout_width="0px"
          android:layout_height="match_parent"
+         android:onClick="saveEdit"
          android:text="@string/button_edit_save" />
      <Button
          android:id="@+id/button_edit_delete"
          android:layout_weight="0.33"
          android:layout_width="0px"
          android:layout_height="match_parent"
+         android:onClick="deleteTask"
          android:text="@string/button_edit_delete" />
       <Button
           android:id="@+id/button_edit_cancel"
           android:layout_weight="0.33"
           android:layout_width="0px"
           android:layout_height="match_parent"
+          android:onClick="cancelEdit"
           android:text="@string/button_edit_cancel" />
     
     </LinearLayout>

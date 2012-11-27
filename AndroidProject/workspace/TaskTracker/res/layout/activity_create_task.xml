@@ -46,14 +46,28 @@
         android:maxLines="4"
         android:maxLength="2000"
        	/>  
-       	
-  	<TextView
-   	    android:id="@+id/text_create_scope"
+
+
+      	<TextView
+   	    android:id="@+id/text_email"
    	    android:layout_weight="1"
    	    android:layout_width="wrap_content"
    	    android:layout_height="wrap_content"
-   	    android:text="@string/text_create_scope"
-   	    android:textStyle="bold" />	
+   	    android:text="@string/text_email"
+   	    android:textStyle="bold" />		
+    	
+  	<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:id="@+id/email_edit"
+       	android:hint="@string/email_hint"
+       	android:layout_weight="20"
+       	android:layout_width="match_parent"
+       	android:layout_height="wrap_content"
+       	android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textNoSuggestions"
+        android:imeOptions="actionSend|flagNoEnterAction"
+        android:maxLines="1"
+        android:maxLength="2000"
+       	/>        	
+
 
 	<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_weight="100"

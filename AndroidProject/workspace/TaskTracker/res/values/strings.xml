@@ -51,7 +51,8 @@
     <string name="menu_viewresponse">View Response</string>    
     <string name="photo_done">Done taking Photos</string>
     <string name="menu_delete">Delete Response</string>    
-    
+    <string name="email_hint">Your email here</string>
+    <string name="text_email">Email Address (Optional)</string>
     
     
     

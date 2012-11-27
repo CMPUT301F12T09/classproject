@@ -55,6 +55,7 @@ public class CreateTaskActivity extends Activity {
 
     private EditText editName;
     private EditText editDesc;
+    private EditText editEmail;
     private Button save;
     private Button cancel;
     private CheckBox text;
@@ -79,6 +80,7 @@ public class CreateTaskActivity extends Activity {
         cancel = (Button) findViewById(R.id.button_create_cancel);
         editName = (EditText) findViewById(R.id.text_edit_name);
         editDesc = (EditText) findViewById(R.id.text_edit_desc);
+        editEmail = (EditText) findViewById(R.id.email_edit);
         text = (CheckBox) findViewById(R.id.checkbox_text);
         photo = (CheckBox) findViewById(R.id.checkbox_photo);
         audio = (CheckBox) findViewById(R.id.checkbox_audio);
@@ -120,9 +122,9 @@ public class CreateTaskActivity extends Activity {
     	
         String name = editName.getText().toString();
         String desc = editDesc.getText().toString();
-        
+        String email = editEmail.getText().toString();
         TaskManager manager = TaskManager.getInstance(1, this);
-        manager.createTask(name, desc, wantText, wantPhoto, wantAudio, isPublic);
+        manager.createTask(name, desc, wantText, wantPhoto, wantAudio, isPublic, email);
         
     	finish();
     }

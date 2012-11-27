@@ -153,8 +153,8 @@ public class TaskManager{
 	 * @param wantAudio
 	 * @param isPublic
 	 */
-	public void createTask(String name, String desc, boolean wantText, boolean wantPhoto, boolean wantAudio, boolean isPublic){
-		Task newTask = new Task(userId, name, desc, wantText, wantPhoto, wantAudio, isPublic);
+	public void createTask(String name, String desc, boolean wantText, boolean wantPhoto, boolean wantAudio, boolean isPublic, String email){
+		Task newTask = new Task(userId, name, desc, wantText, wantPhoto, wantAudio, isPublic, email);
 		TaskList.add(newTask);
 		
 		dbManager.newTask(newTask);

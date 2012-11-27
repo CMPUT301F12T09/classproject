@@ -68,6 +68,7 @@ public class PhotoTakerActivity extends Activity //implements SurfaceHolder.Call
     private Task curTask;
     private final static int CAMERA_PIC_REQUEST = 4444;
     private ArrayList<ImageFile> photos;
+    private Button usePhoto;
     @Override
     /**
      * Create all UI elements and connect the appropriate listeners.
@@ -77,10 +78,13 @@ public class PhotoTakerActivity extends Activity //implements SurfaceHolder.Call
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_taker);
-        
+                
         Bundle data = getIntent().getExtras();
         //curTask =(Task) data.getParcelable("task");
 
+        usePhoto = (Button) findViewById(R.id.button_photo_use);
+        usePhoto.setEnabled(false);
+        
         curTask = (Task) getIntent().getSerializableExtra("task");
         photos = (ArrayList<ImageFile>) getIntent().getSerializableExtra("images");
     }
@@ -99,6 +103,7 @@ public class PhotoTakerActivity extends Activity //implements SurfaceHolder.Call
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         try{
             startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+            usePhoto.setEnabled(true);
         }
         catch(Exception e){
             
@@ -115,6 +120,7 @@ public class PhotoTakerActivity extends Activity //implements SurfaceHolder.Call
             thumbnail = (Bitmap) data.getExtras().get("data");  
             ImageView image = (ImageView) findViewById(R.id.takePhoto);  
             image.setImageBitmap(thumbnail); 
+            
         }  }
         catch (Exception e){
             
@@ -129,7 +135,7 @@ public class PhotoTakerActivity extends Activity //implements SurfaceHolder.Call
     public void usePhoto(View view){
         //photos.add(new ImageFile(thumbnail));
         FulfillTaskActivity.fulfillment.addImage(new ImageFile(ourBMP));
-    	Toast toast = Toast.makeText(this, "Image saved", 5);
+    	Toast toast = Toast.makeText(this, "Image saved: " + FulfillTaskActivity.fulfillment.getImageFiles().size(), 5);
         toast.show();
     }
     
@@ -152,5 +158,7 @@ public class PhotoTakerActivity extends Activity //implements SurfaceHolder.Call
 		ImageButton button = (ImageButton) findViewById(R.id.takePhoto);
 		ourBMP = PictureGenerator.generateBitmap(400,400);
 		button.setImageBitmap(ourBMP);
+        usePhoto.setEnabled(true);
+
 	}
 }

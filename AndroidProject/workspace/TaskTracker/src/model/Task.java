@@ -49,6 +49,9 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	//Device Id of user who created task
 	private String userDeviceId;
 	
+	//email address of task creator if the want email updates
+	private String email = "";
+	
 	//List of fulfillments attached to this task;
 	private ArrayList<Fulfillment> submissions;
 	
@@ -102,7 +105,7 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	 * @param isPublic
 	 */
 	//Create task and set fields
-	public Task(String ownerId, String name, String desc, boolean wantText, boolean wantPhoto, boolean wantAudio, boolean isPublic){
+	public Task(String ownerId, String name, String desc, boolean wantText, boolean wantPhoto, boolean wantAudio, boolean isPublic, String email){
 		this.taskName = name;
 		this.taskDescription = desc;
 		this.setWantText(wantText);
@@ -112,6 +115,7 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		this.setIsOpen(true);
 		this.userDeviceId = ownerId;
 		this.submissions = new ArrayList<Fulfillment>();
+		this.email = email;
 	}
 	public Task()
 	{
@@ -273,7 +277,7 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	public String toString() {  
 		String scope;
 		String requirements = "";
-		if(this.getIsPublic()){
+/*		if(this.getIsPublic()){
 			scope = "Public";
 		}else{
 			scope = "Private";
@@ -290,8 +294,11 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		
 		String task = String.format("Task Name: %s\nDescription: %s\nScope: %s \n" +
 									 "Required: %s", this.taskName, this.taskDescription,
-										scope, requirements);
-        return task;
+										scope, requirements);*/
+		//As per Victor's request - only display task name.  
+		
+		return this.taskName;
+        //return task;
 	}
 	/**
 	 * Save the task itself as a String (called by Service Manager)
@@ -332,7 +339,8 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		boolean isPublic = tokens[6].equals("true");
 		boolean isOpen = tokens[7].equals("true");
 		
-		Task ret = new Task(ownerId, name, desc, wantText, wantPhoto, wantAudio, isPublic);
+		//last argument is empty, should be email, needs to be iomplemented in save
+		Task ret = new Task(ownerId, name, desc, wantText, wantPhoto, wantAudio, isPublic, "");
 		ret.setIsOpen(isOpen);
 		
 		return ret;

@@ -144,7 +144,7 @@ public class Fulfillment extends SavableToService implements Serializable{
 		
 		int pictures = imageFiles.size();
 		int sounds = audioFiles.size();
-		if (this.textInput != null){
+		if (!(this.textInput.equals("")) && !(this.textInput.equals("No Text Input"))){
 			contents += "Text ";
 		}
 		if (pictures > 0){

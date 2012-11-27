@@ -109,7 +109,6 @@ public class ViewTaskActivity extends Activity {
                 intent.putExtra("response", ful);
                 startActivity(intent);
     			
-    			startActivity(intent);
     		}
     	});
         

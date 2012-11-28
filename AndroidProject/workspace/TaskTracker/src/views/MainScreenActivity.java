@@ -229,6 +229,8 @@ public class MainScreenActivity extends Activity {
     public void updateListContents()
     {
     	TaskList = tManager.getTaskList();
+    	
+    	
 	    adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
 	    tasks.setAdapter(adapter);
 	    Button updateData = (Button) findViewById(R.id.updateData);

@@ -245,7 +245,7 @@ public class TaskManager{
 		ArrayList<Task> viewable = new ArrayList<Task>();
 		for (int i = 0; i < this.TaskList.size(); i++){
 			//Check if we can't view the task i.e. private and not ours
-			if (this.TaskList.get(i).getIsPublic() == false && this.TaskList.get(i).belongsTo != Secure.getString(getContext().getContentResolver(), Secure.ANDROID_ID))
+			if (this.TaskList.get(i).getIsPublic() == false && this.TaskList.get(i).getUserDeviceId() != userId)
 			{
 				continue;
 			}

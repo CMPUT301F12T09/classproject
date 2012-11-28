@@ -20,16 +20,6 @@ package views;
 import java.util.ArrayList;
 
 import model.Task;
-
-import com.example.tasktracker.R;
-import com.example.tasktracker.R.id;
-import com.example.tasktracker.R.layout;
-import com.example.tasktracker.R.menu;
-import com.example.tasktracker.R.string;
-
-import controllers.ServiceManager;
-import controllers.TaskManager;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -45,9 +35,13 @@ import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.tasktracker.R;
+
+import controllers.ServiceManager;
+import controllers.TaskManager;
 /**
  * This is the main screen of the app.  It contains a scrollable
  * list of tasks that are visible to the user, as well as buttons to create
@@ -138,6 +132,14 @@ public class MainScreenActivity extends Activity {
                 //Make task public
                 return true;
             case R.id.menu_edit:
+            	
+            	//this conditional always says you can't edit even though i just created the task
+            	
+            	/*if (tManager.getUserId() != TaskList.get((int)info.id).getUserDeviceId()){
+                	Toast toast = Toast.makeText(this, "Not your task to edit!", 5);
+                    toast.show();
+            		return true;
+            	}*/
             	intent = new Intent(this,EditTaskActivity.class);
                 intent.putExtra("Task", TaskList.get((int)info.id));
                 intent.putExtra("index",(int)info.id);
@@ -291,7 +293,7 @@ public class MainScreenActivity extends Activity {
 		
 		Button randomButton = (Button) dialog.findViewById(R.id.sortDialogButtonRandom);
 		// if button is clicked, close the custom dialog
-		randomButton.setOnClickListener(new View.OnClickListener() {
+				randomButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();

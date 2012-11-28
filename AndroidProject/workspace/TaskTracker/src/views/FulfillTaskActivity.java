@@ -189,6 +189,8 @@ public class FulfillTaskActivity extends Activity {
     	fulfillment.setTextInput(textResponse.getText().toString().trim());
     	//Ask for confirmation
     	//Send fulfillment to task manager
+    	int i = fulfillment.getDateAdded().getHours();
+    	System.out.println(i);
         TaskManager manage = TaskManager.getInstance(1, this);
         fulfillment.belongsTo = manage.getTaskList().get(index).id;
         manage.addSubmission(index, fulfillment);

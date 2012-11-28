@@ -30,23 +30,24 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 							+ " service_id TEXT, service_type TEXT,"
 							+ " task_name TEXT, task_description TEXT, want_text INTEGER,"
 							+ " want_photo INTEGER, want_audio INTEGER, is_public INTEGER,"
-							+ " is_open INTEGER, user_device_id TEXT);";
+							+ " is_open INTEGER, user_device_id TEXT,"
+							+ " belongs_to_id TEXT, body TEXT);";
 	
 	private static final String CREATE_FULFILLMENTS = "CREATE TABLE fulfillments("
 							+ " fulfill_id INTEGER PRIMARY KEY AUTOINCREMENT, "
 							+ " service_id TEXT, service_type TEXT, user_device_id TEXT,"
-							+ " text_response TEXT, date_added TEXT, parent_task INTEGER,"
+							+ " text_response TEXT, date_added TEXT, parent_task INTEGER, belongs_to_id TEXT, body TEXT,"
 							+ " FOREIGN KEY(parent_task) REFERENCES tasks(task_id));";
 	
 	private static final String CREATE_PHOTOS = "CREATE TABLE photos (photo_id INTEGER PRIMARY"
 							+ " KEY AUTOINCREMENT, service_id TEXT, service_type TEXT,"
-							+ " photo BLOB, parent_task INTEGER, parent_fulfill INTEGER,"
+							+ " photo BLOB, parent_task INTEGER, parent_fulfill INTEGER, belongs_to_id TEXT, body TEXT,"
 							+ " FOREIGN KEY(parent_task) REFERENCES tasks(task_id),"
 							+ " FOREIGN KEY(parent_fulfill) REFERENCES fulfillments(fulfill_id));";
 	
 	private static final String CREATE_AUDIO = "CREATE TABLE audio (audio_id INTEGER PRIMARY"
 							+ " KEY AUTOINCREMENT, service_id TEXT, service_type TEXT,"
-							+ " audio BLOB, parent_task INTEGER, parent_fulfill INTEGER,"
+							+ " audio BLOB, parent_task INTEGER, parent_fulfill INTEGER, belongs_to_id TEXT, body TEXT,"
 							+ " FOREIGN KEY(parent_task) REFERENCES tasks(task_id),"
 							+ " FOREIGN KEY(parent_fulfill) REFERENCES fulfillments(fulfill_id));";
 	

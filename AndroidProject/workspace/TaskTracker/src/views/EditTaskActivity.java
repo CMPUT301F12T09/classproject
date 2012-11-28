@@ -26,8 +26,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.tasktracker.R;
+
+import controllers.TaskManager;
 /**
  * This class is an activity which allows the author of a task to edit
  * relevant information
@@ -134,6 +137,13 @@ public class EditTaskActivity extends Activity {
     public void saveEdit(View view)
     {
     	//Send to task manager
+    	TaskManager manager = TaskManager.getInstance(1, this);
+    	manager.updateDesc(index, desc.getText().toString());
+    	manager.updateName(index, name.getText().toString());
+    	manager.updateRequirements(index, wantText, wantPhoto, wantAudio);
+    	manager.updatePublic(index, isPublic);
+    	manager.updateOpen(index, isOpen);
+    	    	
     	finish();
     }
     /**
@@ -144,6 +154,10 @@ public class EditTaskActivity extends Activity {
     public void deleteTask(View view)
     {
     	//Tell task manager to remove
+    	TaskManager manager = TaskManager.getInstance(1, this);
+    	manager.deleteTask(index);
+    	Toast toast = Toast.makeText(this, "Task Deleted ", 3);
+        toast.show();
     	finish();
     }
     public void onCheckBoxClicked(View view){

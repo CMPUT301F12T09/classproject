@@ -62,7 +62,6 @@
        	android:layout_weight="20"
        	android:layout_width="match_parent"
        	android:layout_height="wrap_content"
-       	android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textNoSuggestions"
         android:imeOptions="actionSend|flagNoEnterAction"
         android:maxLines="1"
         android:maxLength="2000"

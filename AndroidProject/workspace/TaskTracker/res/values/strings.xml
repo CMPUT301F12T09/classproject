@@ -1,6 +1,6 @@
 <resources>
 	<string name="splash_continue">Tap to Continue</string>
-    <string name="app_name">TaskTracker</string>
+    <string name="app_name">Task Manager</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="button_splash_continue">Continue</string>
@@ -75,14 +75,14 @@
     <string name="button_view_fulfill">Fulfill Task</string>
     <string name="button_view_cancel">Main Menu</string>
     <string name="button_viewRes_cancel">Done</string>
-    <string name="title_activity_main_screen">MainScreen</string>
-    <string name="title_activity_create_task">CreateTask</string>
-    <string name="title_activity_edit_task">EditTask</string>
-    <string name="title_activity_fulfill_task">FulfillTask</string>
-    <string name="title_activity_photo_taker">PhotoTaker</string>
-    <string name="title_activity_audio_recorder">AudioRecorder</string>
+    <string name="title_activity_main_screen">Task Manager</string>
+    <string name="title_activity_create_task">Create A New Task</string>
+    <string name="title_activity_edit_task">Edit A Task</string>
+    <string name="title_activity_fulfill_task">Fulfill A Task</string>
+    <string name="title_activity_photo_taker">Take A Photo</string>
+    <string name="title_activity_audio_recorder">Record Some Audio</string>
     <string name="title_activity_memory_check">MemoryCheck</string>
-    <string name="title_activity_view_task">ViewTask</string>
-    <string name="title_activity_view_response">ViewResponse</string>
+    <string name="title_activity_view_task">View A Task</string>
+    <string name="title_activity_view_response">View A Task Response</string>
 
 </resources>

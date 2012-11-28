@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import model.Fulfillment;
 import model.Task;
+import com.example.tasktracker.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,11 +30,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.example.tasktracker.R;
 /**
  * This class is an activity that allows a user to view a task
  * before they decide to fulfill it.  If the user wants, they can

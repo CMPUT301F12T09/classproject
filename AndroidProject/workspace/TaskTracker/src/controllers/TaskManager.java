@@ -244,6 +244,10 @@ public class TaskManager{
 		this.TaskList = dbManager.loadTasks();
 		ArrayList<Task> viewable = new ArrayList<Task>();
 		for (int i = 0; i < this.TaskList.size(); i++){
+			//test
+			String tmp2 = this.TaskList.get(i).getUserDeviceId();//.equals(userId);
+			System.out.println(tmp2);
+			
 			//Check if we can't view the task i.e. private and not ours
 			if (this.TaskList.get(i).getIsPublic() == false && !(this.TaskList.get(i).getUserDeviceId().equals(userId)))
 			{
@@ -266,7 +270,7 @@ public class TaskManager{
 		{
 			Task temp = TaskList.get(i);
 			
-			if(temp.getIsPublic() == false && temp.getUserDeviceId() != userId)
+			if(temp.getIsPublic() == false && !(temp.getUserDeviceId().equals(userId)))
 			{
 				continue;
 			}

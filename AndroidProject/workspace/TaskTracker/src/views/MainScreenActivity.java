@@ -128,15 +128,12 @@ public class MainScreenActivity extends Activity {
                 //Access selected task with TaskList.get((int)info.id)
                 //Toast.makeText(this, "selected task "+TaskList.get((int)info.id).getTaskName(),Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.menu_public:
-                //Make task public
-                return true;
             case R.id.menu_edit:
             	
             	//this conditional always says you can't edit even though i just created the task
             	
             	if (!(tManager.getUserId().equals(TaskList.get((int)info.id).getUserDeviceId()))){
-                	Toast toast = Toast.makeText(this, "Not your task to edit!", 5);
+                	Toast toast = Toast.makeText(this, "Not your task to edit!", 3);
                     toast.show();
             		return true;
             	}
@@ -153,6 +150,15 @@ public class MainScreenActivity extends Activity {
                 return true;
             case R.id.menu_close:
                 //close the task
+            	Toast toast;
+            	if (!(tManager.getUserId().equals(TaskList.get((int)info.id).getUserDeviceId()))){
+                	toast = Toast.makeText(this, "Not your task to close!", 3);
+                    toast.show();
+            		return true;
+            	}
+            	tManager.updateOpen((int)info.id,false);
+            	toast = Toast.makeText(this,"Task now closed to submissions" , 3);
+            	toast.show();
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -231,7 +237,7 @@ public class MainScreenActivity extends Activity {
     public void updateListContents()
     {
     	TaskList = tManager.getTaskList();
-    	//TaskList = tManager.getViewableTaskList(); (currently causes crash
+    	//TaskList = tManager.getViewableTaskList(); //currently causes crash
     	
 	    adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
 	    tasks.setAdapter(adapter);

@@ -41,9 +41,9 @@ public class ImageFile extends SavableToService
 	{
 		//Format of (service given id) (service given id of owner) (type of object) (body string)
 		String ret;
-		//body = String.format("", image);
+		body = String.format("test");
 		
-		ret = String.format("%s %s %s %s", id, belongsTo, "IMAGE", body);
+		ret = String.format("%s+%s+%s+%s", id, belongsTo, "IMAGE", body);
 		return ret;
 	}
 	
@@ -60,13 +60,7 @@ public class ImageFile extends SavableToService
 		//parse the string and get the required data
 		//We should get the body string from the saveToString method
 		
-		/*
-		String deliminator = "[ ]+";
-		String[] tokens = data.split(deliminator);
-		
-		String ownerId = tokens[0]; 
-		String text = tokens[1];
-		*/
+		System.out.println(data);
 		
 		ImageFile ret = new ImageFile();
 		

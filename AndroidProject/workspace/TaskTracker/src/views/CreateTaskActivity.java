@@ -131,7 +131,7 @@ public class CreateTaskActivity extends Activity {
     
     private boolean validateText()
     {
-    	if(editName.getText().length() == 0 || editName.getText().toString().trim().matches("[\\s]+") == false)
+    	if(editName.getText().length() == 0)
     	{
     		Toast toast = Toast.makeText(this, "Task name cannot be empty", 10);
             toast.show();

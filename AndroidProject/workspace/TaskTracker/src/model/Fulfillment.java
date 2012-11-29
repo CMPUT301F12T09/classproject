@@ -175,9 +175,9 @@ public class Fulfillment extends SavableToService implements Serializable{
 		}
 		
 		String ret;
-		body = String.format("%s %s %d %d %d %d %d %d %d", userDeviceId, textInput, dateAdded.getDate(), dateAdded.getHours(), dateAdded.getMinutes(), dateAdded.getMonth(), dateAdded.getSeconds(), dateAdded.getTime(), dateAdded.getYear());
+		body = String.format("%s+%s+%d+%d+%d+%d+%d+%d+%d", userDeviceId, textInput, dateAdded.getDate(), dateAdded.getHours(), dateAdded.getMinutes(), dateAdded.getMonth(), dateAdded.getSeconds(), dateAdded.getTime(), dateAdded.getYear());
 		
-		ret = String.format("%s %s %s %s", id, belongsTo, "FULFILLMENT", body);
+		ret = String.format("%s+%s+%s+%s", id, belongsTo, "FULFILLMENT", body);
 		return ret;
 	}
 	/**
@@ -191,7 +191,7 @@ public class Fulfillment extends SavableToService implements Serializable{
 		//parse the string and get the required data
 		//We should get the body string from the saveToString method
 		
-		String deliminator = "[ ]+";
+		String deliminator = "[+]+";
 		String[] tokens = data.split(deliminator);
 		
 		String ownerId = tokens[0]; 
@@ -199,7 +199,7 @@ public class Fulfillment extends SavableToService implements Serializable{
 		
 		//audio and image files will be added by the service manager later
 		System.out.println(data);
-		System.out.printf("%s %s %s %s %s %s %s\n", tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8]);
+		System.out.printf("%s+%s+%s+%s+%s+%s+%s\n", tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8]);
 		
 		Fulfillment ret = new Fulfillment(ownerId, text/*, null, null*/);
 		ret.dateAdded.setDate(Integer.decode(tokens[2]));
@@ -215,14 +215,14 @@ public class Fulfillment extends SavableToService implements Serializable{
 	
 	public String saveDateToString()
 	{
-		String ret = String.format("%d %d %d %d %d %d", dateAdded.getDate(), dateAdded.getHours(), dateAdded.getMinutes(), dateAdded.getMonth(), dateAdded.getSeconds(), dateAdded.getYear());
+		String ret = String.format("%d+%d+%d+%d+%d+%d", dateAdded.getDate(), dateAdded.getHours(), dateAdded.getMinutes(), dateAdded.getMonth(), dateAdded.getSeconds(), dateAdded.getYear());
 		return ret;
 	}
 	
 	public void readDateFromString(String data)
 	{
 		System.out.println(data);
-		String deliminator = "[ ]+";
+		String deliminator = "[+]+";
 		String[] tokens = data.split(deliminator);
 
 		dateAdded.setDate(Integer.decode(tokens[0]));

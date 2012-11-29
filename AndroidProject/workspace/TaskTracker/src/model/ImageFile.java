@@ -35,6 +35,16 @@ public class ImageFile extends SavableToService
 {
 	public File image;
 	public Bitmap bitmap;
+	private long db_Id;
+	
+	public long getDbId()
+	{
+		return db_Id;
+	}
+	public void setDbId(long id)
+	{
+		db_Id = id;
+	}
 	
 	//Called by the service manager to get the string to be sent to the service
 	public String saveToString()

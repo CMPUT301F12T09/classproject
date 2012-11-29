@@ -117,16 +117,25 @@ public class DatabaseManager{
 		val.put("body", ful.body);
 		val.put("date_added", ful.saveDateToString());
 		long f_id = db.insert("fulfillments", null, val);
+		ful.setDbId(f_id);
+		
 		ArrayList<ImageFile> images = ful.getImageFiles();
+		System.out.println(images.size());
+		ContentValues valPhotos = new ContentValues();
 		for(ImageFile i : images){
 			ContentValues vali = new ContentValues();
-			vali.put("parent_task", t_id);
-			vali.put("parent_fulfill", f_id);
+			valPhotos.put("parent_task", t_id);
+			valPhotos.put("parent_fulfill", f_id);
+			valPhotos.put("service_id", i.id);
+			valPhotos.put("body", i.body);
+			valPhotos.put("service_type", "PHOTO");
+			valPhotos.put("belongs_to_id", ful.belongsTo);
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			i.bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
 			byte[] toStore = bos.toByteArray();
-			vali.put("photo", toStore);
-			
+			valPhotos.put("photo", toStore);
+			long ph_id = db.insert("photos", null, valPhotos);
+			i.setDbId(ph_id);
 		}
 		/* add after audio is implemented
 		ArrayList<AudioFile> audio = ful.getAudioFiles();
@@ -315,10 +324,13 @@ public class DatabaseManager{
 	
 	private ImageFile rebuildImage(Cursor c){
 		ImageFile image = new ImageFile();
+		image.setDbId(c.getLong(0));
 		image.setId(c.getString(1));
 		image.setType(c.getString(2));
 		ByteArrayInputStream bis = new ByteArrayInputStream(c.getBlob(3));
-		image.bitmap = BitmapFactory.decodeStream(bis);
+		//image.bitmap = BitmapFactory.decodeStream(bis);
+		image.belongsTo = c.getString(4);
+		image.body = c.getString(5);
 		
 		return image;
 		

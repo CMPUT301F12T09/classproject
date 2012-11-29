@@ -197,6 +197,8 @@ public class TaskManager{
     	this.TaskList = dbManager.loadTasks();
 		TaskList.get(index).addSubmission(ful);
 		
+		dbManager.addFulfillment(TaskList.get(index), ful);
+		
 		if(TaskList.get(index).id != null)
 		{
 			System.out.println("Request");
@@ -213,8 +215,6 @@ public class TaskManager{
 				ful.getImageFiles().get(i).setType("Audio");
 			}
 		}
-		
-		dbManager.addFulfillment(TaskList.get(index), ful);
 	}
 	/**
 	 * Remove an unwanted fulfillment from a task

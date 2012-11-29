@@ -131,7 +131,7 @@ public class CreateTaskActivity extends Activity {
     
     private boolean validateText()
     {
-    	if(editName.getText().length() == 0)
+    	if(editName.getText().length() == 0 || editName.getText().toString().trim().matches("[\\s]+") == false)
     	{
     		Toast toast = Toast.makeText(this, "Task name cannot be empty", 10);
             toast.show();
@@ -145,7 +145,7 @@ public class CreateTaskActivity extends Activity {
             
     		return false;
     	}
-    	if(editName.getText().toString().matches("[a-zA-Z0-9]+") == false)
+    	if(editName.getText().toString().matches("[a-zA-Z0-9\\s]+") == false)
     	{
     		Toast toast = Toast.makeText(this, "Text contains illegal characters", 10);
             toast.show();

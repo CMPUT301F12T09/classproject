@@ -135,11 +135,11 @@ public class MainScreenActivity extends Activity {
             	
             	//this conditional always says you can't edit even though i just created the task
             	
-            	/*if (tManager.getUserId() != TaskList.get((int)info.id).getUserDeviceId()){
+            	if (!(tManager.getUserId().equals(TaskList.get((int)info.id).getUserDeviceId()))){
                 	Toast toast = Toast.makeText(this, "Not your task to edit!", 5);
                     toast.show();
             		return true;
-            	}*/
+            	}
             	intent = new Intent(this,EditTaskActivity.class);
                 intent.putExtra("Task", TaskList.get((int)info.id));
                 intent.putExtra("index",(int)info.id);
@@ -231,7 +231,7 @@ public class MainScreenActivity extends Activity {
     public void updateListContents()
     {
     	TaskList = tManager.getTaskList();
-    	
+    	//TaskList = tManager.getViewableTaskList(); (currently causes crash
     	
 	    adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
 	    tasks.setAdapter(adapter);

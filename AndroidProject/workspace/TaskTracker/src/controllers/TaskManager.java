@@ -240,12 +240,12 @@ public class TaskManager{
 		return TaskList;
 	}	
 	
-/*	public ArrayList<Task> getViewableTaskList(){
+	public ArrayList<Task> getViewableTaskList(){
 		this.TaskList = dbManager.loadTasks();
 		ArrayList<Task> viewable = new ArrayList<Task>();
 		for (int i = 0; i < this.TaskList.size(); i++){
 			//Check if we can't view the task i.e. private and not ours
-			if (this.TaskList.get(i).getIsPublic() == false && this.TaskList.get(i).getUserDeviceId() != userId)
+			if (this.TaskList.get(i).getIsPublic() == false && !(this.TaskList.get(i).getUserDeviceId().equals(userId)))
 			{
 				continue;
 			}
@@ -254,7 +254,7 @@ public class TaskManager{
 			}
 		}
 		return viewable;
-	}*/
+	}
 	
 	
 	public ArrayList<Task> getRandomizedList()

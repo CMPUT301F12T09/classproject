@@ -33,7 +33,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.tasktracker.R;
-
+/**
+ * This class is an activity that allows a user to view a fulfillment
+ * selected from ViewTaskActivity. It will display 
+ * 
+ *This class displays task name, description, scope, and requirements to the user
+ * 
+ * @author glancop
+ *
+ */
 public class ViewResponseActivity extends Activity {
 	private Task curTask;
 	private int index;

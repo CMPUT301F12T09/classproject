@@ -19,7 +19,13 @@ package model;
 
 import java.io.Serializable;
 
-
+/**
+ * This class ensures the functionality to be saved to the webservice.
+ * Can be encoded and decoded to/from a String.
+ * 
+ * @author glancop
+ *
+ */
 public class SavableToService implements Serializable
 {
 	

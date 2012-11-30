@@ -151,9 +151,22 @@ public class CreateTaskActivity extends Activity {
             
     		return false;
     	}
+    	if(editEmail.getText().toString().length() != 0 && editEmail.getText().toString().matches("[a-zA-Z0-9.@\\s]+") == false)
+    	{
+    		Toast toast = Toast.makeText(this, "Email contains illegal characters", 10);
+            toast.show();
+    		return false;
+    	}
     	if(editName.getText().toString().matches("[a-zA-Z0-9\\s]+") == false)
     	{
-    		Toast toast = Toast.makeText(this, "Text contains illegal characters", 10);
+    		Toast toast = Toast.makeText(this, "Task name contains illegal characters", 10);
+            toast.show();
+            
+    		return false;
+    	}
+    	if(editDesc.getText().toString().matches("[a-zA-Z0-9\\s]+") == false)
+    	{
+    		Toast toast = Toast.makeText(this, "Description contains illegal characters", 10);
             toast.show();
             
     		return false;

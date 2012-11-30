@@ -207,7 +207,6 @@ public class TaskManager{
 		TaskList.get(index).addSubmission(ful);
 		
 		dbManager.addFulfillment(TaskList.get(index), ful);
-		sManager.requestSaveOut(TaskList.get(index), "TASK", this);
 		/*
 		if(TaskList.get(index).id != null)
 		{

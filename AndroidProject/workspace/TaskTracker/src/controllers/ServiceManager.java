@@ -1067,7 +1067,7 @@ public class ServiceManager
 			for(int j = 0; j < fulfillments.size(); j++)
 			{
 				Fulfillment tempF = fulfillments.get(j);
-				if(tempF.id == tempI.belongsTo)
+				if(tempF.id.equals(tempI.belongsTo))
 				{
 					tempF.addImage(tempI);
 					break;
@@ -1082,7 +1082,7 @@ public class ServiceManager
 			for(int j = 0; j < fulfillments.size(); j++)
 			{
 				Fulfillment tempF = fulfillments.get(j);
-				if(tempF.id == tempA.belongsTo)
+				if(tempF.id.equals(tempA.belongsTo))
 				{
 					tempF.addAudio(tempA);
 					break;
@@ -1097,7 +1097,7 @@ public class ServiceManager
 			for(int j = 0; j < tasks.size(); j++)
 			{
 				Task tempT = tasks.get(j);
-				if(tempT.id == tempF.belongsTo)
+				if(tempT.id.equals(tempF.belongsTo))
 				{
 					tempT.addFulfillment(tempF);
 					break;

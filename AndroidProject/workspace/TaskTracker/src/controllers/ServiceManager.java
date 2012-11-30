@@ -733,6 +733,7 @@ public class ServiceManager
 		try
 		{
 			responseTask = new Task();
+			responseTask.id = id;
 			List <BasicNameValuePair> nvps = new ArrayList <BasicNameValuePair>();
 			nvps.add(new BasicNameValuePair("action", "get"));
 			nvps.add(new BasicNameValuePair("id", id));
@@ -761,7 +762,7 @@ public class ServiceManager
 		    
 		    for(int i = 0; i < tokens.length; i++)
 		    {	    	
-		    	if(i == 1)
+		    	if(i == 13)
 		    	{
 		    		String data = tokens[i].substring(1, tokens[i].length()-1);
 		    		responseTask = Task.buildFromString(data);

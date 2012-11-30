@@ -37,6 +37,7 @@
     <string name="text_fulfill_desc">Description: {Some Description} </string>
     <string name="text_fulfill_desired">Desired Responses: {photo,audio,text}</string>
     <string name="text_fulfill_scope">Task Scope: {public/private}</string>
+    <string name="text_fulfill_email">Email: {email}</string>
     <string name="text_fulfill_text">Text Response:</string>
     <string name="text_fulfill_texthint">Your Text Response</string>
     <string name="text_view_openclose">Availability: {Open/Closed}</string>

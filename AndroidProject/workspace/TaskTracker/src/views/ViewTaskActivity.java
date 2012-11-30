@@ -92,6 +92,12 @@ public class ViewTaskActivity extends Activity {
         }else{
         	scope.setText("Task Scope: Private");
         }
+        TextView email = (TextView) findViewById(R.id.text_fulfill_email);
+        if(task.getEmail().equals("")){
+        	email.setText("");
+        }else{
+        	email.setText("Email: " + task.getEmail());
+        }
         submissions = (ListView) findViewById(R.id.oldLogs);
         FulfillmentList = task.getSubmissions();
     	adapter = new ArrayAdapter<Fulfillment>(this, R.layout.task_display, FulfillmentList);

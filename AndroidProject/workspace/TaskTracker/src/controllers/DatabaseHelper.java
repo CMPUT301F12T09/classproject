@@ -39,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 							+ " task_name TEXT, task_description TEXT, want_text INTEGER,"
 							+ " want_photo INTEGER, want_audio INTEGER, is_public INTEGER,"
 							+ " is_open INTEGER, user_device_id TEXT,"
-							+ " belongs_to_id TEXT, body TEXT);";
+							+ " belongs_to_id TEXT, body TEXT, user_email TEXT);";
 	
 	private static final String CREATE_FULFILLMENTS = "CREATE TABLE fulfillments("
 							+ " fulfill_id INTEGER PRIMARY KEY AUTOINCREMENT, "

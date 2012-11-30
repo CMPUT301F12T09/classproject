@@ -38,6 +38,12 @@
    	    android:layout_height="wrap_content"
    	    android:text="@string/text_fulfill_scope"
    	    android:textStyle="bold" />
+	<TextView
+   	    android:id="@+id/text_fulfill_email"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_fulfill_email"
+   	    android:textStyle="bold" />
 
 	<View
 	    android:layout_width="fill_parent"

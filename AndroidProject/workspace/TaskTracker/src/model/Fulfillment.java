@@ -201,10 +201,7 @@ public class Fulfillment extends SavableToService implements Serializable{
 		String ownerId = tokens[0]; 
 		String text = tokens[1];
 		
-		//audio and image files will be added by the service manager later
-		System.out.println(data);
-		System.out.printf("%s+%s+%s+%s+%s+%s+%s\n", tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8]);
-		
+		//audio and image files will be added by the service manager later		
 		Fulfillment ret = new Fulfillment(ownerId, text/*, null, null*/);
 		ret.dateAdded.setDate(Integer.decode(tokens[2]));
 		ret.dateAdded.setHours(Integer.decode(tokens[3]));

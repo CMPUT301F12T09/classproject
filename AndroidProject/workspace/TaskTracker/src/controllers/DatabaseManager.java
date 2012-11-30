@@ -84,7 +84,10 @@ public class DatabaseManager{
 		
 		return ret;
 	}
-
+	/**
+	 * Retrieves all info and submissions from a given task
+	 * @param task
+	 */
 	public void newTask(Task task){
 		ContentValues val = new ContentValues();
 		val.put("task_name", task.getTaskName());
@@ -103,7 +106,11 @@ public class DatabaseManager{
 			
 		}
 	}
-	
+	/**
+	 * Adds a given fulfillment to a given task
+	 * @param task
+	 * @param ful
+	 */
 	public void addFulfillment(Task task, Fulfillment ful){
 		long t_id = task.getDbId();
 		ContentValues val = new ContentValues();
@@ -148,14 +155,20 @@ public class DatabaseManager{
 		}
 		*/
 	}
-	
+	/**
+	 * Removes a given fulfillment from the database
+	 * @param ful
+	 */
 	public void removeFulfillment(Fulfillment ful){
 		long f_id = ful.getDbId();
 		db.delete("fulfillments", "fulfill_id = " + f_id, null);
 		db.delete("photos", "parent_fulfill = " + f_id, null);
 		db.delete("audio", "parent_fulfill = " + f_id, null);
 	}
-	
+	/**
+	 * Updates a given task in the database
+	 * @param task
+	 */
 	public void updateTask(Task task){
 		long t_id = task.getDbId();
 		ContentValues val = new ContentValues();
@@ -173,7 +186,10 @@ public class DatabaseManager{
 		val.put("body", task.body);
 		db.update("tasks", val, "task_id = "+ t_id, null);
 	}
-	
+	/**
+	 * Updates a given fulfillment in the database
+	 * @param ful
+	 */
 	public void updateFulfillment(Fulfillment ful){
 		long f_id = ful.getDbId();
 		ContentValues val = new ContentValues();
@@ -185,7 +201,11 @@ public class DatabaseManager{
 		val.put("date_added", ful.saveDateToString());
 		db.update("fulfillments", val, "fulfill_id = "+ f_id, null);
 	}
-	
+	/**
+	 * Removes a given task and all related fulfillments, photos, and audio
+	 * from the database
+	 * @param task
+	 */
 	public void removeTask(Task task){
 		long t_id = task.getDbId();
 		db.delete("tasks", "task_id = " + t_id, null);
@@ -194,7 +214,10 @@ public class DatabaseManager{
 		db.delete("audio", "parent_task = " + t_id, null);
 	}
 	
-	
+	/**
+	 * Gets all tasks and fulfillments and adds the fulfillments to the proper tasks
+	 * @return tasks
+	 */
 	public ArrayList<Task> loadTasks(){
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		Cursor cursorTask = db.query("tasks", null, null, null, null, null, null);
@@ -233,7 +256,11 @@ public class DatabaseManager{
 		
 		return tasks;
 	}
-	
+	/**
+	 * Returns a task with all fulfillments, built from a given cursor
+	 * @param c
+	 * @return
+	 */
 	private Task rebuildTask(Cursor c){
 		System.out.println(c.getColumnCount());
 		Task task = new Task();
@@ -284,7 +311,12 @@ public class DatabaseManager{
 		
 		return task;
 	}
-	
+	/**
+	 * Returns a fulfillment with all images and audio, built from a given
+	 * cursor from rebuildTask
+	 * @param c
+	 * @return
+	 */
 	private Fulfillment rebuildFulfillment(Cursor c){
 		Fulfillment ful = new Fulfillment();
 		long f_id = c.getLong(0);
@@ -321,7 +353,11 @@ public class DatabaseManager{
 		
 		return ful;
 	}
-	
+	/**
+	 * Returns an image, built from a given cursor from rebuildFulfillment
+	 * @param c
+	 * @return
+	 */
 	private ImageFile rebuildImage(Cursor c){
 		ImageFile image = new ImageFile();
 		image.setDbId(c.getLong(0));
@@ -338,6 +374,11 @@ public class DatabaseManager{
 		return image;
 		
 	}
+	/**
+	 * Returns an audio file, built from a given cursor from rebuildFulfillment
+	 * @param c
+	 * @return
+	 */
 	//TODO implement audio rebuild
 	private AudioFile rebuildAudio(Cursor c){
 		AudioFile audio = new AudioFile();
@@ -346,7 +387,9 @@ public class DatabaseManager{
 		
 		return audio;
 	}
-	
+	/**
+	 * Deletes all tasks and fulfillmrnts from the database.
+	 */
 	public void emptyDatabase()
 	{
 		db.delete("tasks", null, null);

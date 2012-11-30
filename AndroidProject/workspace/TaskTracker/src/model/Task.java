@@ -58,12 +58,15 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	//id for sql database storage
 	private long db_Id;
 	
-	//Parcelable Constructor 
-	//code from techdroid.kbeanie.com/2010/06/parcelable-how-to-do-that-in-android.html 
+	/**
+	 * Parcelable Constructor 
+	 * code from techdroid.kbeanie.com/2010/06/parcelable-how-to-do-that-in-android.html 
+	 * @param in
+	 */
 	public Task(Parcel in){
 	    readFromParcel(in);
 	}
-	
+
 	private void readFromParcel(Parcel in){
 	       taskName = in.readString();
 	       taskDescription = in.readString();
@@ -103,6 +106,7 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	 * @param wantPhoto
 	 * @param wantAudio
 	 * @param isPublic
+	 * @param email
 	 */
 	//Create task and set fields
 	public Task(String ownerId, String name, String desc, boolean wantText, boolean wantPhoto, boolean wantAudio, boolean isPublic, String email){

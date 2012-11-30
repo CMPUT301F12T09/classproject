@@ -104,6 +104,7 @@ public class ServiceManager
 	 * Must include the type ("TASK" "FULLFILMENT" "IMAGE" "AUDIO")
 	 * @param toSend
 	 * @param type
+	 * @param requester
 	 */
 	public void requestSaveOut(final SavableToService toSend, final String type, final TaskManager requester)
 	{	
@@ -733,6 +734,7 @@ public class ServiceManager
 		try
 		{
 			responseTask = new Task();
+			responseTask.id = id;
 			List <BasicNameValuePair> nvps = new ArrayList <BasicNameValuePair>();
 			nvps.add(new BasicNameValuePair("action", "get"));
 			nvps.add(new BasicNameValuePair("id", id));
@@ -761,7 +763,7 @@ public class ServiceManager
 		    
 		    for(int i = 0; i < tokens.length; i++)
 		    {	    	
-		    	if(i == 1)
+		    	if(i == 13)
 		    	{
 		    		String data = tokens[i].substring(1, tokens[i].length()-1);
 		    		responseTask = Task.buildFromString(data);
@@ -1066,7 +1068,7 @@ public class ServiceManager
 			for(int j = 0; j < fulfillments.size(); j++)
 			{
 				Fulfillment tempF = fulfillments.get(j);
-				if(tempF.id == tempI.belongsTo)
+				if(tempF.id.equals(tempI.belongsTo))
 				{
 					tempF.addImage(tempI);
 					break;
@@ -1081,7 +1083,7 @@ public class ServiceManager
 			for(int j = 0; j < fulfillments.size(); j++)
 			{
 				Fulfillment tempF = fulfillments.get(j);
-				if(tempF.id == tempA.belongsTo)
+				if(tempF.id.equals(tempA.belongsTo))
 				{
 					tempF.addAudio(tempA);
 					break;
@@ -1096,7 +1098,7 @@ public class ServiceManager
 			for(int j = 0; j < tasks.size(); j++)
 			{
 				Task tempT = tasks.get(j);
-				if(tempT.id == tempF.belongsTo)
+				if(tempT.id.equals(tempF.belongsTo))
 				{
 					tempT.addFulfillment(tempF);
 					break;
@@ -1153,6 +1155,7 @@ public class ServiceManager
 	/**
 	 * Take a stream of data and construct a readable string from it
 	 * @param is
+	 * @return sb.toString
 	 */
 	private  String convertStreamToString(InputStream is) 
 	{		

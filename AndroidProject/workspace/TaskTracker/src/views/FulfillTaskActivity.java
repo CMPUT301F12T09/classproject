@@ -59,7 +59,7 @@ public class FulfillTaskActivity extends Activity {
     private EditText textResponse;
     private String android_id;
     /**
-     * When the activity is created, initialize appropriate UI components
+     * When the activity is created, initialise appropriate UI components
      * and connect the appropriate listeners.  We also set the text of the 
      * information TextViews to reflect that information entered by the 
      * author to describe the task (name, description, responses, scope)
@@ -75,7 +75,7 @@ public class FulfillTaskActivity extends Activity {
         //photos = (ArrayList<ImageFile>) getIntent().getSerializableExtra("images");
         index = data.getInt("index");
         
-        //Initialize a fulfillment with default values
+        //Initialise a fulfillment with default values
         android_id = Secure.getString(getBaseContext().getContentResolver(),Secure.ANDROID_ID);
         fulfillment = new Fulfillment(android_id,""/*,new ArrayList<ImageFile>(),new ArrayList<AudioFile>()*/);
         //	public Fulfillment(String ownerId, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
@@ -250,19 +250,29 @@ public class FulfillTaskActivity extends Activity {
             }
         }
     }
+    /**
+     * This method builds a string of the requirements for a given task t.
+     * @param t
+     * @return
+     */
     private String buildResponses(Task t){
         String ret = "";
         if (t.getWantText()){
             ret = ret + "Text ";
         }
-        if(t.getWantPhoto()){
+        if (t.getWantPhoto()){
             ret = ret + "Photo ";
         }
-        if(t.getWantAudio()){
+        if (t.getWantAudio()){
             ret = ret + "Audio";
         }
         return ret;
     }
+    /**
+     * This method builds a string of the privacy setting of the given task t.
+     * @param t
+     * @return
+     */
     private String buildScope(Task t){
         String ret ="";
         if(t.getIsPublic()){

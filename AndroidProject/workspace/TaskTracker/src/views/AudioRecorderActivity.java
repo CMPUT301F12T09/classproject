@@ -36,6 +36,11 @@ import android.view.View;
  */
 public class AudioRecorderActivity extends Activity {
 
+	/**
+	 * Create all UI elements and connect the appropriate listeners.
+     * Also get the current set of audio files so that we will add 
+     * to them for the current fulfillment.
+	 */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +52,11 @@ public class AudioRecorderActivity extends Activity {
         getMenuInflater().inflate(R.menu.activity_audio_recorder, menu);
         return true;
     }
-    
+    /**
+     * Call the android audio recorder so that the user can record an audio file. 
+     * Result will be returned as a Bitmap.
+     * @param view
+     */
     public void recordAudio(View view)
     {
     	//while down record?

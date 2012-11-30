@@ -65,7 +65,7 @@ public class EditTaskActivity extends Activity {
     @Override
     /**
      * When implemented, this method will initiate the UI components and 
-     * connect appropriate listeners
+     * connect appropriate listeners.
      */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,6 +162,15 @@ public class EditTaskActivity extends Activity {
         toast.show();
     	finish();
     }
+    /**
+     * Checkbox handler taken from 
+     * http://developer.android.com/guide/topics/ui/controls/checkbox.html
+     * When the user clicks a checkbox to specify requirements for a task,
+     * set the appropriate boolean value for photo, audio and text
+     * requirements, which will be passed when the task object is 
+     * created via the TaskManager
+     * @param view
+     */
     public void onCheckBoxClicked(View view){
         boolean checked = ((CheckBox) view).isChecked();
         switch(view.getId()){
@@ -187,6 +196,15 @@ public class EditTaskActivity extends Activity {
                 }
         }
     }
+    /**
+     * RadioButton handler taken from 
+     * http://developer.android.com/guide/topics/ui/controls/radiobutton.html
+     * This method is called whenever the suer click on the public/private radio 
+     * buttons.  Clicking a button will select it and deselect the other if 
+     * appropriate, as well as set a boolean variable or be passed to the new
+     * Task object when it is created via the TaskManager.
+     * @param view
+     */
     public void onRadioButtonClicked(View view){
         boolean checked = ((RadioButton) view).isChecked();
         switch(view.getId()){

@@ -20,6 +20,14 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * This class manages the creation and removal of sql tables for tasks,
+ * fulfilments, photos, and audio. This helper is accessed by the 
+ * DatabaseManager and handles the sql commands. 
+ * 
+ * @author glancop
+ *
+ */
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 			
@@ -55,6 +63,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		super(context, DATABASE, null, VERSION);
 	}
 	
+	/**
+     * When implemented, this method will initialise the sql tables
+     * using the above create table statements.
+     * @param db
+     */
 	@Override
 	public void onCreate(SQLiteDatabase db){
 		db.execSQL(CREATE_TASKS);
@@ -63,6 +76,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		db.execSQL(CREATE_AUDIO);
 	}
 	
+	/**
+     * When implemented, this method will remove the sql tables 
+     * if they exist.
+     * @param db
+     * @param oldV
+     * @param newV
+     */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldV, int newV){
 		db.execSQL("DROP TABLE IF EXISTS tasks");

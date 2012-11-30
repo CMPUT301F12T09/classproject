@@ -46,7 +46,10 @@ public class ImageFile extends SavableToService
 		db_Id = id;
 	}
 	
-	//Called by the service manager to get the string to be sent to the service
+	/**
+	 * Called by the service manager to get the string to be sent to the service
+	 * @return ret
+	 */
 	public String saveToString()
 	{
 		//Format of (service given id) (service given id of owner) (type of object) (body string)
@@ -72,7 +75,11 @@ public class ImageFile extends SavableToService
 	    
 	}
 	
-	//Called by the service manager when building the objects pulled from the server
+	/**
+	 * Called by the service manager when building the objects pulled from the server
+	 * @param data
+	 * @return
+	 */
 	public static ImageFile buildFromString(String data)
 	{
 		//parse the string and get the required data

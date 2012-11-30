@@ -91,6 +91,8 @@ public class ViewResponseActivity extends Activity {
     	setResult(RESULT_OK);
     	Intent intent = new Intent(this,FulfillTaskActivity.class);
         intent.putExtra("task",curTask);
+        intent.putExtra("index",index);
+
         startActivity(intent);
     }
     /**

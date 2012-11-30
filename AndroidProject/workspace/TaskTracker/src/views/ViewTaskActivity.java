@@ -125,6 +125,7 @@ public class ViewTaskActivity extends Activity {
     	setResult(RESULT_OK);
     	Intent intent = new Intent(this,FulfillTaskActivity.class);
         intent.putExtra("task",task);
+        intent.putExtra("index",index);
         startActivity(intent);
     }
     /**

@@ -1155,6 +1155,7 @@ public class ServiceManager
 	/**
 	 * Take a stream of data and construct a readable string from it
 	 * @param is
+	 * @return sb.toString
 	 */
 	private  String convertStreamToString(InputStream is) 
 	{		

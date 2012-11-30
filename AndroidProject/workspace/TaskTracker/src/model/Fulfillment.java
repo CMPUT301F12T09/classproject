@@ -57,7 +57,11 @@ public class Fulfillment extends SavableToService implements Serializable{
 	//id for sql database storage
 	private long db_Id;
 	
-	//Create new Fulfillment and set fields
+	/**
+	 * Create new Fulfillment and set fields
+	 * @param ownerId
+	 * @param text
+	 */
 	public Fulfillment(String ownerId, String text/*, ArrayList<ImageFile> images, ArrayList<AudioFile> audio*/){
 		this.userDeviceId = ownerId;
 		this.textInput = text;
@@ -212,13 +216,19 @@ public class Fulfillment extends SavableToService implements Serializable{
 		
 		return ret;
 	}
-	
+	/**
+	 * Returns a string representing date
+	 * @return
+	 */
 	public String saveDateToString()
 	{
 		String ret = String.format("%d+%d+%d+%d+%d+%d", dateAdded.getDate(), dateAdded.getHours(), dateAdded.getMinutes(), dateAdded.getMonth(), dateAdded.getSeconds(), dateAdded.getYear());
 		return ret;
 	}
-	
+	/**
+	 * Gets a date from a string created in saveDateToString
+	 * @param data
+	 */
 	public void readDateFromString(String data)
 	{
 		System.out.println(data);

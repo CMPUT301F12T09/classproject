@@ -34,7 +34,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 /**
- * This class is an activity where the suer will enter relevant information
+ * This class is an activity where the user will enter relevant information
  * for creating a new class.
  * <ul compact>
  * <li>Task Name</li>
@@ -69,7 +69,7 @@ public class CreateTaskActivity extends Activity {
     private RadioButton radioPrivate;
     @Override
     /**
-     * Initialize all the UI elements for creating a new task and connect
+     * Initialise all the UI elements for creating a new task and connect
      * the appropriate listeners.
      */
     public void onCreate(Bundle savedInstanceState) {
@@ -129,6 +129,12 @@ public class CreateTaskActivity extends Activity {
     	finish();
     }
     
+    /**
+     * This method checks to ensure that all input in the proposed task conforms to the rules.
+     * This includes checking that fields are not left empty and that they only contain valid
+     * characters (A-Z, a-z, 0-9, and spaces are allowed).
+     * @return
+     */
     private boolean validateText()
     {
     	if(editName.getText().length() == 0)
@@ -195,7 +201,7 @@ public class CreateTaskActivity extends Activity {
      * http://developer.android.com/guide/topics/ui/controls/radiobutton.html
      * This method is called whenever the suer click on the public/private radio 
      * buttons.  Clicking a button will select it and deselect the other if 
-     * appropriate, as well as set a boolean variable ot be passed to the new
+     * appropriate, as well as set a boolean variable or be passed to the new
      * Task object when it is created via the TaskManager.
      * @param view
      */

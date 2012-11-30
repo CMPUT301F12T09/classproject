@@ -328,6 +328,9 @@ public class DatabaseManager{
 		image.setId(c.getString(1));
 		image.setType(c.getString(2));
 		ByteArrayInputStream bis = new ByteArrayInputStream(c.getBlob(3));
+		//NEED THIS LINE TO WORK AND SET BITMAP BUT CURENTLY CRASHES BECAUSE BITMAPS NOT SERIALAZABLE
+		
+		
 		//image.bitmap = BitmapFactory.decodeStream(bis);
 		image.belongsTo = c.getString(4);
 		image.body = c.getString(5);

@@ -136,7 +136,9 @@ public class EditTaskActivity extends Activity {
      */
     public void saveEdit(View view)
     {
-    	//Send to task manager
+    	if(validateText() == false){
+    		return;
+    	}
     	TaskManager manager = TaskManager.getInstance(1, this);
     	manager.updateDesc(index, desc.getText().toString());
     	manager.updateName(index, name.getText().toString());
@@ -210,6 +212,34 @@ public class EditTaskActivity extends Activity {
             		
         }
     }
+    
+    private boolean validateText()
+    {
+    	if(name.getText().length() == 0)
+    	{
+    		Toast toast = Toast.makeText(this, "Task name cannot be empty", 10);
+            toast.show();
+            
+    		return false;
+    	}
+    	if(desc.getText().length() == 0)
+    	{
+    		Toast toast = Toast.makeText(this, "Task description cannot be empty", 10);
+            toast.show();
+            
+    		return false;
+    	}
+    	if(name.getText().toString().matches("[a-zA-Z0-9\\s]+") == false)
+    	{
+    		Toast toast = Toast.makeText(this, "Text contains illegal characters", 10);
+            toast.show();
+            
+    		return false;
+    	}
+    	
+    	return true;
+    } 
+    
     
     
 }

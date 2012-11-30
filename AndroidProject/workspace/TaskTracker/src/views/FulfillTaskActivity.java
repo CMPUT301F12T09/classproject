@@ -31,6 +31,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tasktracker.R;
 
@@ -193,7 +194,42 @@ public class FulfillTaskActivity extends Activity {
     	System.out.println(i);
         TaskManager manage = TaskManager.getInstance(1, this);
         fulfillment.belongsTo = manage.getTaskList().get(index).id;
+        
+        Toast toast;
+        if(manage.getTaskList().get(index).getWantText() && fulfillment.getTextInput().trim().equals("")){
+    		toast = Toast.makeText(this, "This task requires a text repsonse", 5);
+            toast.show();
+            return;
+        }
+        if(manage.getTaskList().get(index).getWantAudio() && fulfillment.getAudioFiles().size() == 0){
+    		toast = Toast.makeText(this, "This task requires an audio repsonse", 5);
+            toast.show();
+            return;
+        }
+        if(manage.getTaskList().get(index).getWantPhoto() && fulfillment.getImageFiles().size() == 0){
+    		toast = Toast.makeText(this, "This task requires an image repsonse", 5);
+            toast.show();
+            return;
+        }
+        
+        
         manage.addSubmission(index, fulfillment);
+        
+        
+        
+/*        System.out.println("++++++\n"+fulfillment);
+        for(int j = 0; j < fulfillment.getImageFiles().size();j++){
+        	System.out.println("j = "+j);
+        	System.out.println(fulfillment.getImageFiles().get(j));
+        }
+        System.out.println("+++++++++");
+        
+        System.out.println("==========");
+        System.out.println(manage.getTaskList().get(index).getSubmissions().get(manage.getTaskList().get(index).getSubmissions().size()-1).getImageFiles().get(0));
+        
+        System.out.println("==========");*/
+        
+        //Task/fulfillment up to here still has the bitmap attached to it;.
        	finish();
     }
     //With the new dynamically built fulfillment, this code might be unnecessary

@@ -57,6 +57,14 @@ public class ImageFile extends SavableToService
 		return ret;
 	}
 	
+	//this is a test overloading of tostring to ensure our bitmap is being passed
+	public String toString(){
+		if (bitmap != null){
+			return "a picture";
+		}
+		return "a null picture";
+	}
+	
 	public ImageFile(Bitmap bmp){
 	    bitmap = bmp;
 	}

@@ -772,11 +772,18 @@ public class ServiceManager
 		    String delims = "[:,]+";
 		    String[] tokens = temp.split(delims);
 		    
+		    
 		    for(int i = 0; i < tokens.length; i++)
-		    {	    	
-		    	if(i == 1)
+		    {
+		    	if(tokens[i].length() < 3)
 		    	{
-		    		String data = tokens[i].substring(1, tokens[i].length()-1);
+		    		continue;
+		    	}
+		    	String pleasework = tokens[i].substring(1, tokens[i].length()-1);
+		    	
+		    	if(pleasework.equals("body"))
+		    	{
+		    		String data = tokens[i+1].substring(1, tokens[i+1].length()-1);
 		    		responseTask = Fulfillment.buildFromString(data);
 		    	}
 		    }

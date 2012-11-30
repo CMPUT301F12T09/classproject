@@ -103,8 +103,8 @@ public class DatabaseManager{
 		val.put("body", task.body);
 		task.setDbId(db.insert("tasks", null, val));
 		ArrayList<Fulfillment> submissions = task.getSubmissions();
-		for(Fulfillment f : submissions){
-			
+		for(Fulfillment ful : submissions){
+			addFulfillment(task,ful);
 		}
 	}
 	/**

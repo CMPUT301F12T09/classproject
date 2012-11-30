@@ -179,7 +179,7 @@ public class Fulfillment extends SavableToService implements Serializable{
 		}
 		
 		String ret;
-		body = String.format("%s+%s+%d+%d+%d+%d+%d+%d+%d", userDeviceId, textInput, dateAdded.getDate(), dateAdded.getHours(), dateAdded.getMinutes(), dateAdded.getMonth(), dateAdded.getSeconds(), dateAdded.getTime(), dateAdded.getYear());
+		body = String.format("%s+%s+%d+%d+%d+%d+%d+%d+%d+%s", userDeviceId, textInput, dateAdded.getDate(), dateAdded.getHours(), dateAdded.getMinutes(), dateAdded.getMonth(), dateAdded.getSeconds(), dateAdded.getTime(), dateAdded.getYear(), belongsTo);
 		
 		ret = String.format("%s+%s+%s+%s", id, belongsTo, "FULFILLMENT", body);
 		return ret;
@@ -213,6 +213,7 @@ public class Fulfillment extends SavableToService implements Serializable{
 		ret.dateAdded.setSeconds(Integer.decode(tokens[6]));
 		//ret.dateAdded.setTime(Integer.decode(tokens[7]));
 		ret.dateAdded.setYear(Integer.decode(tokens[8]));
+		ret.belongsTo = tokens[9];
 		
 		return ret;
 	}

@@ -54,7 +54,12 @@ public class TaskManager{
 		this.userId = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID); 
 		
 	}
-	
+	/**
+	 * Request an instance of the task manager singleton of the specified type:
+	 * 1 for the current service
+	 * @param type
+	 * @param context
+	 */
 	public static TaskManager getInstance(int type, Context context)
 	{
 		TaskManager ret = null;
@@ -71,6 +76,8 @@ public class TaskManager{
 		return ret;
 	}
 	/**update name of task at index
+	 * @param index
+	 * @param name
 	*/
 	public void updateName(int index, String name){
 		TaskList.get(index).setTaskName(name);
@@ -84,7 +91,10 @@ public class TaskManager{
 		//Either way update local storage;
 		dbManager.updateTask(TaskList.get(index));
 	}
-	/**update description of task at index*/
+	/**update description of task at index
+	 * @param index
+	 * @param desc
+	 */
 	public void updateDesc(int index, String desc){
 		TaskList.get(index).setTaskDescription(desc);
 		
@@ -152,6 +162,7 @@ public class TaskManager{
 	 * @param wantPhoto
 	 * @param wantAudio
 	 * @param isPublic
+	 * @param email
 	 */
 	public void createTask(String name, String desc, boolean wantText, boolean wantPhoto, boolean wantAudio, boolean isPublic, String email){
 		Task newTask = new Task(userId, name, desc, wantText, wantPhoto, wantAudio, isPublic, email);
@@ -178,9 +189,7 @@ public class TaskManager{
 	/**
 	 * Add a fulfillment to a given task
 	 * @param index
-	 * @param text
-	 * @param images
-	 * @param audio
+	 * @param ful
 	 */
 /*	public void addSubmission(int index, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
 		TaskList.get(index).addSubmission(userId, text, images, audio);
@@ -239,7 +248,10 @@ public class TaskManager{
 		
 		return TaskList;
 	}	
-	
+	/**
+	 * Returns a list of user tasks and public tasks
+	 * @return viewable
+	 */
 	public ArrayList<Task> getViewableTaskList(){
 		this.TaskList = dbManager.loadTasks();
 		ArrayList<Task> viewable = new ArrayList<Task>();
@@ -260,7 +272,10 @@ public class TaskManager{
 		return viewable;
 	}
 	
-	
+	/**
+	 * Returns a randomised list of tasks
+	 * @return ViewedList
+	 */
 	public ArrayList<Task> getRandomizedList()
 	{
 		ViewedList.clear();
@@ -282,24 +297,35 @@ public class TaskManager{
 		
 		return ViewedList;
 	}
-	
+	/**
+	 * Adds a task to the database and local task list
+	 * @param toAdd
+	 */
 	public void addTask(Task toAdd)
 	{
 		TaskList.add(toAdd);
 		dbManager.newTask(toAdd);
 	}
-	
+	/**
+	 * Clears tasks from the task list and database
+	 */
 	public void clearTasks()
 	{
 		this.TaskList.clear();
 		dbManager.emptyDatabase();
 	}
-	
+	/**
+	 * Gets user Id
+	 * @return userId
+	 */
 	public String getUserId()
 	{
 		return userId;
 	}
-	
+	/**
+	 * Refreshes a task
+	 * @param toRefresh
+	 */
 	public void refresh(Task toRefresh)
 	{
 		dbManager.updateTask(toRefresh);
@@ -312,7 +338,10 @@ public class TaskManager{
 			}
 		}
 	}
-	
+	/**
+	 * Refreshes a fulfillment
+	 * @param toRefresh
+	 */
 	public void refresh(Fulfillment toRefresh)
 	{
 		int breaking = 0;

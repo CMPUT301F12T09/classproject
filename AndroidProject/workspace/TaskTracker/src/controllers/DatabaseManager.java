@@ -99,6 +99,7 @@ public class DatabaseManager{
 		val.put("is_open", task.getIsOpen());
 		val.put("user_device_id", task.getUserDeviceId());
 		val.put("belongs_to_id", task.belongsTo);
+		val.put("service_id", task.id);
 		val.put("body", task.body);
 		task.setDbId(db.insert("tasks", null, val));
 		ArrayList<Fulfillment> submissions = task.getSubmissions();

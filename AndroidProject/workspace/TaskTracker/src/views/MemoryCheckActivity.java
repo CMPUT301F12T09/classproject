@@ -25,7 +25,13 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
-
+/**
+ * This class handles checking for images or audio files in the device's memory,
+ * for the ability to attach pre-existing media to a fulfillment.
+ * 
+ * @author glancop
+ *
+ */
 public class MemoryCheckActivity extends Activity {
 
     @Override

@@ -245,7 +245,11 @@ public class MainScreenActivity extends Activity {
     	updateData.setText(R.string.button_main_update_data);
     	isUpdating = false;
     }
-    
+    /**
+     * Shows a dialog menu for searching tasks. Includes options for search by 
+     * id and keyword, along with a cancel button.
+     * @param view
+     */
     public void showSearchMethods(View view)
     {
     	final Dialog dialog = new Dialog(this);
@@ -281,7 +285,11 @@ public class MainScreenActivity extends Activity {
 
 		dialog.show();
     }
-
+    /**
+     * Shows a dialog menu for sorting tasks. Includes options for sorting 
+     * alphabetically, by date or random tasks, along with a cancel button.
+     * @param view
+     */
     public void showSortMethods(View view)
     {
     	final Dialog dialog = new Dialog(this);

@@ -17,13 +17,18 @@
 
 package views;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import model.AudioFile;
 import model.Fulfillment;
+import model.ImageFile;
 import model.Task;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
 import android.view.Menu;
@@ -50,6 +55,7 @@ import controllers.TaskManager;
 public class FulfillTaskActivity extends Activity {
     
     private final static int PIC_REQUEST = 1;
+    private final static int SELECT_IMAGE = 2;
     private TextView nameView, descView, responseView, scopeView;
   //  private ArrayList<ImageFile> photos;
     private ArrayList<AudioFile> audio;
@@ -133,7 +139,7 @@ public class FulfillTaskActivity extends Activity {
         //intent.putExtra("task",curTask);
     	intent.putExtra("task",index);
         //intent.putExtra("images", photos);
-    	startActivityForResult(intent,1); 
+    	startActivityForResult(intent,PIC_REQUEST); 
     }
     /**
      * When implemented, when the user clicks on the "Record Audio" button
@@ -157,11 +163,9 @@ public class FulfillTaskActivity extends Activity {
     public void findPhoto(View view)
     {
     	setResult(RESULT_OK);
-    	Intent intent = new Intent(FulfillTaskActivity.this, MemoryCheckActivity.class);
-    	//set extra for type
-    	startActivity(intent); //change to require return
-    	//get returned photo
-    	//if not null add to fulfillment
+    	
+    	startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), SELECT_IMAGE);
+
     }
     /**
      * When implemented, will allow the user to select an audio file
@@ -255,6 +259,21 @@ public class FulfillTaskActivity extends Activity {
                 //photos=(ArrayList<ImageFile>)data.getSerializableExtra("images");
             }
         }
+        if (requestCode == SELECT_IMAGE)
+            if (resultCode == Activity.RESULT_OK) {
+              Uri selectedImage = data.getData();
+              Bitmap bmp;
+              try {
+				bmp=BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
+				fulfillment.addImage(new ImageFile(bmp));
+		    	Toast toast = Toast.makeText(this, "Image saved: " + fulfillment.getImageFiles().size(), 5);
+		        toast.show();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+              
+        } 
+        
     }
     /**
      * This method builds a string of the privacy setting of the given task t.

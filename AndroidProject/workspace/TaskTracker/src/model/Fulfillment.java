@@ -143,10 +143,17 @@ public class Fulfillment extends SavableToService implements Serializable{
 	 */
 	@Override
 	public String toString() { 
-		String contents = "";
-		
+		String contents = getContentsString();
+
+		String task = String.format("User Id: %s\nContents: %s \n",this.userDeviceId,contents);
+		//String task = String.format("User Id: %s\nDate: %d %d %d\nContents: %s \n",
+		//							  this.userDeviceId, this.dateAdded.getMonth(), this.dateAdded.getDate(), this.dateAdded.getYear(), contents);
+        return task;
+	}
+	
+	public String getContentsString(){
+		String contents ="";
 		//Crashes at next line, works if constant, nullpointer exception thrown
-		
 		int pictures = imageFiles.size();
 		int sounds = audioFiles.size();
 		if (!(this.textInput.equals("")) && !(this.textInput.equals("No Text Input"))){
@@ -158,12 +165,7 @@ public class Fulfillment extends SavableToService implements Serializable{
 		if (sounds > 0){ 
 			contents += String.format(" Audio: %d", sounds);
 		}
-		
-		String task = String.format("User Id: %s\nContents: %s \n",this.userDeviceId,contents);
-		
-		//String task = String.format("User Id: %s\nDate: %d %d %d\nContents: %s \n",
-		//							  this.userDeviceId, this.dateAdded.getMonth(), this.dateAdded.getDate(), this.dateAdded.getYear(), contents);
-        return task;
+		return contents;
 	}
 	
 	/**

@@ -24,6 +24,8 @@ import model.Fulfillment;
 import model.Task;
 import android.content.Context;
 import android.provider.Settings.Secure;
+
+ 
 /**
  * This class manages all the tasks that the system needs to deal with
  * both those stored locally and on the webservice.  This manager is 
@@ -208,6 +210,17 @@ public class TaskManager{
 		//TaskList.get(index).addSubmission(ful);
 		
 		dbManager.addFulfillment(TaskList.get(index), ful);
+		
+		//Send email if an address was specified.
+		if(!(TaskList.get(index).getEmail().trim().equals(""))){
+
+            try {   
+                new EmailWrapper().execute(TaskList.get(index));
+            } catch (Exception e) {   
+                e.printStackTrace();
+            } 
+		}
+		
 		/*
 		if(TaskList.get(index).id != null)
 		{

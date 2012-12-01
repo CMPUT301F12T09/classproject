@@ -358,4 +358,22 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		
 		return ret;
 	}
+
+	/**
+	 * This method builds a string of the requirements for a given task t.
+	 * @return
+	 */
+	public String buildResponses() {
+		String ret = "";
+		if (getWantText()) {
+			ret = ret + "Text ";
+		}
+		if (getWantPhoto()) {
+			ret = ret + "Photo ";
+		}
+		if (getWantAudio()) {
+			ret = ret + "Audio";
+		}
+		return ret;
+	}
 }

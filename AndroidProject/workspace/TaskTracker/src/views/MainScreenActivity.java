@@ -245,6 +245,18 @@ public class MainScreenActivity extends Activity {
     	updateData.setText(R.string.button_main_update_data);
     	isUpdating = false;
     }
+    
+    public void updateListContentsRandom()
+    {
+    	TaskList = tManager.getRandomizedList();
+    	//TaskList = tManager.getViewableTaskList(); //currently causes crash
+    	
+	    adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
+	    tasks.setAdapter(adapter);
+	    Button updateData = (Button) findViewById(R.id.updateData);
+    	updateData.setText(R.string.button_main_update_data);
+    	isUpdating = false;
+    }
     /**
      * Shows a dialog menu for searching tasks. Includes options for search by 
      * id and keyword, along with a cancel button.
@@ -310,6 +322,7 @@ public class MainScreenActivity extends Activity {
 				randomButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				updateListContentsRandom();
 				dialog.dismiss();
 			}
 		});

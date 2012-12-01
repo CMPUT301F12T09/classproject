@@ -105,67 +105,19 @@ public class ServiceManager
 	 * @param toSend
 	 * @param type
 	 * @param requester
-	 */
-	public void requestSaveOut(final SavableToService toSend, final String type, final TaskManager requester)
+	 */	
+	public void requestSaveOut(final Task toSend, final String type, final TaskManager requester)
 	{	
 		new AsyncTask<Void, Void, Void>()
 		{
     		@Override
 		    protected Void doInBackground(Void... params)
 		    {
-    			System.out.println("Sending new");
     			toSend.saveToString();
 				try
 		    	{
-					List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
-					nameValuePairs.add(new BasicNameValuePair("action", "post"));
-					nameValuePairs.add(new BasicNameValuePair("description", type));
-					nameValuePairs.add(new BasicNameValuePair("summary", type));
-					nameValuePairs.add(new BasicNameValuePair("content", gson.toJson(toSend)));
-					
-					httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-					HttpResponse response = httpclient.execute(httpPost);
-				    
-				    String status = response.getStatusLine().toString();
-				    System.out.println(status);
-				    
-				    //Get the updated object with proper id set
-				    
-				    SavableToService tempNew = new SavableToService();
-				    HttpEntity entity = response.getEntity();
-					
-				    if (entity != null) {
-				        InputStream is = entity.getContent();
-				        String jsonStringVersion = convertStreamToString(is);
-				        Type taskType = SavableToService.class;     
-				        tempNew = gson.fromJson(jsonStringVersion, taskType);
-				    }
-				    entity.consumeContent();
-					
-				    toSend.id = tempNew.id;
-				    toSend.belongsTo = tempNew.id; //Tasks should belong to themselves, or nothing if that seems weird
-				    
-				    System.out.println("ADDING ID " + tempNew.id);
-
-				    if(type.equals("TASK"))
-				    {
-				    	requester.refresh((Task)toSend);
-				    }
-				    else if(type.equals("FULFILLMENT"))
-				    {
-				    	requester.refresh((Fulfillment)toSend);
-				    }
+					saveToService(toSend);
 		    	}
-		    	catch(ClientProtocolException e)
-				{
-					System.out.println("ERROR-Protocol");
-					e.printStackTrace();
-				}
-				catch(IOException e)
-				{
-					System.out.println("ERROR-IO");
-					e.printStackTrace();
-				}
 				catch(Exception e)
 				{
 					System.out.println("ERROR-General");
@@ -762,10 +714,16 @@ public class ServiceManager
 		    String[] tokens = temp.split(delims);
 		    
 		    for(int i = 0; i < tokens.length; i++)
-		    {	    	
-		    	if(i == 13)
+		    {
+		    	if(tokens[i].length() < 3)
 		    	{
-		    		String data = tokens[i].substring(1, tokens[i].length()-1);
+		    		continue;
+		    	}
+		    	String pleasework = tokens[i].substring(1, tokens[i].length()-1);
+		    	
+		    	if(pleasework.equals("body"))
+		    	{
+		    		String data = tokens[i+1].substring(1, tokens[i+1].length()-1);
 		    		responseTask = Task.buildFromString(data);
 		    	}
 		    }
@@ -814,11 +772,18 @@ public class ServiceManager
 		    String delims = "[:,]+";
 		    String[] tokens = temp.split(delims);
 		    
+		    
 		    for(int i = 0; i < tokens.length; i++)
-		    {	    	
-		    	if(i == 1)
+		    {
+		    	if(tokens[i].length() < 3)
 		    	{
-		    		String data = tokens[i].substring(1, tokens[i].length()-1);
+		    		continue;
+		    	}
+		    	String pleasework = tokens[i].substring(1, tokens[i].length()-1);
+		    	
+		    	if(pleasework.equals("body"))
+		    	{
+		    		String data = tokens[i+1].substring(1, tokens[i+1].length()-1);
 		    		responseTask = Fulfillment.buildFromString(data);
 		    	}
 		    }

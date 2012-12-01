@@ -181,7 +181,7 @@ public class Fulfillment extends SavableToService implements Serializable{
 		}
 		
 		String ret;
-		body = String.format("%s+%s+%d+%d+%d+%d+%d+%d+%d", userDeviceId, textInput, dateAdded.getDate(), dateAdded.getHours(), dateAdded.getMinutes(), dateAdded.getMonth(), dateAdded.getSeconds(), dateAdded.getTime(), dateAdded.getYear());
+		body = String.format("%s+%s+%d+%d+%d+%d+%d+%d+%d+%s", userDeviceId, textInput, dateAdded.getDate(), dateAdded.getHours(), dateAdded.getMinutes(), dateAdded.getMonth(), dateAdded.getSeconds(), dateAdded.getTime(), dateAdded.getYear(), belongsTo);
 		
 		ret = String.format("%s+%s+%s+%s", id, belongsTo, "FULFILLMENT", body);
 		return ret;
@@ -203,10 +203,7 @@ public class Fulfillment extends SavableToService implements Serializable{
 		String ownerId = tokens[0]; 
 		String text = tokens[1];
 		
-		//audio and image files will be added by the service manager later
-		System.out.println(data);
-		System.out.printf("%s+%s+%s+%s+%s+%s+%s\n", tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8]);
-		
+		//audio and image files will be added by the service manager later		
 		Fulfillment ret = new Fulfillment(ownerId, text/*, null, null*/);
 		ret.dateAdded.setDate(Integer.decode(tokens[2]));
 		ret.dateAdded.setHours(Integer.decode(tokens[3]));
@@ -215,6 +212,7 @@ public class Fulfillment extends SavableToService implements Serializable{
 		ret.dateAdded.setSeconds(Integer.decode(tokens[6]));
 		//ret.dateAdded.setTime(Integer.decode(tokens[7]));
 		ret.dateAdded.setYear(Integer.decode(tokens[8]));
+		ret.belongsTo = tokens[9];
 		
 		return ret;
 	}

@@ -38,6 +38,12 @@
    	    android:layout_height="wrap_content"
    	    android:text="@string/text_fulfill_scope"
    	    android:textStyle="bold" />
+	<TextView
+   	    android:id="@+id/text_fulfill_email"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:text="@string/text_fulfill_email"
+   	    android:textStyle="bold" />
 
 	<View
 	    android:layout_width="fill_parent"
@@ -48,14 +54,16 @@
     android:id="@+id/oldLogs"
     android:layout_width="fill_parent"
     android:layout_height="320dp" 
-    android:scrollbars="vertical">
+    android:scrollbars="vertical" 
+    android:layout_weight="100">
     </ListView>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"  
+    android:layout_weight="1">
 
      <Button
          android:id="@+id/button_view_fulfill"

@@ -319,7 +319,7 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	{
 		//Format of (service given id) (service given id of owner) (type of object) (body string)
 		String ret;
-		body = String.format("%s+%s+%s+%b+%b+%b+%b+%b", userDeviceId, taskName, taskDescription, getWantText(), getWantPhoto(), getWantAudio(), getIsPublic(), getIsOpen());
+		body = String.format("%s+%s+%s+%b+%b+%b+%b+%b+%s", userDeviceId, taskName, taskDescription, getWantText(), getWantPhoto(), getWantAudio(), getIsPublic(), getIsOpen(), getEmail());
 		
 		ret = String.format("%s+%s+%s+%s", id, id, "TASK", body);
 		System.out.println(ret);
@@ -350,11 +350,11 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		boolean wantAudio = tokens[5].equals("true");
 		boolean isPublic = tokens[6].equals("true");
 		boolean isOpen = tokens[7].equals("true");
+		String email = tokens[8];
 		
 		//last argument is empty, should be email, needs to be implemented in save
-		Task ret = new Task(ownerId, name, desc, wantText, wantPhoto, wantAudio, isPublic, "");
+		Task ret = new Task(ownerId, name, desc, wantText, wantPhoto, wantAudio, isPublic, email);
 		ret.setIsOpen(isOpen);
-		
 		
 		return ret;
 	}

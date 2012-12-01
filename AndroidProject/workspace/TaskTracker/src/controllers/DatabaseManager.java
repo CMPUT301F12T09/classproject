@@ -99,11 +99,13 @@ public class DatabaseManager{
 		val.put("is_open", task.getIsOpen());
 		val.put("user_device_id", task.getUserDeviceId());
 		val.put("belongs_to_id", task.belongsTo);
+		val.put("service_id", task.id);
 		val.put("body", task.body);
+		val.put("user_email", task.getEmail());
 		task.setDbId(db.insert("tasks", null, val));
 		ArrayList<Fulfillment> submissions = task.getSubmissions();
-		for(Fulfillment f : submissions){
-			
+		for(Fulfillment ful : submissions){
+			addFulfillment(task,ful);
 		}
 	}
 	/**
@@ -184,6 +186,7 @@ public class DatabaseManager{
 		val.put("user_device_id", task.getUserDeviceId());
 		val.put("belongs_to_id", task.belongsTo);
 		val.put("body", task.body);
+		val.put("user_email", task.getEmail());
 		db.update("tasks", val, "task_id = "+ t_id, null);
 	}
 	/**
@@ -298,6 +301,7 @@ public class DatabaseManager{
 		task.setUserDeviceId(c.getString(10));
 		task.belongsTo = c.getString(11);
 		task.body = c.getString(12);
+		task.setEmail(c.getString(13));
 		
 		
 		Cursor cursorFulfill  = db.query("fulfillments", null, "parent_task = "+t_id, null, null, null, null);

@@ -48,6 +48,7 @@ public class TaskManager{
 	
 	protected TaskManager(Context context){
 		this.TaskList = new ArrayList<Task>();
+		this.ViewedList = new ArrayList<Task>();
 		this.dbManager = DatabaseManager.getInstance(1, context);
 		dbManager.open();
 		this.sManager = ServiceManager.getInstance(1);
@@ -207,7 +208,7 @@ public class TaskManager{
 		TaskList.get(index).addSubmission(ful);
 		
 		dbManager.addFulfillment(TaskList.get(index), ful);
-		
+		/*
 		if(TaskList.get(index).id != null)
 		{
 			System.out.println("Request");
@@ -223,7 +224,7 @@ public class TaskManager{
 				sManager.requestSaveOut(ful.getAudioFiles().get(i),"AUDIO", this);
 				ful.getImageFiles().get(i).setType("Audio");
 			}
-		}
+		}*/
 	}
 	/**
 	 * Remove an unwanted fulfillment from a task
@@ -291,6 +292,13 @@ public class TaskManager{
 			}
 			
 			int index = generator.nextInt() % (ViewedList.size()+1);
+			
+			System.out.println("**" + index + "**");
+			
+			if(index < 0)
+			{
+				index *= -1;
+			}
 			
 			ViewedList.add(index, temp);
 		}

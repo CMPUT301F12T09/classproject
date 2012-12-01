@@ -87,7 +87,7 @@ public class FulfillTaskActivity extends Activity {
         descView.setText("Description: "+curTask.getTaskDescription());
              
         responseView = (TextView) findViewById(R.id.text_fulfill_desired);
-        responseView.setText("Desired Responses: "+buildResponses(curTask));
+        responseView.setText("Desired Responses: "+curTask.buildResponses());
         
         scopeView = (TextView) findViewById(R.id.text_fulfill_scope);
         scopeView.setText("Task Scope: "+buildScope(curTask));
@@ -249,24 +249,6 @@ public class FulfillTaskActivity extends Activity {
                 //photos=(ArrayList<ImageFile>)data.getSerializableExtra("images");
             }
         }
-    }
-    /**
-     * This method builds a string of the requirements for a given task t.
-     * @param t
-     * @return
-     */
-    private String buildResponses(Task t){
-        String ret = "";
-        if (t.getWantText()){
-            ret = ret + "Text ";
-        }
-        if (t.getWantPhoto()){
-            ret = ret + "Photo ";
-        }
-        if (t.getWantAudio()){
-            ret = ret + "Audio";
-        }
-        return ret;
     }
     /**
      * This method builds a string of the privacy setting of the given task t.

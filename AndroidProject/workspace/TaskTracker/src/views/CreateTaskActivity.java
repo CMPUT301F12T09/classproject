@@ -157,7 +157,7 @@ public class CreateTaskActivity extends Activity {
             toast.show();
     		return false;
     	}
-    	if(editName.getText().toString().matches("[a-zA-Z0-9\\s]+") == false)
+    	if(editName.getText().toString().matches("[a-zA-Z0-9'\\s]+") == false)
     	{
     		Toast toast = Toast.makeText(this, "Task name contains illegal characters", 10);
             toast.show();

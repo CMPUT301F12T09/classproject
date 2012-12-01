@@ -136,7 +136,7 @@ public class DatabaseManager{
 			valPhotos.put("parent_task", t_id);
 			valPhotos.put("parent_fulfill", f_id);
 			valPhotos.put("service_id", i.id);
-			valPhotos.put("body", i.body);
+			valPhotos.put("body", i.saveToString());
 			valPhotos.put("service_type", "PHOTO");
 			valPhotos.put("belongs_to_id", ful.belongsTo);
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -371,9 +371,9 @@ public class DatabaseManager{
 		//NEED THIS LINE TO WORK AND SET BITMAP BUT CURENTLY CRASHES BECAUSE BITMAPS NOT SERIALAZABLE
 		
 		
-		//image.bitmap = BitmapFactory.decodeStream(bis);
-		image.belongsTo = c.getString(4);
-		image.body = c.getString(5);
+		image.bitmap = BitmapFactory.decodeStream(bis);
+		image.belongsTo = c.getString(6);
+		//image.buildFromString(c.getString(7));
 		
 		return image;
 		

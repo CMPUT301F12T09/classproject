@@ -26,7 +26,7 @@ import java.io.Serializable;
  * @author glancop
  *
  */
-public class SavableToService implements Serializable
+public class SavableToService
 {
 	
 	private static final long serialVersionUID = 1L;

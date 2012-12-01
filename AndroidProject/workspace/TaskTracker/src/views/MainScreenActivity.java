@@ -119,7 +119,7 @@ public class MainScreenActivity extends Activity {
             case R.id.menu_fulfill:
                 //probably want to bundle the task and pass it off
                 intent = new Intent(this,FulfillTaskActivity.class);
-                intent.putExtra("task",TaskList.get((int)info.id));
+                //intent.putExtra("task",TaskList.get((int)info.id));
                 intent.putExtra("index",(int)info.id);
                 startActivity(intent);
                 //This will toast the task name of the selected task, that way
@@ -138,13 +138,13 @@ public class MainScreenActivity extends Activity {
             		return true;
             	}
             	intent = new Intent(this,EditTaskActivity.class);
-                intent.putExtra("Task", TaskList.get((int)info.id));
+                //intent.putExtra("Task", TaskList.get((int)info.id));
                 intent.putExtra("index",(int)info.id);
                 startActivity(intent);
                 return true;
             case R.id.menu_view:
             	intent = new Intent(this,ViewTaskActivity.class);
-                intent.putExtra("Task", TaskList.get((int)info.id));
+                //intent.putExtra("Task", TaskList.get((int)info.id));
                 intent.putExtra("index",(int)info.id);
                 startActivity(intent);
                 return true;
@@ -236,8 +236,8 @@ public class MainScreenActivity extends Activity {
     
     public void updateListContents()
     {
-    	TaskList = tManager.getTaskList();
-    	//TaskList = tManager.getViewableTaskList(); //currently causes crash
+    	//TaskList = tManager.getTaskList();
+    	TaskList = tManager.getViewableTaskList();
     	
 	    adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
 	    tasks.setAdapter(adapter);

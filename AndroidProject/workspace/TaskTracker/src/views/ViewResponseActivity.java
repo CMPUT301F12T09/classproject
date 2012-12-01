@@ -33,6 +33,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.tasktracker.R;
+
+import controllers.TaskManager;
 /**
  * This class is an activity that allows a user to view a fulfillment
  * selected from ViewTaskActivity. It will display 
@@ -61,10 +63,13 @@ public class ViewResponseActivity extends Activity {
         
         Bundle data = getIntent().getExtras();
         //curTask =(Task) data.getParcelable("task");
-        curTask = (Task) getIntent().getSerializableExtra("task");
+        //curTask = (Task) getIntent().getSerializableExtra("task");
         //photos = (ArrayList<ImageFile>) getIntent().getSerializableExtra("images");
         index = data.getInt("index");
-        ful = (Fulfillment) getIntent().getSerializableExtra("response");       
+        curTask = TaskManager.getInstance(1, this).getViewableTaskList().get(index);
+        //ful = (Fulfillment) getIntent().getSerializableExtra("response");
+        int fulindex = data.getInt("responseindex");
+        ful = curTask.getSubmissions().get(fulindex);
         
         
         taskName = (TextView) findViewById(R.id.response_taskname); 
@@ -98,7 +103,7 @@ public class ViewResponseActivity extends Activity {
     public void goToFulfill(View view){
     	setResult(RESULT_OK);
     	Intent intent = new Intent(this,FulfillTaskActivity.class);
-        intent.putExtra("task",curTask);
+        //intent.putExtra("task",curTask);
         intent.putExtra("index",index);
 
         startActivity(intent);

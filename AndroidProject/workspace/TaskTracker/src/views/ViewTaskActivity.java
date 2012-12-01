@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import model.Fulfillment;
 import model.Task;
 import com.example.tasktracker.R;
+
+import controllers.TaskManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -61,8 +63,10 @@ public class ViewTaskActivity extends Activity {
         setContentView(R.layout.activity_view_task);
         
         Bundle bundle = getIntent().getExtras();
-        task = (Task) bundle.get("Task");
+        //task = (Task) bundle.get("Task");
         index = bundle.getInt("index");
+        task = TaskManager.getInstance(1, this).getViewableTaskList().get(index);
+        
 
         TextView name = (TextView) findViewById(R.id.text_view_name); 
         name.setText("Task Name: " + task.getTaskName());
@@ -107,10 +111,11 @@ public class ViewTaskActivity extends Activity {
     		@Override
     		public void onItemClick(AdapterView<?> parent, View view, int position, long id){
     			Intent intent = new Intent(ViewTaskActivity.this, ViewResponseActivity.class);
-                intent.putExtra("task",task);
+                //intent.putExtra("task",task);
                 intent.putExtra("taskindex",index);
-                Fulfillment ful = (Fulfillment)submissions.getItemAtPosition(position);
-                intent.putExtra("response", ful);
+                //Fulfillment ful = (Fulfillment)submissions.getItemAtPosition(position);
+                //intent.putExtra("response", ful);
+                intent.putExtra("responseindex", position);
                 startActivity(intent);
     			
     		}
@@ -130,7 +135,7 @@ public class ViewTaskActivity extends Activity {
     public void goToFulfill(View view){
     	setResult(RESULT_OK);
     	Intent intent = new Intent(this,FulfillTaskActivity.class);
-        intent.putExtra("task",task);
+       // intent.putExtra("task",task);
         intent.putExtra("index",index);
         startActivity(intent);
     }

@@ -44,6 +44,8 @@ import com.example.tasktracker.R.id;
 import com.example.tasktracker.R.layout;
 import com.example.tasktracker.R.menu;
 
+import controllers.TaskManager;
+
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View.OnClickListener;
@@ -85,7 +87,9 @@ public class PhotoTakerActivity extends Activity //implements SurfaceHolder.Call
         usePhoto = (Button) findViewById(R.id.button_photo_use);
         usePhoto.setEnabled(false);
         
-        curTask = (Task) getIntent().getSerializableExtra("task");
+        //curTask = (Task) getIntent().getSerializableExtra("task");
+        int index = index = data.getInt("index");
+        curTask = TaskManager.getInstance(1, this).getViewableTaskList().get(index);
         photos = (ArrayList<ImageFile>) getIntent().getSerializableExtra("images");
     }
         
@@ -147,7 +151,7 @@ public class PhotoTakerActivity extends Activity //implements SurfaceHolder.Call
     public void donePhoto(View view)
     {
         Intent returnIntent = new Intent(PhotoTakerActivity.this,FulfillTaskActivity.class);
-        returnIntent.putExtra("task",curTask);
+        //returnIntent.putExtra("task",curTask);
         //returnIntent.putExtra("images", photos);
         setResult(RESULT_OK,returnIntent);  
         finish();

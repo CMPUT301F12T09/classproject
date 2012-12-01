@@ -46,20 +46,6 @@ public class ImageFile extends SavableToService
 		db_Id = id;
 	}
 	
-	/**
-	 * Called by the service manager to get the string to be sent to the service
-	 * @return ret
-	 */
-	public String saveToString()
-	{
-		//Format of (service given id) (service given id of owner) (type of object) (body string)
-		String ret;
-		body = String.format("test");
-		
-		ret = String.format("%s+%s+%s+%s", id, belongsTo, "IMAGE", body);
-		return ret;
-	}
-	
 	//this is a test overloading of tostring to ensure our bitmap is being passed
 	public String toString(){
 		if (bitmap != null){
@@ -72,7 +58,30 @@ public class ImageFile extends SavableToService
 	    bitmap = bmp;
 	}
 	public ImageFile(){
-	    
+	    bitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
+	}
+	
+	/**
+	 * Called by the service manager to get the string to be sent to the service
+	 * @return ret
+	 */
+	public String saveToString()
+	{
+		//Format of (service given id) (service given id of owner) (type of object) (body string)
+		String ret;
+		
+		StringBuilder builder = new StringBuilder("");
+		
+		for(int i = 0; i < bitmap.getWidth(); i++)
+		{
+			for(int j = 0; j < bitmap.getHeight(); j++)
+			{
+				builder.append("*").append(bitmap.getPixel(i, j));
+			}
+		}
+		
+		ret = String.format("%s+%s+%s", belongsTo, "IMAGE", builder.toString());
+		return ret;
 	}
 	
 	/**
@@ -85,9 +94,32 @@ public class ImageFile extends SavableToService
 		//parse the string and get the required data
 		//We should get the body string from the saveToString method
 		
-		System.out.println(data);
+		String deliminator = "[+]+";
+		String[] tokens = data.split(deliminator);
 		
 		ImageFile ret = new ImageFile();
+		
+		ret.belongsTo = tokens[0]; 
+		ret.type = tokens[1]; 
+		String[] pixels = tokens[2].split("[*]+");
+		int k = 0;
+		 
+		for(int i = 0; i < 400; i++)
+		{
+			for(int j = 0; j < 400; j++)
+			{
+				if(pixels[k].equals(""))
+				{
+					ret.bitmap.setPixel(i, j, -1);
+					k++;
+				}
+				else
+				{
+					ret.bitmap.setPixel(i, j, Integer.parseInt(pixels[k++]));
+				}
+			}
+			System.out.print("\n");
+		}
 		
 		return ret;
 	}

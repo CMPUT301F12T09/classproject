@@ -205,7 +205,7 @@ public class TaskManager{
 	}*/
 	public void addSubmission(int index, Fulfillment ful){	
     	this.TaskList = dbManager.loadTasks();
-		TaskList.get(index).addSubmission(ful);
+		//TaskList.get(index).addSubmission(ful);
 		
 		dbManager.addFulfillment(TaskList.get(index), ful);
 		/*
@@ -246,6 +246,7 @@ public class TaskManager{
 	public ArrayList<Task> getTaskList(){
 		//get a fresh copy of the TaskList
 	        this.TaskList = dbManager.loadTasks();
+	        this.ViewedList = this.TaskList;
 		
 		return TaskList;
 	}	
@@ -255,11 +256,10 @@ public class TaskManager{
 	 */
 	public ArrayList<Task> getViewableTaskList(){
 		this.TaskList = dbManager.loadTasks();
-		ArrayList<Task> viewable = new ArrayList<Task>();
+		this.ViewedList = new ArrayList<Task>();
 		for (int i = 0; i < this.TaskList.size(); i++){
 			//test
 			String tmp2 = this.TaskList.get(i).getUserDeviceId();//.equals(userId);
-			System.out.println(tmp2);
 			
 			//Check if we can't view the task i.e. private and not ours
 			if (this.TaskList.get(i).getIsPublic() == false && !(this.TaskList.get(i).getUserDeviceId().equals(userId)))
@@ -267,10 +267,10 @@ public class TaskManager{
 				continue;
 			}
 			else{
-				viewable.add(this.TaskList.get(i));
+				this.ViewedList.add(this.TaskList.get(i));
 			}
 		}
-		return viewable;
+		return this.ViewedList;
 	}
 	
 	/**

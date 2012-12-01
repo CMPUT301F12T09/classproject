@@ -71,9 +71,17 @@ public class FulfillTaskActivity extends Activity {
         
         Bundle data = getIntent().getExtras();
         //curTask =(Task) data.getParcelable("task");
-        curTask = (Task) getIntent().getSerializableExtra("task");
+        //curTask = (Task) getIntent().getSerializableExtra("task");
         //photos = (ArrayList<ImageFile>) getIntent().getSerializableExtra("images");
         index = data.getInt("index");
+        curTask = TaskManager.getInstance(1, this).getViewableTaskList().get(index);
+        
+        if(curTask.getIsOpen() == false)
+        {
+        	Toast toast = Toast.makeText(this, "This task is closed for submissions", 5);
+            toast.show();
+        	finish();
+        }
         
         //Initialise a fulfillment with default values
         android_id = Secure.getString(getBaseContext().getContentResolver(),Secure.ANDROID_ID);
@@ -122,7 +130,8 @@ public class FulfillTaskActivity extends Activity {
     {
     	setResult(RESULT_OK);
     	Intent intent = new Intent(FulfillTaskActivity.this, PhotoTakerActivity.class);
-        intent.putExtra("task",curTask);
+        //intent.putExtra("task",curTask);
+    	intent.putExtra("task",index);
         //intent.putExtra("images", photos);
     	startActivityForResult(intent,1); 
     }
@@ -190,8 +199,6 @@ public class FulfillTaskActivity extends Activity {
     	fulfillment.setTextInput(textResponse.getText().toString().trim());
     	//Ask for confirmation
     	//Send fulfillment to task manager
-    	int i = fulfillment.getDateAdded().getHours();
-    	System.out.println(i);
         TaskManager manage = TaskManager.getInstance(1, this);
         fulfillment.belongsTo = manage.getTaskList().get(index).id;
         
@@ -212,10 +219,9 @@ public class FulfillTaskActivity extends Activity {
             return;
         }
         
-        
+        System.out.println("ADDING A FULFILLMENT");
+          
         manage.addSubmission(index, fulfillment);
-        
-        
         
 /*        System.out.println("++++++\n"+fulfillment);
         for(int j = 0; j < fulfillment.getImageFiles().size();j++){

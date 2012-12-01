@@ -72,8 +72,9 @@ public class EditTaskActivity extends Activity {
         setContentView(R.layout.activity_edit_task);
         
         Bundle bundle = getIntent().getExtras();
-        task = (Task) bundle.get("Task");
+        //task = (Task) bundle.get("Task");
         index = bundle.getInt("index");
+        task = TaskManager.getInstance(1, this).getViewableTaskList().get(index);
         
         email = (EditText) findViewById(R.id.edit_email_edit);
         desc = (EditText) findViewById(R.id.text_edit_desc);

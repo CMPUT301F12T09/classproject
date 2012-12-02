@@ -207,23 +207,23 @@ public class FulfillTaskActivity extends Activity {
         fulfillment.belongsTo = manage.getViewableTaskList().get(index).id;
         
         Toast toast;
-        if(manage.getTaskList().get(index).getWantText() && fulfillment.getTextInput().trim().equals("")){
+        if(manage.getViewableTaskList().get(index).getWantText() && fulfillment.getTextInput().trim().equals("")){
     		toast = Toast.makeText(this, "This task requires a text repsonse", 5);
             toast.show();
             return;
         }
-        if(manage.getTaskList().get(index).getWantAudio() && fulfillment.getAudioFiles().size() == 0){
+        if(manage.getViewableTaskList().get(index).getWantAudio() && fulfillment.getAudioFiles().size() == 0){
     		toast = Toast.makeText(this, "This task requires an audio repsonse", 5);
             toast.show();
             return;
         }
-        if(manage.getTaskList().get(index).getWantPhoto() && fulfillment.getImageFiles().size() == 0){
+        if(manage.getViewableTaskList().get(index).getWantPhoto() && fulfillment.getImageFiles().size() == 0){
     		toast = Toast.makeText(this, "This task requires an image repsonse", 5);
             toast.show();
             return;
         }
         
-        System.out.println("ADDING A FULFILLMENT");
+        System.out.println("ADDING A FULFILLMENT TO " + manage.getViewableTaskList().get(index).getTaskName());
           
         manage.addSubmission(index, fulfillment);
 

@@ -237,7 +237,7 @@ public class MainScreenActivity extends Activity {
     public void updateListContents()
     {
     	//TaskList = tManager.getTaskList();
-    	TaskList = tManager.getViewableTaskList();
+    	TaskList = tManager.refreshViewableTaskList();
     	
 	    adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
 	    tasks.setAdapter(adapter);

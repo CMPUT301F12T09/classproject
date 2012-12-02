@@ -209,6 +209,8 @@ public class TaskManager{
     	this.TaskList = dbManager.loadTasks();
 		//TaskList.get(index).addSubmission(ful);
 		
+    	System.out.println("ADDING A FULFILLMENT TO " + ViewedList.get(index).getTaskName());
+    	
 		dbManager.addFulfillment(ViewedList.get(index), ful);
 		
 		//Send email if an address was specified.
@@ -268,6 +270,32 @@ public class TaskManager{
 	 * @return viewable
 	 */
 	public ArrayList<Task> getViewableTaskList(){
+		this.TaskList = dbManager.loadTasks();
+		if(ViewedList.isEmpty())
+		{
+			this.ViewedList = new ArrayList<Task>();
+			for (int i = 0; i < this.TaskList.size(); i++){
+				//test
+				String tmp2 = this.TaskList.get(i).getUserDeviceId();//.equals(userId);
+				
+				//Check if we can't view the task i.e. private and not ours
+				if (this.TaskList.get(i).getIsPublic() == false && !(this.TaskList.get(i).getUserDeviceId().equals(userId)))
+				{
+					continue;
+				}
+				else{
+					this.ViewedList.add(this.TaskList.get(i));
+				}
+			}
+		}
+		return this.ViewedList;
+	}
+	
+	/**
+	 * Returns a list of user tasks and public tasks
+	 * @return viewable
+	 */
+	public ArrayList<Task> refreshViewableTaskList(){
 		this.TaskList = dbManager.loadTasks();
 		this.ViewedList = new ArrayList<Task>();
 		for (int i = 0; i < this.TaskList.size(); i++){

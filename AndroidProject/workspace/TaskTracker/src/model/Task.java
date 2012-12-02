@@ -326,7 +326,7 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		body = String.format("%s+%s+%s+%b+%b+%b+%b+%b+%s", userDeviceId, taskName, taskDescription, getWantText(), getWantPhoto(), getWantAudio(), getIsPublic(), getIsOpen(), getEmail());
 		
 		ret = String.format("%s+%s+%s+%s", id, id, "TASK", body);
-		System.out.println(ret);
+		//System.out.println(ret);
 		return ret;
 	}
 	
@@ -341,7 +341,7 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 		//parse the string and get the required data
 		//We should get the body string from the saveToString method
 		
-		System.out.println(data);
+		//System.out.println(data);
 		
 		String deliminator = "[+]+";
 		String[] tokens = data.split(deliminator);

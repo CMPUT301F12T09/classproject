@@ -22,6 +22,8 @@ import java.util.Random;
 
 import model.Fulfillment;
 import model.Task;
+import model.AudioFile;
+import model.ImageFile;
 import android.content.Context;
 import android.provider.Settings.Secure;
 
@@ -181,11 +183,29 @@ public class TaskManager{
 	 */
 	public void deleteTask(int index){
 		//find task to delete so we can check the public flag
-		Task toRemove = TaskList.get(index);
+		Task toRemove = ViewedList.get(index);
 		//remove task
 		TaskList.remove(toRemove);
+		ViewedList.remove(toRemove);
 		
 		sManager.removeFromService(toRemove);
+		ArrayList<Fulfillment> tempSubs = toRemove.getSubmissions();
+		for(int i = 0; i < tempSubs.size(); i++)
+		{
+			ArrayList<AudioFile> tempAudio = tempSubs.get(i).getAudioFiles();
+			for(int j = 0; j < tempAudio.size(); j++)
+			{
+				sManager.removeFromService(tempAudio.get(j));
+			}
+			
+			ArrayList<ImageFile> tempImages = tempSubs.get(i).getImageFiles();
+			for(int j = 0; j < tempImages.size(); j++)
+			{
+				sManager.removeFromService(tempImages.get(j));
+			}
+			
+			sManager.removeFromService(tempSubs.get(i));
+		}
 		
 		dbManager.removeTask(toRemove);
 	}

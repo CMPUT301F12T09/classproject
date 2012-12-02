@@ -366,6 +366,65 @@ public class TaskManager{
 		
 		return ViewedList;
 	}
+	
+	/**
+	 * Returns a alphabeticaly sorted list of tasks
+	 * @return ViewedList
+	 */
+	public ArrayList<Task> getAlphabetizedList()
+	{
+		ViewedList.clear();
+		
+		for(int i = 0; i < TaskList.size(); i++)
+		{
+			Task temp = TaskList.get(i);
+			
+			if(temp.getIsPublic() == false && !(temp.getUserDeviceId().equals(userId)))
+			{
+				continue;
+			}
+
+			boolean added = false;
+			for(int j = 0; j < ViewedList.size(); j++)
+			{
+				if(temp.getTaskName().compareTo(ViewedList.get(j).getTaskName()) <= 0)
+				{
+					added = true;
+					ViewedList.add(j, temp);
+					break;
+				}
+			}
+			if(added == false)
+			{
+				ViewedList.add(ViewedList.size(), temp);
+			}
+		}
+		
+		return ViewedList;
+	}
+	
+	/**
+	 * Returns a date sorted list of tasks
+	 * @return ViewedList
+	 */
+	public ArrayList<Task> getDateList()
+	{
+		ViewedList.clear();
+		
+		for(int i = 0; i < TaskList.size(); i++)
+		{
+			Task temp = TaskList.get(i);
+			
+			if(temp.getIsPublic() == false && !(temp.getUserDeviceId().equals(userId)))
+			{
+				continue;
+			}
+
+			ViewedList.add(ViewedList.size(), temp);
+		}
+		
+		return ViewedList;
+	}
 	/**
 	 * Adds a task to the database and local task list
 	 * @param toAdd

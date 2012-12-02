@@ -20,6 +20,7 @@ package views;
 import java.util.ArrayList;
 
 import model.AudioFile;
+import model.ImageFile;
 import model.Task;
 
 import com.example.tasktracker.R;
@@ -31,6 +32,7 @@ import java.io.InputStream;
 
 import controllers.TaskManager;
 
+import android.media.AudioRecord;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -73,6 +75,7 @@ public class AudioRecorderActivity extends Activity {
         
         int index = data.getInt("index");
         curTask = TaskManager.getInstance(1, this).getViewableTaskList().get(index);
+        audio = (ArrayList<AudioFile>) getIntent().getSerializableExtra("audio");
     }
 
     @Override
@@ -100,7 +103,6 @@ public class AudioRecorderActivity extends Activity {
         try{
         	if (requestCode == SOUND_REC_REQUEST) {  
         		audioUri = data.getData();  
-            
         	}  
         }catch (Exception e){
             

@@ -240,7 +240,6 @@ public class MainScreenActivity extends Activity {
     
     public void updateListContents()
     {
-    	//TaskList = tManager.getTaskList();
     	TaskList = tManager.refreshViewableTaskList();
     	
 	    adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
@@ -253,7 +252,28 @@ public class MainScreenActivity extends Activity {
     public void updateListContentsRandom()
     {
     	TaskList = tManager.getRandomizedList();
-    	//TaskList = tManager.getViewableTaskList(); //currently causes crash
+    	
+	    adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
+	    tasks.setAdapter(adapter);
+	    Button updateData = (Button) findViewById(R.id.updateData);
+    	updateData.setText(R.string.button_main_update_data);
+    	isUpdating = false;
+    }
+    
+    public void updateListContentsAlphabetic()
+    {
+    	TaskList = tManager.getAlphabetizedList();
+    	
+	    adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
+	    tasks.setAdapter(adapter);
+	    Button updateData = (Button) findViewById(R.id.updateData);
+    	updateData.setText(R.string.button_main_update_data);
+    	isUpdating = false;
+    }
+    
+    public void updateListContentsDate()
+    {
+    	TaskList = tManager.getDateList();
     	
 	    adapter = new ArrayAdapter<Task>(this, R.layout.task_display, TaskList);
 	    tasks.setAdapter(adapter);
@@ -317,6 +337,7 @@ public class MainScreenActivity extends Activity {
 		dateButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				updateListContentsDate();
 				dialog.dismiss();
 			}
 		});
@@ -336,6 +357,7 @@ public class MainScreenActivity extends Activity {
 		alphabeticButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				updateListContentsAlphabetic();
 				dialog.dismiss();
 			}
 		});

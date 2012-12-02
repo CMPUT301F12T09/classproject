@@ -146,16 +146,18 @@ public class DatabaseManager{
 			long ph_id = db.insert("photos", null, valPhotos);
 			i.setDbId(ph_id);
 		}
-		/* add after audio is implemented
+		
 		ArrayList<AudioFile> audio = ful.getAudioFiles();
+		
 		for(AudioFile a : audio){
 			ContentValues vala = new ContentValues();
 			vala.put("parent_task", t_id);
 			vala.put("parent_fulfill", f_id);
-			//TODO convert audio file to blob
-			vala.put("audio", toStore);
+			vala.put("audio", a.audio);
+			long au_id = db.insert("audio", null, vala);
+			a.setDbId(au_id);
 		}
-		*/
+		
 	}
 	/**
 	 * Removes a given fulfillment from the database

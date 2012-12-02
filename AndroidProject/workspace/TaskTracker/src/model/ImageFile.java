@@ -103,8 +103,6 @@ public class ImageFile extends SavableToService
 		String deliminator = "[+]+";
 		String[] tokens = data.split(deliminator);
 		
-		System.out.println("===================\n" + data + "\n===================");
-		
 		ImageFile ret = new ImageFile();
 		
 		ret.belongsTo = tokens[0]; 

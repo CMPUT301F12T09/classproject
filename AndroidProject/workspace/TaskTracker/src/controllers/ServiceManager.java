@@ -843,8 +843,6 @@ public class ServiceManager
 		    }
 		    entity.consumeContent();
 		    
-		    System.out.println("======***========\n" + jsonStringVersion + "\n========***========");
-		    
 		    String temp = jsonStringVersion.substring(1, jsonStringVersion.length()-2);
 		    temp = temp.substring(temp.indexOf("{")+1, temp.indexOf("}"));
 		    String delims = "[:,]+";

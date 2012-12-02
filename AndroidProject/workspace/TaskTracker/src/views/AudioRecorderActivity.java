@@ -26,7 +26,9 @@ import com.example.tasktracker.R;
 import com.example.tasktracker.R.layout;
 import com.example.tasktracker.R.menu;
 
-import controllers.ByteArrayOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
 import controllers.TaskManager;
 
 import android.net.Uri;
@@ -107,7 +109,7 @@ public class AudioRecorderActivity extends Activity {
     
     public void useAudio(View view){
     	
-    	InputStream inputS = openInputStream(audioUri);
+/*    	InputStream inputS = openInputStream(audioUri);
     	ByteArrayOutputStream bos = new ByteArrayOutputStream();
     	
     	
@@ -118,7 +120,7 @@ public class AudioRecorderActivity extends Activity {
     		bos.write(buffer, 0, length);
     	}
 		byte[] toStore = bos.toByteArray();
-        FulfillTaskActivity.fulfillment.addAudio(new AudioFile(toStore));
+        FulfillTaskActivity.fulfillment.addAudio(new AudioFile(toStore));*/
     	Toast toast = Toast.makeText(this, "Audio saved: " + audioUri.getPath(), 5);
         toast.show();
     }

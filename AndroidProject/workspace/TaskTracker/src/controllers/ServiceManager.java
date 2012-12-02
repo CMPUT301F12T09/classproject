@@ -153,7 +153,7 @@ public class ServiceManager
 		tempTask.belongsTo = toSend.belongsTo;
 		tempTask.type = toSend.type;
 		tempTask.body = toSend.body;
-		
+		System.out.println("Saving task");
 		try
 		{
 			if(toSend.id==null)
@@ -300,7 +300,7 @@ public class ServiceManager
 		tempFulfillment.belongsTo = toSend.belongsTo;
 		tempFulfillment.type = toSend.type;
 		tempFulfillment.body = toSend.body;
-
+		System.out.println("Saving fulfillment");
 		if(toSend.id==null)
 		{		    
 			try
@@ -376,7 +376,6 @@ public class ServiceManager
 	public void saveToService(final ImageFile toSend)
 	{
 		toSend.saveToString();
-
 		System.out.println("SENDING IMAGE");
 		if(toSend.id==null)
 		{		    
@@ -439,6 +438,8 @@ public class ServiceManager
 	 */
 	public void saveToService(AudioFile toSend)
 	{
+		toSend.saveToString();
+		System.out.println("Saving audio");
 		try
 		{
 			if(toSend.id==null)

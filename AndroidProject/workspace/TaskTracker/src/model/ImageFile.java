@@ -49,7 +49,7 @@ public class ImageFile extends SavableToService
 	//this is a test overloading of tostring to ensure our bitmap is being passed
 	public String toString(){
 		if (bitmap != null){
-			return "a picture";
+			return "Click To View Image";
 		}
 		return "a null picture";
 	}

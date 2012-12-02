@@ -114,10 +114,7 @@ public class DatabaseManager{
 	 * @param ful
 	 */
 	public void addFulfillment(Task task, Fulfillment ful){
-		long t_id = task.getDbId();
-		
-		System.out.println("======================\n" + t_id + "\n======================");
-		
+		long t_id = task.getDbId();		
 		ContentValues val = new ContentValues();
 		val.put("service_id", ful.getId());
 		val.put("service_type", ful.type);
@@ -139,7 +136,7 @@ public class DatabaseManager{
 			valPhotos.put("parent_task", t_id);
 			valPhotos.put("parent_fulfill", f_id);
 			valPhotos.put("service_id", i.id);
-			valPhotos.put("body", i.saveToString());
+			valPhotos.put("body", "blah");
 			valPhotos.put("service_type", "PHOTO");
 			valPhotos.put("belongs_to_id", ful.belongsTo);
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();

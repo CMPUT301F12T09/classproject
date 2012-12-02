@@ -108,6 +108,8 @@ public class ServiceManager
 	 */	
 	public void requestSaveOut(final Task toSend, final String type, final TaskManager requester)
 	{	
+		userId = requester.getUserId();
+		
 		new AsyncTask<Void, Void, Void>()
 		{
     		@Override
@@ -152,8 +154,9 @@ public class ServiceManager
 				System.out.println("Sending new");
 				try
 		    	{
+					System.out.println("task " + toSend.getUserDeviceId() + " " + userId  + " manager");
 					//It's fine to send out private tasks if you are the author, but don't send any task if you aren't
-					if(toSend.getUserDeviceId() == userId)
+					if(toSend.getUserDeviceId().equals(userId))
 					{
 						List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
 						nameValuePairs.add(new BasicNameValuePair("action", "post"));
@@ -362,8 +365,10 @@ public class ServiceManager
 	{
 		toSend.saveToString();
 
+		System.out.println("SENDING IMAGE");
 		if(toSend.id==null)
 		{		    
+			System.out.println("PAST CHECK");
 			try
 	    	{
 				List <BasicNameValuePair> nameValuePairs = new ArrayList <BasicNameValuePair>();
@@ -832,10 +837,16 @@ public class ServiceManager
 		    String[] tokens = temp.split(delims);
 		    
 		    for(int i = 0; i < tokens.length; i++)
-		    {	    	
-		    	if(i == 1)
+		    {
+		    	if(tokens[i].length() < 3)
 		    	{
-		    		String data = tokens[i].substring(1, tokens[i].length()-1);
+		    		continue;
+		    	}
+		    	String pleasework = tokens[i].substring(1, tokens[i].length()-1);
+		    	
+		    	if(pleasework.equals("body"))
+		    	{
+		    		String data = tokens[i+1].substring(1, tokens[i+1].length()-1);
 		    		responseTask = ImageFile.buildFromString(data);
 		    	}
 		    }
@@ -884,10 +895,16 @@ public class ServiceManager
 		    String[] tokens = temp.split(delims);
 		    
 		    for(int i = 0; i < tokens.length; i++)
-		    {	    	
-		    	if(i == 1)
+		    {
+		    	if(tokens[i].length() < 3)
 		    	{
-		    		String data = tokens[i].substring(1, tokens[i].length()-1);
+		    		continue;
+		    	}
+		    	String pleasework = tokens[i].substring(1, tokens[i].length()-1);
+		    	
+		    	if(pleasework.equals("body"))
+		    	{
+		    		String data = tokens[i+1].substring(1, tokens[i+1].length()-1);
 		    		responseTask = AudioFile.buildFromString(data);
 		    	}
 		    }
@@ -1033,8 +1050,10 @@ public class ServiceManager
 			for(int j = 0; j < fulfillments.size(); j++)
 			{
 				Fulfillment tempF = fulfillments.get(j);
+				System.out.println(tempI.belongsTo + " " + tempF.id);
 				if(tempF.id.equals(tempI.belongsTo))
 				{
+					System.out.println("ADDING TO FULFILLMENT " + tempF.id);
 					tempF.addImage(tempI);
 					break;
 				}

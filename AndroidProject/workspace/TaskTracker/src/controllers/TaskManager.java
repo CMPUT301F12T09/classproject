@@ -212,7 +212,7 @@ public class TaskManager{
 		dbManager.addFulfillment(ViewedList.get(index), ful);
 		
 		//Send email if an address was specified.
-		if(!(ViewedList.get(index).getEmail().trim().equals(""))){
+		if(!(ViewedList.get(index).getEmail().trim().equals("NOEMAIL"))){
 
             try {   
                 new EmailWrapper().execute(ViewedList.get(index));

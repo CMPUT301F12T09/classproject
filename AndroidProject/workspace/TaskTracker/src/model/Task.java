@@ -318,6 +318,10 @@ public class Task extends SavableToService implements Serializable//, Parcelable
 	public String saveToString()
 	{
 		//Format of (service given id) (service given id of owner) (type of object) (body string)
+		if(getEmail().equals(""))
+		{
+			setEmail("NOEMAIL");
+		}
 		String ret;
 		body = String.format("%s+%s+%s+%b+%b+%b+%b+%b+%s", userDeviceId, taskName, taskDescription, getWantText(), getWantPhoto(), getWantAudio(), getIsPublic(), getIsOpen(), getEmail());
 		

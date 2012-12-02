@@ -57,7 +57,7 @@ public class AudioFile extends SavableToService
 		//parse the string and get the required data
 		//We should get the body string from the saveToString method
 		
-		System.out.println(data);
+		System.out.println("GENERATING AUDIO " + data);
 		
 		AudioFile ret = new AudioFile();
 		

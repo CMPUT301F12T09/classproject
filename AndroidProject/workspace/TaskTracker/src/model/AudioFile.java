@@ -29,9 +29,29 @@ import java.io.File;
  *
  */
 
-public class AudioFile extends SavableToService
-{
-	public File audio;
+public class AudioFile extends SavableToService{
+
+	
+	public byte[] audio;
+	
+	private long db_Id;
+	
+	public AudioFile(){
+	    this.audio = null;
+	}
+	
+	public AudioFile(byteArray){
+	    this.audio = byteArray;
+	}
+	
+	public long getDbId()
+	{
+		return db_Id;
+	}
+	public void setDbId(long id)
+	{
+		db_Id = id;
+	}
 	
 	/**
 	 * Called by the service manager to get the string to be sent to the service

@@ -40,7 +40,7 @@ public class AudioFile extends SavableToService{
 	    this.audio = null;
 	}
 	
-	public AudioFile(byteArray){
+	public AudioFile(byte[] byteArray){
 	    this.audio = byteArray;
 	}
 	

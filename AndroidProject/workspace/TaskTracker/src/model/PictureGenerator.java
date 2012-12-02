@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 
 /**
- * This class generates randomised images for the camera simulator
+ * This class generates randomized images for the camera simulator
  * 
  * @author glancop
  *

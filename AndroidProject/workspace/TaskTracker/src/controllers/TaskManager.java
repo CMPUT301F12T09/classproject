@@ -42,7 +42,7 @@ public class TaskManager{
 	private ArrayList<Task> TaskList;
 	private ArrayList<Task> ViewedList;
 	
-	private String userId; 
+	private static String userId; 
 	
 	private static TaskManager instance = null;
 	
@@ -494,5 +494,8 @@ public class TaskManager{
 				break;
 			}
 		}
+	}
+	public static String getId(){
+		return userId;
 	}
 }

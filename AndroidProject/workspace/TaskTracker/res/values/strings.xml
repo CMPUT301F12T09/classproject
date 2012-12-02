@@ -9,6 +9,7 @@
     <string name="button_main_update_data">Update Data</string>
     <string name="button_main_updating_data">Updating...</string>
     <string name="button_main_sort_by">Sort By...</string>
+    <string name="unique">Unique Device ID: </string>
     <string name="button_main_search_menu_cancel">Cancel</string>
     <string name="button_main_search_menu_keyword">Search By Keyword</string>
     <string name="button_main_search_menu_id">Search By ID</string>
@@ -50,7 +51,7 @@
     <string name="menu_view">View Task</string>    
     <string name="menu_close">Close Task</string>    
     <string name="menu_viewresponse">View Response</string>    
-    <string name="photo_done">Done taking Photos</string>
+    <string name="photo_done">Done Taking Photos</string>
     <string name="menu_delete">Delete Response</string>    
     <string name="email_hint">Your email here</string>
     <string name="text_email">Email Address (Optional):</string>

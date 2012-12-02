@@ -111,9 +111,9 @@ public class FulfillTaskActivity extends Activity {
         
         
         Button takePhoto = (Button) findViewById(R.id.button_fulfill_takePhoto);
-        Button photoMem = (Button) findViewById(R.id.button_fulfill_photoMem);
+        //Button photoMem = (Button) findViewById(R.id.button_fulfill_photoMem);
         Button recordAudio = (Button) findViewById(R.id.button_fulfill_recordAudio);
-        Button audioMem = (Button) findViewById(R.id.button_fulfill_audioMem);
+        //Button audioMem = (Button) findViewById(R.id.button_fulfill_audioMem);
         Button cancel = (Button) findViewById(R.id.button_fulfill_cancel);
         Button save = (Button) findViewById(R.id.button_fulfill_save);
         

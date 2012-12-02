@@ -16,9 +16,13 @@
 
 package model;
 
-import java.io.*;
-import java.security.acl.Owner;
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+
+import controllers.TaskManager;
+
+import android.provider.Settings.Secure;
 
 /**
  * This class acts as an object blueprint for a submission of
@@ -145,8 +149,15 @@ public class Fulfillment extends SavableToService implements Serializable{
 	@Override
 	public String toString() { 
 		String contents = getContentsString();
-
-		String task = String.format("User Id: %s\nContents: %s \n",this.userDeviceId,contents);
+		String id = TaskManager.getId().equals(this.userDeviceId) ? "You" : this.userDeviceId;
+/*		String id = "";
+		if(TaskManager.getId().equals(this.userDeviceId)){
+			id = "You";
+		}else{
+			id = this.userDeviceId;
+		}*/
+		
+		String task = String.format("User: %s\nContents: %s \n",id,contents);
 		//String task = String.format("User Id: %s\nDate: %d %d %d\nContents: %s \n",
 		//							  this.userDeviceId, this.dateAdded.getMonth(), this.dateAdded.getDate(), this.dateAdded.getYear(), contents);
         return task;

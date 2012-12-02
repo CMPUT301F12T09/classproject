@@ -386,14 +386,16 @@ public class DatabaseManager{
 	 * @param c
 	 * @return
 	 */
-	//TODO implement audio rebuild
 	private AudioFile rebuildAudio(Cursor c){
 		AudioFile audio = new AudioFile();
+		audio.setDbId(c.getLong(0));
 		audio.setId(c.getString(1));
 		audio.setType(c.getString(2));
+		audio.audio = c.getBlob(3);
 		
 		return audio;
 	}
+
 	/**
 	 * Deletes all tasks and fulfillmrnts from the database.
 	 */

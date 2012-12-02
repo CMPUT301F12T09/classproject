@@ -25,6 +25,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
 import android.support.v4.app.NavUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -36,6 +37,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tasktracker.R;
@@ -82,6 +84,8 @@ public class MainScreenActivity extends Activity {
         
         Button createTask = (Button) findViewById(R.id.createTask);
         Button updateData = (Button) findViewById(R.id.updateData);
+        /*TextView deviceId = (TextView) findViewById(R.id.unique);
+        deviceId.setText("Unique Device ID: " + Secure.getString(this.getContentResolver(), Secure.ANDROID_ID));*/
         tasks = (ListView) findViewById(R.id.tasks);
         tManager = TaskManager.getInstance(1, this);
         

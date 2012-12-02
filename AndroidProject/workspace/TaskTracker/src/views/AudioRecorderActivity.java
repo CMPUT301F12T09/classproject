@@ -1,4 +1,3 @@
-
 /**
 *    Copyright 2012 Zak Turchansky, Evan Fauser, Gordon Lancop, Seth Davis
 *	
@@ -17,21 +16,21 @@
 
 package views;
 
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
 import model.AudioFile;
-import model.ImageFile;
 import model.Task;
 
 import com.example.tasktracker.R;
 import com.example.tasktracker.R.layout;
 import com.example.tasktracker.R.menu;
 
-import java.io.ByteArrayOutputStream;
 import controllers.TaskManager;
 
-import android.media.AudioRecord;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -55,7 +54,6 @@ public class AudioRecorderActivity extends Activity {
 	private Uri audioUri;
     private Task curTask;
     private final static int SOUND_REC_REQUEST = 5555;
-    private ArrayList<AudioFile> audio;
     private Button useAudio;
 	/**
 	 * Create all UI elements and connect the appropriate listeners.
@@ -74,7 +72,6 @@ public class AudioRecorderActivity extends Activity {
         
         int index = data.getInt("index");
         curTask = TaskManager.getInstance(1, this).getViewableTaskList().get(index);
-        audio = (ArrayList<AudioFile>) getIntent().getSerializableExtra("audio");
     }
 
     @Override
@@ -102,6 +99,7 @@ public class AudioRecorderActivity extends Activity {
         try{
         	if (requestCode == SOUND_REC_REQUEST) {  
         		audioUri = data.getData();  
+        		
         	}  
         }catch (Exception e){
             
@@ -109,21 +107,25 @@ public class AudioRecorderActivity extends Activity {
     }
     
     public void useAudio(View view){
-    	/*
-    	InputStream inputS = openInputStream(audioUri);
-    	ByteArrayOutputStream bos = new ByteArrayOutputStream();
-    	
-    	
-    	byte[] buffer = new byte[1024];
+    	try{
+    		InputStream inputS = getContentResolver().openInputStream(audioUri);
+        	ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        	
+        	
+        	byte[] buffer = new byte[1024];
 
-    	int length = 0;
-    	while ((length = inputS.read(buffer)) != -1) {
-    		bos.write(buffer, 0, length);
-    	}
-		byte[] toStore = bos.toByteArray();
-        FulfillTaskActivity.fulfillment.addAudio(new AudioFile(toStore));
-    	Toast toast = Toast.makeText(this, "Audio saved: " + audioUri.getPath(), 5);
-        toast.show();*/
+        	int length = 0;
+        	while ((length = inputS.read(buffer)) != -1) {
+        		bos.write(buffer, 0, length);
+        	}
+    		byte[] toStore = bos.toByteArray();
+            FulfillTaskActivity.fulfillment.addAudio(new AudioFile(toStore));
+        	Toast toast = Toast.makeText(this, "Audio saved: " + audioUri.getPath(), Toast.LENGTH_LONG);
+            toast.show();
+        }
+        catch(Exception e){
+            
+        }
     }
     
     public void doneAudio(View view){

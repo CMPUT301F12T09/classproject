@@ -232,7 +232,7 @@ public class Fulfillment extends SavableToService implements Serializable{
 	 */
 	public void readDateFromString(String data)
 	{
-		System.out.println(data);
+		//System.out.println(data);
 		String deliminator = "[+]+";
 		String[] tokens = data.split(deliminator);
 

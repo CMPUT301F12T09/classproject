@@ -69,8 +69,8 @@ public class ImageFile extends SavableToService
 	{
 		//Format of (service given id) (service given id of owner) (type of object) (body string)
 		String ret;
-		/*
-		StringBuilder builder = new StringBuilder("");
+		
+		StringBuilder builder = new StringBuilder(belongsTo+"+"+type+"+");
 		
 		for(int i = 0; i < bitmap.getWidth(); i++)
 		{
@@ -80,9 +80,12 @@ public class ImageFile extends SavableToService
 			}
 		}
 		
-		ret = String.format("%s+%s+%s", belongsTo, "IMAGE", builder.toString());*/
+		body = builder.toString();
+		ret = String.format("%s+%s+%s", belongsTo, "IMAGE", body);
 		
-		ret = String.format("%s+%s+%s", belongsTo, "IMAGE", "-1");
+		//body = belongsTo + "+" + type + "+-1";
+		
+		ret = String.format("%s+%s+%s", belongsTo, "IMAGE", body);
 		bitmap = null;
 		return ret;
 	}
@@ -103,7 +106,7 @@ public class ImageFile extends SavableToService
 		ImageFile ret = new ImageFile();
 		
 		ret.belongsTo = tokens[0]; 
-		ret.type = tokens[1]; /*
+		ret.type = tokens[1]; 
 		String[] pixels = tokens[2].split("[*]+");
 		int k = 0;
 		 
@@ -121,8 +124,8 @@ public class ImageFile extends SavableToService
 					ret.bitmap.setPixel(i, j, (int)(pixels[k++].charAt(0)));
 				}
 			}
-		}*/
-		
+		}
+		/*
 		for(int i = 0; i < 400; i++)
 		{
 			for(int j = 0; j < 400; j++)
@@ -130,7 +133,7 @@ public class ImageFile extends SavableToService
 				ret.bitmap.setPixel(i, j, Integer.parseInt(tokens[2]));
 			}
 		}
-		
+		*/
 		ret.body = "";
 		return ret;
 	}

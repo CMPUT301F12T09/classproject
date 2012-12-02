@@ -80,9 +80,11 @@ public class ImageFile extends SavableToService
 			}
 		}
 		
-		ret = String.format("%s+%s+%s", belongsTo, "IMAGE", builder.toString());*/
+		ret = String.format("%s+%s+%s", belongsTo, "IMAGE", belongsTo+"+"+type+"+"+builder.toString());*/
 		
-		ret = String.format("%s+%s+%s", belongsTo, "IMAGE", "-1");
+		body = belongsTo + "+" + type + "+-1";
+		
+		ret = String.format("%s+%s+%s", belongsTo, "IMAGE", body);
 		bitmap = null;
 		return ret;
 	}
@@ -99,6 +101,8 @@ public class ImageFile extends SavableToService
 		System.out.println("GENERATING IMAGE " + data);
 		String deliminator = "[+]+";
 		String[] tokens = data.split(deliminator);
+		
+		System.out.println("===================\n" + data + "\n===================");
 		
 		ImageFile ret = new ImageFile();
 		

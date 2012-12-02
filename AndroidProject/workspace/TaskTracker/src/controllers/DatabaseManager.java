@@ -129,7 +129,7 @@ public class DatabaseManager{
 		ful.setDbId(f_id);
 		
 		ArrayList<ImageFile> images = ful.getImageFiles();
-		System.out.println(images.size());
+		//System.out.println(images.size());
 		ContentValues valPhotos = new ContentValues();
 		for(ImageFile i : images){
 			ContentValues vali = new ContentValues();
@@ -265,7 +265,7 @@ public class DatabaseManager{
 	 * @return
 	 */
 	private Task rebuildTask(Cursor c){
-		System.out.println(c.getColumnCount());
+		//System.out.println(c.getColumnCount());
 		Task task = new Task();
 		long t_id = c.getLong(0);
 		task.setDbId(t_id);

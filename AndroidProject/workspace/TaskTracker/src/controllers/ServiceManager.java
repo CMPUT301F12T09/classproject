@@ -199,7 +199,7 @@ public class ServiceManager
 				    ArrayList<Fulfillment> tempFulfillments = toSend.getSubmissions();
 				    for(int i = 0; i < tempFulfillments.size(); i++)
 				    {
-						System.out.println(i);
+						//System.out.println(i);
 				    	tempFulfillments.get(i).belongsTo = toSend.id;
 				    	saveToService(tempFulfillments.get(i));
 				    }
@@ -946,7 +946,7 @@ public class ServiceManager
 	private void saveOutData(final TaskManager requester)
 	{
 		ArrayList<Task> currentTasks = requester.getTaskList();
-		System.out.println(currentTasks.size());
+		//System.out.println(currentTasks.size());
 		for(int i = 0; i < currentTasks.size(); i++)
 		{
 			saveToService(currentTasks.get(i));

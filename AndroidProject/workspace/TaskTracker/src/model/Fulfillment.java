@@ -56,6 +56,7 @@ public class Fulfillment extends SavableToService implements Serializable{
 	
 	//id for sql database storage
 	private long db_Id;
+	public long db_Id_ofTask;
 	
 	/**
 	 * Create new Fulfillment and set fields

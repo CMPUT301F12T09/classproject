@@ -65,7 +65,7 @@ public class ViewResponseActivity extends Activity {
         //curTask =(Task) data.getParcelable("task");
         //curTask = (Task) getIntent().getSerializableExtra("task");
         //photos = (ArrayList<ImageFile>) getIntent().getSerializableExtra("images");
-        index = data.getInt("index");
+        index = data.getInt("taskindex");
         curTask = TaskManager.getInstance(1, this).getViewableTaskList().get(index);
         //ful = (Fulfillment) getIntent().getSerializableExtra("response");
         int fulindex = data.getInt("responseindex");

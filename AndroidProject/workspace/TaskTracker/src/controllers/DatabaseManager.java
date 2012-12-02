@@ -115,6 +115,9 @@ public class DatabaseManager{
 	 */
 	public void addFulfillment(Task task, Fulfillment ful){
 		long t_id = task.getDbId();
+		
+		System.out.println("======================\n" + t_id + "\n======================");
+		
 		ContentValues val = new ContentValues();
 		val.put("service_id", ful.getId());
 		val.put("service_type", ful.type);
@@ -249,7 +252,7 @@ public class DatabaseManager{
 			Fulfillment ful = fuls.get(i);
 			for(int j = 0; j < tasks.size(); j++)
 			{
-				if(tasks.get(j).id == ful.belongsTo)
+				if(tasks.get(j).getDbId() == ful.db_Id_ofTask)
 				{
 					tasks.get(j).addFulfillment(ful);
 					break;
@@ -308,6 +311,7 @@ public class DatabaseManager{
 		cursorFulfill.moveToFirst();
 		while(!cursorFulfill.isAfterLast()){
 			Fulfillment ful = rebuildFulfillment(cursorFulfill);
+			ful.db_Id_ofTask = t_id;
 			task.addFulfillment(ful);
 			cursorFulfill.moveToNext();
 		}

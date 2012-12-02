@@ -209,13 +209,13 @@ public class TaskManager{
     	this.TaskList = dbManager.loadTasks();
 		//TaskList.get(index).addSubmission(ful);
 		
-		dbManager.addFulfillment(TaskList.get(index), ful);
+		dbManager.addFulfillment(ViewedList.get(index), ful);
 		
 		//Send email if an address was specified.
-		if(!(TaskList.get(index).getEmail().trim().equals(""))){
+		if(!(ViewedList.get(index).getEmail().trim().equals(""))){
 
             try {   
-                new EmailWrapper().execute(TaskList.get(index));
+                new EmailWrapper().execute(ViewedList.get(index));
             } catch (Exception e) {   
                 e.printStackTrace();
             } 

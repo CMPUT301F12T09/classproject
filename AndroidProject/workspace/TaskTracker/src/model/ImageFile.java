@@ -76,7 +76,7 @@ public class ImageFile extends SavableToService
 		{
 			for(int j = 0; j < bitmap.getHeight(); j++)
 			{
-				builder.append("*").append(bitmap.getPixel(i, j));
+				builder.append("*").append((char)bitmap.getPixel(i, j));
 			}
 		}
 		
@@ -115,12 +115,13 @@ public class ImageFile extends SavableToService
 				}
 				else
 				{
-					ret.bitmap.setPixel(i, j, Integer.parseInt(pixels[k++]));
+					ret.bitmap.setPixel(i, j, (int)(pixels[k++].charAt(0)));
 				}
 			}
 			System.out.print("\n");
 		}
 		
+		ret.body = "";
 		return ret;
 	}
 	

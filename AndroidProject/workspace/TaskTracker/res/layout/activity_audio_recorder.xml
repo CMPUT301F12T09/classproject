@@ -7,21 +7,26 @@
    
     <Button
         android:id="@+id/button_audio_record"
+        android:layout_weight="33"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dip"
         android:onClick="recordAudio"
         android:text="@string/button_audio_record" />
 
     <Button
         android:id="@+id/button_audio_use"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dip"
+                android:layout_weight="33"
+        
         android:onClick="useAudio"
         android:text="@string/button_audio_use" />
     <Button
         android:id="@+id/button_audio_done"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dip"
+                android:layout_weight="34"
+        
         android:onClick="doneAudio"
         android:text="@string/button_audio_done" />
 

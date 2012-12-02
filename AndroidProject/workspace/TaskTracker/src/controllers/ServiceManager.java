@@ -147,7 +147,13 @@ public class ServiceManager
 	 */
 	public void saveToService(final Task toSend)
 	{
-		toSend.saveToString();
+		String tempString = toSend.saveToString();
+		Task tempTask = Task.buildFromString(tempString);
+		tempTask.id = toSend.id;
+		tempTask.belongsTo = toSend.belongsTo;
+		tempTask.type = toSend.type;
+		tempTask.body = toSend.body;
+		
 		try
 		{
 			if(toSend.id==null)
@@ -163,7 +169,7 @@ public class ServiceManager
 						nameValuePairs.add(new BasicNameValuePair("action", "post"));
 						nameValuePairs.add(new BasicNameValuePair("description", "TASK"));
 						nameValuePairs.add(new BasicNameValuePair("summary", "TASK"));
-						nameValuePairs.add(new BasicNameValuePair("content", gson.toJson(toSend)));
+						nameValuePairs.add(new BasicNameValuePair("content", gson.toJson(tempTask)));
 						
 						httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 						HttpResponse response = httpclient.execute(httpPost);
@@ -224,7 +230,7 @@ public class ServiceManager
 					nameValuePairs.add(new BasicNameValuePair("id", toSend.id));
 					nameValuePairs.add(new BasicNameValuePair("description", "TASK"));
 					nameValuePairs.add(new BasicNameValuePair("summary", "TASK"));
-					nameValuePairs.add(new BasicNameValuePair("content", gson.toJson(toSend)));
+					nameValuePairs.add(new BasicNameValuePair("content", gson.toJson(tempTask)));
 					
 			    	httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			    	HttpResponse response = httpclient.execute(httpPost);

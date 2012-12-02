@@ -119,6 +119,7 @@ public class ServiceManager
 				try
 		    	{
 					saveToService(toSend);
+					requester.refresh(toSend);
 		    	}
 				catch(Exception e)
 				{

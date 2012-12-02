@@ -148,7 +148,7 @@ public class ServiceManager
 	public void saveToService(final Task toSend)
 	{
 		String tempString = toSend.saveToString();
-		Task tempTask = Task.buildFromString(tempString);
+		Task tempTask = Task.buildFromString(toSend.body);
 		tempTask.id = toSend.id;
 		tempTask.belongsTo = toSend.belongsTo;
 		tempTask.type = toSend.type;
@@ -294,7 +294,12 @@ public class ServiceManager
 	 */
 	public void saveToService(final Fulfillment toSend)
 	{
-		toSend.saveToString();
+		String tempString = toSend.saveToString();
+		Fulfillment tempFulfillment = Fulfillment.buildFromString(toSend.body);
+		tempFulfillment.id = toSend.id;
+		tempFulfillment.belongsTo = toSend.belongsTo;
+		tempFulfillment.type = toSend.type;
+		tempFulfillment.body = toSend.body;
 
 		if(toSend.id==null)
 		{		    
@@ -304,7 +309,7 @@ public class ServiceManager
 				nameValuePairs.add(new BasicNameValuePair("action", "post"));
 				nameValuePairs.add(new BasicNameValuePair("description", "FULFILLMENT"));
 				nameValuePairs.add(new BasicNameValuePair("summary", "FULFILLMENT"));
-				nameValuePairs.add(new BasicNameValuePair("content", gson.toJson(toSend)));
+				nameValuePairs.add(new BasicNameValuePair("content", gson.toJson(tempFulfillment)));
 				
 				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				HttpResponse response = httpclient.execute(httpPost);

@@ -32,7 +32,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper{
 			
 	private static final String DATABASE = "tasktraker.db";
-	private static final int VERSION = 1;
+	private static final int VERSION = 2;
 	
 	private static final String CREATE_TASKS = "CREATE TABLE tasks( task_id INTEGER PRIMARY KEY AUTOINCREMENT,"
 							+ " service_id TEXT, service_type TEXT,"

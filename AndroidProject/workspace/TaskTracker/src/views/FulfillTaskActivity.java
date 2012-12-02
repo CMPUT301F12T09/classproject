@@ -56,6 +56,7 @@ public class FulfillTaskActivity extends Activity {
     
     private final static int PIC_REQUEST = 1;
     private final static int SELECT_IMAGE = 2;
+    private final static int AUDIO_REQUEST = 3;
     private TextView nameView, descView, responseView, scopeView;
   //  private ArrayList<ImageFile> photos;
     private ArrayList<AudioFile> audio;
@@ -151,9 +152,8 @@ public class FulfillTaskActivity extends Activity {
     {
     	setResult(RESULT_OK);
     	Intent intent = new Intent(FulfillTaskActivity.this, AudioRecorderActivity.class);
-    	startActivity(intent); //change to require return
-    	//get returned audio
-    	//if not null add to fulfillment
+    	intent.putExtra("task",index);
+    	startActivityForResult(intent, AUDIO_REQUEST);
     }
     /**
      * When implemented, will allow the user to select a photo from the phone's
@@ -260,7 +260,11 @@ public class FulfillTaskActivity extends Activity {
 			}
               
         } 
-        
+        if(requestCode == AUDIO_REQUEST) {
+            if(resultCode == RESULT_OK){
+                curTask=(Task)data.getSerializableExtra("task");
+            }
+        }
     }
     /**
      * This method builds a string of the privacy setting of the given task t.

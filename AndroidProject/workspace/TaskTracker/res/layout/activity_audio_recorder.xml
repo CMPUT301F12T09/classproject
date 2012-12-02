@@ -1,22 +1,28 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
-    <Button
-        android:id="@+id/button_audio_cancel"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_audio_cancel"
-        android:onClick="cancelAudio" />
-    
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+   
     <Button
         android:id="@+id/button_audio_record"
-        android:layout_above="@id/button_audio_cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_audio_record"
-        android:onClick="recordAudio" />
+        android:onClick="recordAudio"
+        android:text="@string/button_audio_record" />
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/button_audio_use"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="useAudio"
+        android:text="@string/button_audio_use" />
+    <Button
+        android:id="@+id/button_audio_done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="doneAudio"
+        android:text="@string/button_audio_done" />
+
+</LinearLayout>

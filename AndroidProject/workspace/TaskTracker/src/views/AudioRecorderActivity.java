@@ -17,14 +17,26 @@
 
 package views;
 
+import java.util.ArrayList;
+
+import model.AudioFile;
+import model.Task;
+
 import com.example.tasktracker.R;
 import com.example.tasktracker.R.layout;
 import com.example.tasktracker.R.menu;
 
+import controllers.TaskManager;
+
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 /**
  * This class will act as the activity where the user can record audio
  * on the fly for task submissions.
@@ -36,6 +48,11 @@ import android.view.View;
  */
 public class AudioRecorderActivity extends Activity {
 
+	private Uri audioUri;
+    private Task curTask;
+    private final static int SOUND_REC_REQUEST = 5555;
+    private ArrayList<AudioFile> audio;
+    private Button useAudio;
 	/**
 	 * Create all UI elements and connect the appropriate listeners.
      * Also get the current set of audio files so that we will add 
@@ -45,6 +62,14 @@ public class AudioRecorderActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio_recorder);
+        
+        Bundle data = getIntent().getExtras();
+
+        useAudio = (Button) findViewById(R.id.button_audio_use);
+        useAudio.setEnabled(false);
+        
+        int index = data.getInt("index");
+        curTask = TaskManager.getInstance(1, this).getViewableTaskList().get(index);
     }
 
     @Override
@@ -57,15 +82,38 @@ public class AudioRecorderActivity extends Activity {
      * Result will be returned as a Bitmap.
      * @param view
      */
-    public void recordAudio(View view)
-    {
-    	//while down record?
-    	//Ask for confirmation
-    	finish();
+    public void recordAudio(View view){
+    	Intent audioIntent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+        try{
+            startActivityForResult(audioIntent, SOUND_REC_REQUEST);
+            useAudio.setEnabled(true);
+        }
+        catch(Exception e){
+            
+        }
     }
     
-    public void cancelAudio(View view)
-    {
-    	finish();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {  
+        try{
+        	if (requestCode == SOUND_REC_REQUEST) {  
+        		audioUri = data.getData();  
+            
+        	}  
+        }catch (Exception e){
+            
+        }
     }
+    
+    public void useAudio(View view){
+        //FulfillTaskActivity.fulfillment.addAudio(new AudioFile(audioUri));
+    	Toast toast = Toast.makeText(this, "Audio saved: " + audioUri.getPath(), 5);
+        toast.show();
+    }
+    
+    public void doneAudio(View view){
+        Intent returnIntent = new Intent(AudioRecorderActivity.this, FulfillTaskActivity.class);
+        setResult(RESULT_OK, returnIntent);  
+        finish();
+    }
+    
 }

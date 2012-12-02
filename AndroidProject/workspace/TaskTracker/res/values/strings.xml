@@ -71,7 +71,8 @@
     
     <string name="button_photo_cancel">Cancel</string>
     <string name="button_audio_record">Record Audio</string>
-    <string name="button_audio_cancel">Cancel</string>
+    <string name="button_audio_use">Use Audio</string>
+    <string name="button_audio_done">Done Recording Audio</string>
     <string name="button_memory_cancel">Cancel</string>
     <string name="button_view_fulfill">Fulfill Task</string>
     <string name="button_view_cancel">Main Menu</string>

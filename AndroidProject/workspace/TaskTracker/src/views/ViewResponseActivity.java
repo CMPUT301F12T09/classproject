@@ -20,15 +20,21 @@ package views;
 import java.util.ArrayList;
 
 import model.Fulfillment;
+import model.ImageFile;
 import model.SavableToService;
 import model.Task;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -89,6 +95,21 @@ public class ViewResponseActivity extends Activity {
         }
     	adapter = new ArrayAdapter<SavableToService>(this, R.layout.task_display, list);
     	attachments.setAdapter(adapter);
+    	
+    	attachments.setOnItemClickListener(new OnItemClickListener() {
+    		   @Override
+    		   public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+    			   if(position < ful.getImageFiles().size())
+    			   {
+    				   System.out.println("===\n" + position + "\n===");
+    				   showImage(position);
+    			   }
+    			   else
+    			   {
+    				   showAudio(position-ful.getImageFiles().size());
+    			   }
+    		   }
+    	});
     }
 
     @Override
@@ -115,5 +136,47 @@ public class ViewResponseActivity extends Activity {
     public void cancel(View view){
     	setResult(RESULT_OK);
     	finish();
+    }
+    
+    public void showImage(int imageIndex)
+    {
+    	final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.image_display);
+		dialog.setTitle("Image Viewer");
+		
+		ArrayList<ImageFile> tempiflist = ful.getImageFiles();
+		ImageFile tempif = ful.getImageFiles().get(0);
+		Bitmap tempbmp = ful.getImageFiles().get(0).bitmap;
+
+		ImageButton iButton = (ImageButton) dialog.findViewById(R.id.showImageImage);
+		iButton.setImageBitmap(ful.getImageFiles().get(0).bitmap);
+		// if button is clicked, close the custom dialog
+		iButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
+    }
+    
+    public void showAudio(int imageIndex)
+    {
+    	final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.image_display);
+		dialog.setTitle("Image Viewer");
+
+		ImageButton iButton = (ImageButton) dialog.findViewById(R.id.showImageImage);
+		iButton.setImageBitmap(ful.getImageFiles().get(imageIndex).bitmap);
+		// if button is clicked, close the custom dialog
+		iButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
     }
 }

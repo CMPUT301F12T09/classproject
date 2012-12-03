@@ -53,6 +53,9 @@ public class AudioFile extends SavableToService{
 		db_Id = id;
 	}
 	
+	public String toString(){
+		return "Click To Hear Audio";	
+	}
 	/**
 	 * Called by the service manager to get the string to be sent to the service
 	 * @return ret

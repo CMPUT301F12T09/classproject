@@ -58,7 +58,7 @@ public class ImageFile extends SavableToService
 	    bitmap = bmp;
 	}
 	public ImageFile(){
-	    bitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
+	    bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class ImageFile extends SavableToService
 		{
 			for(int j = 0; j < bitmap.getHeight(); j++)
 			{
-				builder.append("*").append((char)bitmap.getPixel(i, j));
+				builder.append("*").append(String.valueOf(bitmap.getPixel(i, j)));
 			}
 		}
 		
@@ -110,9 +110,9 @@ public class ImageFile extends SavableToService
 		String[] pixels = tokens[2].split("[*]+");
 		int k = 0;
 		 
-		for(int i = 0; i < 400; i++)
+		for(int i = 0; i < 200; i++)
 		{
-			for(int j = 0; j < 400; j++)
+			for(int j = 0; j < 200; j++)
 			{
 				if(pixels[k].equals(""))
 				{
@@ -121,9 +121,11 @@ public class ImageFile extends SavableToService
 				}
 				else
 				{
-					ret.bitmap.setPixel(i, j, (int)(pixels[k++].charAt(0)));
+					//ret.bitmap.setPixel(i, j, (int)(pixels[k++].charAt(0)));
+					ret.bitmap.setPixel(i, j, Integer.parseInt(pixels[k++]));
 				}
 			}
+			System.out.println();
 		}
 		/*
 		for(int i = 0; i < 400; i++)

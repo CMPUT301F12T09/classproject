@@ -160,7 +160,7 @@ public class PhotoTakerActivity extends Activity //implements SurfaceHolder.Call
     private Bitmap ourBMP;
 	public void setBogoPic(View view) {
 		ImageButton button = (ImageButton) findViewById(R.id.takePhoto);
-		ourBMP = PictureGenerator.generateBitmap(400,400);
+		ourBMP = PictureGenerator.generateBitmap(200,200);
 		button.setImageBitmap(ourBMP);
         usePhoto.setEnabled(true);
 

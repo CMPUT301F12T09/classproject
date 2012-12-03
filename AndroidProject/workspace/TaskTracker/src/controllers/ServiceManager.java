@@ -849,8 +849,6 @@ public class ServiceManager
 		    String delims = "[:,]+";
 		    String[] tokens = temp.split(delims);
 		    
-		    System.out.println("============================\n" + jsonStringVersion + "\n============================");
-		    
 		    for(int i = 0; i < tokens.length; i++)
 		    {
 		    	if(tokens[i].length() < 3)

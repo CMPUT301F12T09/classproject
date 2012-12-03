@@ -85,30 +85,18 @@ public class TaskManager{
 	 * @param name
 	*/
 	public void updateName(int index, String name){
-		TaskList.get(index).setTaskName(name);
-		
-		//If public update via service manager
-		if(TaskList.get(index).getIsPublic()){
-			//TODO update public storage via service manager;
-		    
-		    
-		}
-		//Either way update local storage;
-		dbManager.updateTask(TaskList.get(index));
+		ViewedList.get(index).setTaskName(name);
+
+		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**update description of task at index
 	 * @param index
 	 * @param desc
 	 */
 	public void updateDesc(int index, String desc){
-		TaskList.get(index).setTaskDescription(desc);
-		
-		//If public update via service manager
-		if(TaskList.get(index).getIsPublic()){
-			//TODO update public storage via service manager;
-		}
-		//Either way update local storage;
-		dbManager.updateTask(TaskList.get(index));
+		ViewedList.get(index).setTaskDescription(desc);
+
+		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**
 	 * Update the requirements of a task (photo/audio/text)
@@ -118,16 +106,11 @@ public class TaskManager{
 	 * @param audio
 	 */
 	public void updateRequirements(int index, boolean text, boolean photo, boolean audio){
-		TaskList.get(index).setWantText(text);
-		TaskList.get(index).setWantPhoto(photo);
-		TaskList.get(index).setWantAudio(audio);
+		ViewedList.get(index).setWantText(text);
+		ViewedList.get(index).setWantPhoto(photo);
+		ViewedList.get(index).setWantAudio(audio);
 		
-		//If public update via service manager
-		if(TaskList.get(index).getIsPublic()){
-			//TODO update public storage via service manager;
-		}
-		//Either way update local storage;
-		dbManager.updateTask(TaskList.get(index));
+		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**
 	 * Update whether or not the task is still accepting new fulfillments
@@ -135,14 +118,9 @@ public class TaskManager{
 	 * @param open
 	 */
 	public void updateOpen(int index, boolean open){
-		TaskList.get(index).setIsOpen(open);
-		
-		//If public update via service manager
-		if(TaskList.get(index).getIsPublic()){
-			//TODO update public storage via service manager;
-		}
-		//Either way update local storage;
-		dbManager.updateTask(TaskList.get(index));
+		ViewedList.get(index).setIsOpen(open);
+
+		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**
 	 * Update whether or not other users can see the task
@@ -150,14 +128,9 @@ public class TaskManager{
 	 * @param pub
 	 */
 	public void updatePublic(int index, boolean pub){
-		TaskList.get(index).setIsPublic(pub);
-		
-		//If public update via service manager
-		if(TaskList.get(index).getIsPublic()){
-			//TODO update public storage via service manager;
-		}
-		//Either way update local storage;
-		dbManager.updateTask(TaskList.get(index));
+		ViewedList.get(index).setIsPublic(pub);
+
+		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**
 	 * Create a new task and add it to the master list.
@@ -227,7 +200,7 @@ public class TaskManager{
 	}*/
 	public void addSubmission(int index, Fulfillment ful){	
     	this.TaskList = dbManager.loadTasks();
-		TaskList.get(index).addSubmission(ful);
+    	ViewedList.get(index).addSubmission(ful);
     	
 		dbManager.addFulfillment(ViewedList.get(index), ful);
 		

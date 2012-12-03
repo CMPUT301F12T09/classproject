@@ -51,11 +51,11 @@ public class EditTaskActivity extends Activity {
     private CheckBox text;
     private CheckBox photo;
     private CheckBox audio;
-    private boolean wantText;
-    private boolean wantAudio;
-    private boolean wantPhoto;
-    private boolean isPublic;
-    private boolean isOpen;
+    private boolean wantText = false;
+    private boolean wantAudio = false;
+    private boolean wantPhoto = false;
+    private boolean isPublic = false;
+    private boolean isOpen = false;
     private RadioButton radioPublic;
     private RadioButton radioPrivate;
     private RadioButton radioOpen;
@@ -83,18 +83,21 @@ public class EditTaskActivity extends Activity {
         desc.setText(task.getTaskDescription());
         name.setText(task.getTaskName());
         
-        text = (CheckBox) findViewById(R.id.checkbox_text);
-        audio = (CheckBox) findViewById(R.id.checkbox_audio);
-        photo = (CheckBox) findViewById(R.id.checkbox_photo);
+        text = (CheckBox) findViewById(R.id.edit_checkbox_text);
+        audio = (CheckBox) findViewById(R.id.edit_checkbox_audio);
+        photo = (CheckBox) findViewById(R.id.edit_checkbox_photo);
         
         if(task.getWantAudio()){
         	audio.setChecked(true);
+        	wantAudio = true;
         }
         if(task.getWantPhoto()){
         	photo.setChecked(true);
+        	wantPhoto = true;
         }
         if(task.getWantText()){
         	text.setChecked(true);
+        	wantText = true;
         }
         
         radioPublic = (RadioButton) findViewById(R.id.radio_public);
@@ -175,25 +178,27 @@ public class EditTaskActivity extends Activity {
     public void onCheckBoxClicked(View view){
         boolean checked = ((CheckBox) view).isChecked();
         switch(view.getId()){
-            case R.id.checkbox_text:
+            case R.id.edit_checkbox_text:
                 if(checked){
                     wantText = true;
                 }else{
                     wantText = false;
                 }
                 break;
-            case R.id.checkbox_photo:
+            case R.id.edit_checkbox_photo:
                 if(checked){
                     wantPhoto = true;
                 }else{
                     wantPhoto = false;
                 }
                 break;
-            case R.id.checkbox_audio:
+            case R.id.edit_checkbox_audio:
                 if(checked){
                     wantAudio = true;
+                    System.out.println("true");
                 }else{
                     wantAudio = false;
+                    System.out.println("false");
                 }
         }
     }

@@ -89,9 +89,9 @@ public class TaskManager{
 		
 		//If public update via service manager
 		if(TaskList.get(index).getIsPublic()){
-			//TODO update public storage via service manager;
-		    
-		    
+			Task updatedTask = TaskList.get(index);
+			sManager.saveToService(updatedTask);
+		    		    
 		}
 		//Either way update local storage;
 		dbManager.updateTask(TaskList.get(index));
@@ -105,7 +105,8 @@ public class TaskManager{
 		
 		//If public update via service manager
 		if(TaskList.get(index).getIsPublic()){
-			//TODO update public storage via service manager;
+			Task updatedTask = TaskList.get(index);
+			sManager.saveToService(updatedTask);
 		}
 		//Either way update local storage;
 		dbManager.updateTask(TaskList.get(index));
@@ -124,7 +125,8 @@ public class TaskManager{
 		
 		//If public update via service manager
 		if(TaskList.get(index).getIsPublic()){
-			//TODO update public storage via service manager;
+			Task updatedTask = TaskList.get(index);
+			sManager.saveToService(updatedTask);
 		}
 		//Either way update local storage;
 		dbManager.updateTask(TaskList.get(index));
@@ -139,7 +141,8 @@ public class TaskManager{
 		
 		//If public update via service manager
 		if(TaskList.get(index).getIsPublic()){
-			//TODO update public storage via service manager;
+			Task updatedTask = TaskList.get(index);
+			sManager.saveToService(updatedTask);
 		}
 		//Either way update local storage;
 		dbManager.updateTask(TaskList.get(index));
@@ -154,7 +157,8 @@ public class TaskManager{
 		
 		//If public update via service manager
 		if(TaskList.get(index).getIsPublic()){
-			//TODO update public storage via service manager;
+			Task updatedTask = TaskList.get(index);
+			sManager.saveToService(updatedTask);
 		}
 		//Either way update local storage;
 		dbManager.updateTask(TaskList.get(index));

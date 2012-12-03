@@ -163,6 +163,21 @@ public class TaskManager{
 		//Either way update local storage;
 		dbManager.updateTask(TaskList.get(index));
 	}
+	/**update email of task creator
+	 * @param index
+	 * @param email
+	 */
+	public void updateEmail(int index, String email){
+		TaskList.get(index).setEmail(email);
+		
+		//If public update via service manager
+		if(TaskList.get(index).getIsPublic()){
+			Task updatedTask = TaskList.get(index);
+			sManager.saveToService(updatedTask);
+		}
+		//Either way update local storage;
+		dbManager.updateTask(TaskList.get(index));
+	}
 	/**
 	 * Create a new task and add it to the master list.
 	 * @param name

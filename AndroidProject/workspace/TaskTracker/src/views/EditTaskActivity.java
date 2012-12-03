@@ -146,6 +146,7 @@ public class EditTaskActivity extends Activity {
     	manager.updateRequirements(index, wantText, wantPhoto, wantAudio);
     	manager.updatePublic(index, isPublic);
     	manager.updateOpen(index, isOpen);
+    	manager.updateEmail(index, email.getText().toString());
     	    	
     	finish();
     }

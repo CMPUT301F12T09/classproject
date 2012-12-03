@@ -86,7 +86,12 @@ public class TaskManager{
 	*/
 	public void updateName(int index, String name){
 		ViewedList.get(index).setTaskName(name);
-
+		
+		//If public update via service manager
+		if(ViewedList.get(index).getIsPublic()){
+			updateTaskInService(index);
+		}
+		//Either way update local storage;
 		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**update description of task at index
@@ -95,7 +100,12 @@ public class TaskManager{
 	 */
 	public void updateDesc(int index, String desc){
 		ViewedList.get(index).setTaskDescription(desc);
-
+		
+		//If public update via service manager
+		if(ViewedList.get(index).getIsPublic()){
+			updateTaskInService(index);
+		}
+		//Either way update local storage;
 		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**
@@ -110,6 +120,11 @@ public class TaskManager{
 		ViewedList.get(index).setWantPhoto(photo);
 		ViewedList.get(index).setWantAudio(audio);
 		
+		//If public update via service manager
+		if(ViewedList.get(index).getIsPublic()){
+			updateTaskInService(index);
+		}
+		//Either way update local storage;
 		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**
@@ -119,7 +134,12 @@ public class TaskManager{
 	 */
 	public void updateOpen(int index, boolean open){
 		ViewedList.get(index).setIsOpen(open);
-
+		
+		//If public update via service manager
+		if(ViewedList.get(index).getIsPublic()){
+			updateTaskInService(index);
+		}
+		//Either way update local storage;
 		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**
@@ -129,8 +149,35 @@ public class TaskManager{
 	 */
 	public void updatePublic(int index, boolean pub){
 		ViewedList.get(index).setIsPublic(pub);
-
+		
+		//If public update via service manager
+		if(ViewedList.get(index).getIsPublic()){
+			updateTaskInService(index);
+		}
+		//Either way update local storage;
 		dbManager.updateTask(ViewedList.get(index));
+	}
+	/**update email of task creator
+	 * @param index
+	 * @param email
+	 */
+	public void updateEmail(int index, String email){
+		ViewedList.get(index).setEmail(email);
+		
+		//If public update via service manager
+		if(ViewedList.get(index).getIsPublic()){
+			updateTaskInService(index);
+		}
+		//Either way update local storage;
+		dbManager.updateTask(ViewedList.get(index));
+	}
+	/**
+	 * Sends a newly updated Task object to the ServiceManager to be updated on the webservice
+	 * @param index
+	 */
+	private void updateTaskInService(int index) {
+		Task updatedTask = ViewedList.get(index);
+		sManager.saveToService(updatedTask);
 	}
 	/**
 	 * Create a new task and add it to the master list.
@@ -165,39 +212,37 @@ public class TaskManager{
 		ArrayList<Fulfillment> tempSubs = toRemove.getSubmissions();
 		for(int i = 0; i < tempSubs.size(); i++)
 		{
-			ArrayList<AudioFile> tempAudio = tempSubs.get(i).getAudioFiles();
-			for(int j = 0; j < tempAudio.size(); j++)
-			{
-				sManager.removeFromService(tempAudio.get(j));
-			}
-			
-			ArrayList<ImageFile> tempImages = tempSubs.get(i).getImageFiles();
-			for(int j = 0; j < tempImages.size(); j++)
-			{
-				sManager.removeFromService(tempImages.get(j));
-			}
-			
-			sManager.removeFromService(tempSubs.get(i));
+			removeMediaFromService(tempSubs, i);
 		}
 		
 		dbManager.removeTask(toRemove);
+	}
+	/**
+	 * Removes audio and image files associated with the fulfillments to be removed
+	 * from the webservive
+	 * @param tempSubs
+	 * @param i
+	 */
+	private void removeMediaFromService(ArrayList<Fulfillment> tempSubs, int i) {
+		ArrayList<AudioFile> tempAudio = tempSubs.get(i).getAudioFiles();
+		for(int j = 0; j < tempAudio.size(); j++)
+		{
+			sManager.removeFromService(tempAudio.get(j));
+		}
+		
+		ArrayList<ImageFile> tempImages = tempSubs.get(i).getImageFiles();
+		for(int j = 0; j < tempImages.size(); j++)
+		{
+			sManager.removeFromService(tempImages.get(j));
+		}
+		
+		sManager.removeFromService(tempSubs.get(i));
 	}
 	/**
 	 * Add a fulfillment to a given task
 	 * @param index
 	 * @param ful
 	 */
-/*	public void addSubmission(int index, String text, ArrayList<ImageFile> images, ArrayList<AudioFile> audio){
-		TaskList.get(index).addSubmission(userId, text, images, audio);
-		//If public update via service manager
-		if(TaskList.get(index).getIsPublic()){
-		        Fulfillment ful = new Fulfillment(userId, text,images, audio);
-		        ful.belongsTo = TaskList.get(index).id;
-		        sManager.saveToService(ful);
-		}
-		//Either way update local storage;
-		dbManager.saveTasks(TaskList);
-	}*/
 	public void addSubmission(int index, Fulfillment ful){	
     	this.TaskList = dbManager.loadTasks();
     	ViewedList.get(index).addSubmission(ful);
@@ -213,24 +258,6 @@ public class TaskManager{
                 e.printStackTrace();
             } 
 		}
-		
-		/*
-		if(TaskList.get(index).id != null)
-		{
-			System.out.println("Request");
-			sManager.requestSaveOut(ful, "FULLFILMENT", this);
-			
-			for (int i = 0; i < ful.getImageFiles().size(); i++) {
-				ful.getImageFiles().get(i).belongsTo = ful.id;
-				sManager.requestSaveOut(ful.getImageFiles().get(i),"IMAGE", this);
-				ful.getImageFiles().get(i).setType("Image");
-			}
-			for (int i = 0; i < ful.getAudioFiles().size(); i++) {
-				ful.getAudioFiles().get(i).belongsTo = ful.id;
-				sManager.requestSaveOut(ful.getAudioFiles().get(i),"AUDIO", this);
-				ful.getImageFiles().get(i).setType("Audio");
-			}
-		}*/
 	}
 	/**
 	 * Remove an unwanted fulfillment from a task

@@ -3,74 +3,68 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    
-<!--     <TextView 
-        android:id="@+id/unique"
-   	    android:layout_width="wrap_content"
-   	    android:layout_height="wrap_content"
-   	    android:text="@string/unique"
-   	    android:textStyle="bold" />-->
-    
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/SortSearch"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/unique"
-    android:orientation="horizontal" >
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/SortSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/sortBy"
-            android:layout_weight="0.5"
             android:layout_width="0px"
             android:layout_height="wrap_content"
-            android:onClick="showSortMethods" 
+            android:layout_weight="0.5"
+            android:onClick="showSortMethods"
             android:text="@string/button_main_sort_by" />
 
-      <Button
-          android:id="@+id/searchBy"
-          android:layout_weight="0.5"
-          android:layout_width="0px"
-          android:layout_height="wrap_content"
-          android:onClick="showSearchMethods" 
-          android:text="@string/button_main_search_by" />
-    
-    </LinearLayout>  
-    
-    <ListView
-        android:layout_below="@+id/SortSearch"
-        android:id="@+id/tasks"
-        android:layout_width="wrap_content"
+  <!--       <Button
+            android:id="@+id/searchBy"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:onClick="showSearchMethods"
+            android:text="@string/button_main_search_by" />-->
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/CeateUpdate"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical" >
-    </ListView>
-    	
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/CeateUpdate"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:orientation="horizontal" 
-    android:gravity="bottom"
-    android:layout_centerHorizontal="true">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/createTask"
-            android:layout_weight="0.5"
             android:layout_width="0px"
             android:layout_height="wrap_content"
-            android:onClick="goToCreateTask" 
+            android:layout_weight="0.5"
+            android:onClick="goToCreateTask"
             android:text="@string/button_main_create_task" />
 
-      <Button
-          android:id="@+id/updateData"
-          android:layout_weight="0.5"
-          android:layout_width="0px"
-          android:layout_height="wrap_content"
-          android:onClick="updateData" 
-          android:text="@string/button_main_update_data" />
-    
+        <Button
+            android:id="@+id/updateData"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:onClick="updateData"
+            android:text="@string/button_main_update_data" />
     </LinearLayout>
 
-</RelativeLayout>    
+    <ListView
+        android:id="@+id/tasks"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/CeateUpdate"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/SortSearch"
+        android:scrollbars="vertical" >
+    </ListView>
+
+</RelativeLayout>

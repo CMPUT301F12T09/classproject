@@ -1,5 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
+    <LinearLayout
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/text_view_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_fulfill_name"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_view_taskdesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_fulfill_desc"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_view_desired"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_fulfill_desired"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_view_openclose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_view_openclose"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_fulfill_scope"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_fulfill_scope"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_fulfill_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_fulfill_email"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:background="#000000" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:id="@+id/buttons"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button_view_fulfill"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:onClick="goToFulfill"
+            android:text="@string/button_view_fulfill" />
+
+        <Button
+            android:id="@+id/button_view_cancel"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:onClick="returnToMain"
+            android:text="@string/button_view_cancel" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/oldLogs"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/buttons"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/text"
+        android:scrollbars="vertical" >
+    </ListView>
+
+</RelativeLayout><!--
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -83,4 +180,5 @@
     
     </LinearLayout>
 
-</LinearLayout>    
+</LinearLayout>
+-->

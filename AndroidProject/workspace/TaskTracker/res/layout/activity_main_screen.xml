@@ -21,13 +21,13 @@
             android:onClick="showSortMethods"
             android:text="@string/button_main_sort_by" />
 
-        <Button
+  <!--       <Button
             android:id="@+id/searchBy"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:onClick="showSearchMethods"
-            android:text="@string/button_main_search_by" />
+            android:text="@string/button_main_search_by" />-->
     </LinearLayout>
 
     <LinearLayout

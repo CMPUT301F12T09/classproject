@@ -105,7 +105,7 @@ public class EditTaskActivity extends Activity {
         	isPublic = true;
         }else{
         	isPublic = false;
-        	radioPrivate.setChecked(false);
+        	radioPrivate.setChecked(true);
         }
         radioOpen = (RadioButton) findViewById(R.id.radio_open);
         radioClosed = (RadioButton) findViewById(R.id.radio_close);

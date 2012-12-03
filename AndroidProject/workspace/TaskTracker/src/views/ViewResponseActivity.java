@@ -143,13 +143,9 @@ public class ViewResponseActivity extends Activity {
     	final Dialog dialog = new Dialog(this);
 		dialog.setContentView(R.layout.image_display);
 		dialog.setTitle("Image Viewer");
-		
-		ArrayList<ImageFile> tempiflist = ful.getImageFiles();
-		ImageFile tempif = ful.getImageFiles().get(0);
-		Bitmap tempbmp = ful.getImageFiles().get(0).bitmap;
 
 		ImageButton iButton = (ImageButton) dialog.findViewById(R.id.showImageImage);
-		iButton.setImageBitmap(ful.getImageFiles().get(0).bitmap);
+		iButton.setImageBitmap(ful.getImageFiles().get(imageIndex).bitmap);
 		// if button is clicked, close the custom dialog
 		iButton.setOnClickListener(new View.OnClickListener() {
 			@Override

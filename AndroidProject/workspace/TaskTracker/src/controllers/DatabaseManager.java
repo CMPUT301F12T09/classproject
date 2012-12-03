@@ -130,9 +130,9 @@ public class DatabaseManager{
 		
 		ArrayList<ImageFile> images = ful.getImageFiles();
 		//System.out.println(images.size());
-		ContentValues valPhotos = new ContentValues();
-		for(ImageFile i : images){
-			ContentValues vali = new ContentValues();
+		for(int index = 0; index < images.size(); index++){
+			ContentValues valPhotos = new ContentValues();
+			ImageFile i = images.get(index);
 			valPhotos.put("parent_task", t_id);
 			valPhotos.put("parent_fulfill", f_id);
 			valPhotos.put("service_id", i.id);

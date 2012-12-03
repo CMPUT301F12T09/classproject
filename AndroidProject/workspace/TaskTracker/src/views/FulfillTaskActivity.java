@@ -222,9 +222,7 @@ public class FulfillTaskActivity extends Activity {
             toast.show();
             return;
         }
-        
-        System.out.println("ADDING A FULFILLMENT TO " + manage.getViewableTaskList().get(index).getTaskName());
-          
+
         manage.addSubmission(index, fulfillment);
 
        	finish();
@@ -232,40 +230,7 @@ public class FulfillTaskActivity extends Activity {
     //With the new dynamically built fulfillment, this code might be unnecessary
     //because he task is not updated by the photo taker and the photos
     //are added to this class's static fulfillment
-    /**
-     * This method is called when the activity we called with a result request 
-     * returns to us.  Currently it only checks for picture request, but 
-     * will also check for audio requests when that is implemented.
-     * The result is simply updating the array of files to hold whatever 
-     * new ones we got from the activity.  
-     */
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(requestCode == PIC_REQUEST) {
-            if(resultCode == RESULT_OK){
-                curTask=(Task)data.getSerializableExtra("task");
-                //photos=(ArrayList<ImageFile>)data.getSerializableExtra("images");
-            }
-        }
-        if (requestCode == SELECT_IMAGE)
-            if (resultCode == Activity.RESULT_OK) {
-              Uri selectedImage = data.getData();
-              Bitmap bmp;
-              try {
-				bmp=BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
-				fulfillment.addImage(new ImageFile(bmp));
-		    	Toast toast = Toast.makeText(this, "Image saved: " + fulfillment.getImageFiles().size(), 5);
-		        toast.show();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-              
-        } 
-        if(requestCode == AUDIO_REQUEST) {
-            if(resultCode == RESULT_OK){
-                curTask=(Task)data.getSerializableExtra("task");
-            }
-        }
-    }
+
     /**
      * This method builds a string of the privacy setting of the given task t.
      * @param t

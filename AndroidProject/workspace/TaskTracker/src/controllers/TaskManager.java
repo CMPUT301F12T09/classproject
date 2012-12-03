@@ -227,9 +227,7 @@ public class TaskManager{
 	}*/
 	public void addSubmission(int index, Fulfillment ful){	
     	this.TaskList = dbManager.loadTasks();
-		//TaskList.get(index).addSubmission(ful);
-		
-    	System.out.println("ADDING A FULFILLMENT TO " + ViewedList.get(index).getTaskName());
+		TaskList.get(index).addSubmission(ful);
     	
 		dbManager.addFulfillment(ViewedList.get(index), ful);
 		

@@ -17,8 +17,10 @@
 
 package views;
 
+import java.io.*;
 import java.util.ArrayList;
 
+import model.AudioFile;
 import model.Fulfillment;
 import model.ImageFile;
 import model.SavableToService;
@@ -27,6 +29,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -58,6 +61,7 @@ public class ViewResponseActivity extends Activity {
 	private TextView taskName, taskDesc, textResponse;
 	private ArrayList<SavableToService> list;
 	private ArrayAdapter<SavableToService> adapter;
+	private MediaPlayer player;
     /**
      * Will initialize UI components and display info about the fulfillment
      * Also will implement appropriate listeners.
@@ -66,7 +70,7 @@ public class ViewResponseActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_response);
-        
+        player = new MediaPlayer();
         Bundle data = getIntent().getExtras();
         //curTask =(Task) data.getParcelable("task");
         //curTask = (Task) getIntent().getSerializableExtra("task");
@@ -106,7 +110,7 @@ public class ViewResponseActivity extends Activity {
     			   }
     			   else
     			   {
-    				   showAudio(position-ful.getImageFiles().size());
+    				   playAudio(position-ful.getImageFiles().size());
     			   }
     		   }
     	});
@@ -161,22 +165,23 @@ public class ViewResponseActivity extends Activity {
 		dialog.show();
     }
     
-    public void showAudio(int imageIndex)
-    {
-    	final Dialog dialog = new Dialog(this);
-		dialog.setContentView(R.layout.image_display);
-		dialog.setTitle("Image Viewer");
+    private void playAudio(int index) {
+    	AudioFile aFile = ful.getAudioFiles().get(index);
+    	byte[] audio = aFile.audio;
+        try {
+            File tempFile = File.createTempFile("temp", "mp3", getCacheDir());
+            tempFile.deleteOnExit();
+            FileOutputStream fos = new FileOutputStream(tempFile);
+            fos.write(audio);
+            fos.close();
+            FileInputStream fis = new FileInputStream(tempFile);
+            player.reset();
+            player.setDataSource(fis.getFD());
 
-		ImageButton iButton = (ImageButton) dialog.findViewById(R.id.showImageImage);
-		iButton.setImageBitmap(ful.getImageFiles().get(imageIndex).bitmap);
-		// if button is clicked, close the custom dialog
-		iButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
-
-		dialog.show();
+            player.prepare();
+            player.start();
+        } catch (Exception e) {
+        	
+        }
     }
 }

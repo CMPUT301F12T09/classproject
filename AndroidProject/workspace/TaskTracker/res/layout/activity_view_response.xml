@@ -2,49 +2,51 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+    
+    
+        <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+    
    	<TextView
    	    android:id="@+id/response_taskname"
    	    android:layout_width="fill_parent"
    	    android:layout_height="wrap_content"
    	    android:text="@string/text_create_taskname"
-   	    android:textStyle="bold" />
+   	    android:textStyle="bold" ></TextView>
    	<TextView
    	    android:id="@+id/response_desc"
    	    android:layout_width="wrap_content"
    	    android:layout_height="wrap_content"
    	    android:text="@string/text_create_taskdesc"
-   	    android:textStyle="bold" 
-   	    android:layout_below="@id/response_taskname"
-   	    android:layout_alignParentLeft="true" />  	
+   	    android:textStyle="bold" ></TextView>
    	<TextView
    	    android:id="@+id/response_textresponse"
    	    android:layout_width="wrap_content"
    	    android:layout_height="wrap_content"
    	    android:text="@string/text_viewresponse_textresponse"
-   	    android:textStyle="bold" 
-   	    android:layout_below="@id/response_desc"
-   	    android:layout_alignParentLeft="true" /> 
+   	    android:textStyle="bold" ></TextView>
    	 <TextView
    	    android:id="@+id/response_attachments"
    	    android:layout_width="wrap_content"
    	    android:layout_height="wrap_content"
    	    android:text="@string/text_viewresponse_attach"
-   	    android:textStyle="bold" 
-   	    android:layout_below="@id/response_textresponse"
-   	    android:layout_alignParentLeft="true" />
-   	 <ListView
-        android:id="@+id/attachments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/response_attachments"
-        android:scrollbars="vertical" />
-   	 
+   	    android:textStyle="bold" ></TextView>
+
+   	 </LinearLayout>
    	 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
  	    xmlns:tools="http://schemas.android.com/tools"
     	android:id="@+id/response_buttons"
     	android:layout_width="match_parent"
     	android:layout_height="wrap_content"
-    	android:layout_below="@id/attachments"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
     	android:orientation="horizontal" >
 	     <Button
     	     android:id="@+id/button_view_fulfill"
@@ -62,6 +64,14 @@
    	        android:text="@string/button_create_cancel" />    
     
     </LinearLayout> 
+       	 <ListView
+        android:id="@+id/attachments"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/response_buttons"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/text"
+        android:scrollbars="vertical" />
    	 
    	 
 

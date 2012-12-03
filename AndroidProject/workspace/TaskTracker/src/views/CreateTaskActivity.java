@@ -204,8 +204,10 @@ public class CreateTaskActivity extends Activity {
             case R.id.checkbox_audio:
                 if(checked){
                     wantAudio = true;
+                    System.out.println("true");
                 }else{
                     wantAudio = false;
+                    System.out.println("false");
                 }
         }
     }

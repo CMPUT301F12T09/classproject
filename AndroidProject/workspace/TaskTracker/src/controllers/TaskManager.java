@@ -243,8 +243,6 @@ public class TaskManager{
             } 
 		}
 		
-		sManager.requestSaveOut(ViewedList.get(index), "TASK", this);
-		
 		/*
 		if(TaskList.get(index).id != null)
 		{

@@ -127,21 +127,21 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal" >  	
         
-    <CheckBox android:id="@+id/checkbox_photo"
+    <CheckBox android:id="@+id/edit_checkbox_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/text_create_photo"
-        />   	    
-    <CheckBox android:id="@+id/checkbox_audio"
+        android:onClick="onCheckBoxClicked"/>   	    
+    <CheckBox android:id="@+id/edit_checkbox_audio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/text_create_audio"
-        /> 	
-    <CheckBox android:id="@+id/checkbox_text"
+        android:onClick="onCheckBoxClicked"/> 	
+    <CheckBox android:id="@+id/edit_checkbox_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/text_create_text"
-        /> 	
+        android:onClick="onCheckBoxClicked"/> 	
         
 </LinearLayout>    
         

@@ -85,28 +85,28 @@ public class TaskManager{
 	 * @param name
 	*/
 	public void updateName(int index, String name){
-		TaskList.get(index).setTaskName(name);
+		ViewedList.get(index).setTaskName(name);
 		
 		//If public update via service manager
-		if(TaskList.get(index).getIsPublic()){
+		if(ViewedList.get(index).getIsPublic()){
 			updateTaskInService(index);
 		}
 		//Either way update local storage;
-		dbManager.updateTask(TaskList.get(index));
+		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**update description of task at index
 	 * @param index
 	 * @param desc
 	 */
 	public void updateDesc(int index, String desc){
-		TaskList.get(index).setTaskDescription(desc);
+		ViewedList.get(index).setTaskDescription(desc);
 		
 		//If public update via service manager
-		if(TaskList.get(index).getIsPublic()){
+		if(ViewedList.get(index).getIsPublic()){
 			updateTaskInService(index);
 		}
 		//Either way update local storage;
-		dbManager.updateTask(TaskList.get(index));
+		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**
 	 * Update the requirements of a task (photo/audio/text)
@@ -116,16 +116,16 @@ public class TaskManager{
 	 * @param audio
 	 */
 	public void updateRequirements(int index, boolean text, boolean photo, boolean audio){
-		TaskList.get(index).setWantText(text);
-		TaskList.get(index).setWantPhoto(photo);
-		TaskList.get(index).setWantAudio(audio);
+		ViewedList.get(index).setWantText(text);
+		ViewedList.get(index).setWantPhoto(photo);
+		ViewedList.get(index).setWantAudio(audio);
 		
 		//If public update via service manager
-		if(TaskList.get(index).getIsPublic()){
+		if(ViewedList.get(index).getIsPublic()){
 			updateTaskInService(index);
 		}
 		//Either way update local storage;
-		dbManager.updateTask(TaskList.get(index));
+		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**
 	 * Update whether or not the task is still accepting new fulfillments
@@ -133,14 +133,14 @@ public class TaskManager{
 	 * @param open
 	 */
 	public void updateOpen(int index, boolean open){
-		TaskList.get(index).setIsOpen(open);
+		ViewedList.get(index).setIsOpen(open);
 		
 		//If public update via service manager
-		if(TaskList.get(index).getIsPublic()){
+		if(ViewedList.get(index).getIsPublic()){
 			updateTaskInService(index);
 		}
 		//Either way update local storage;
-		dbManager.updateTask(TaskList.get(index));
+		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**
 	 * Update whether or not other users can see the task
@@ -148,35 +148,35 @@ public class TaskManager{
 	 * @param pub
 	 */
 	public void updatePublic(int index, boolean pub){
-		TaskList.get(index).setIsPublic(pub);
+		ViewedList.get(index).setIsPublic(pub);
 		
 		//If public update via service manager
-		if(TaskList.get(index).getIsPublic()){
+		if(ViewedList.get(index).getIsPublic()){
 			updateTaskInService(index);
 		}
 		//Either way update local storage;
-		dbManager.updateTask(TaskList.get(index));
+		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**update email of task creator
 	 * @param index
 	 * @param email
 	 */
 	public void updateEmail(int index, String email){
-		TaskList.get(index).setEmail(email);
+		ViewedList.get(index).setEmail(email);
 		
 		//If public update via service manager
-		if(TaskList.get(index).getIsPublic()){
+		if(ViewedList.get(index).getIsPublic()){
 			updateTaskInService(index);
 		}
 		//Either way update local storage;
-		dbManager.updateTask(TaskList.get(index));
+		dbManager.updateTask(ViewedList.get(index));
 	}
 	/**
 	 * Sends a newly updated Task object to the ServiceManager to be updated on the webservice
 	 * @param index
 	 */
 	private void updateTaskInService(int index) {
-		Task updatedTask = TaskList.get(index);
+		Task updatedTask = ViewedList.get(index);
 		sManager.saveToService(updatedTask);
 	}
 	/**
@@ -245,7 +245,7 @@ public class TaskManager{
 	 */
 	public void addSubmission(int index, Fulfillment ful){	
     	this.TaskList = dbManager.loadTasks();
-		TaskList.get(index).addSubmission(ful);
+    	ViewedList.get(index).addSubmission(ful);
     	
 		dbManager.addFulfillment(ViewedList.get(index), ful);
 		
